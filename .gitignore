@@ -20,3 +20,6 @@ DerivedDataCache/*
 
 # Built data for maps
 *_BuiltData.uasset
+
+# Developer content
+Content/Developer
