@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
-#include "RushPlayer.generated.h"
+#include "RushPlayerController.generated.h"
 
 UCLASS()
 class ARushPlayerController : public APlayerController
