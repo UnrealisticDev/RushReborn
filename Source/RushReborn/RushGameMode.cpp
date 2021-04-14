@@ -1,5 +1,6 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
-
-
 #include "RushGameMode.h"
 
+ARushGameMode::ARushGameMode()
+{
+	PlayerControllerClass = ARushPlayerController::StaticClass();
+}
