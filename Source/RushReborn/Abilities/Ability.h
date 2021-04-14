@@ -42,16 +42,28 @@ public:
 	float GetCooldownRemaining() const;
 
 	UFUNCTION(BlueprintPure, Category = "Display")
+	FText GetTitle() const;
+	
+	UFUNCTION(BlueprintPure, Category = "Display")
+	FText GetDescription() const;
+
+	UFUNCTION(BlueprintPure, Category = "Display")
 	UTexture2D* GetIcon() const;
 
 protected:
+
+	UPROPERTY()
+	FText Title;
+
+	UPROPERTY()
+	FText Description;
+
+	UPROPERTY()
+	UTexture2D* Icon;
 
 	UPROPERTY()
 	float Cooldown;
 
 	UPROPERTY()
 	FTimerHandle CooldownTimer;
-
-	UPROPERTY()
-	UTexture2D* Icon;
 };

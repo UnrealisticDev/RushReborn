@@ -34,6 +34,16 @@ float UAbility::GetCooldownRemaining() const
 	return GetWorld()->GetTimerManager().GetTimerRemaining(CooldownTimer);
 }
 
+FText UAbility::GetTitle() const
+{
+	return Title;
+}
+
+FText UAbility::GetDescription() const
+{
+	return Description;
+}
+
 UTexture2D* UAbility::GetIcon() const
 {
 	return Icon;
