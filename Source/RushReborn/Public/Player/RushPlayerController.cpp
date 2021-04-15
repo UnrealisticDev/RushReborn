@@ -1,5 +1,6 @@
 #include "RushPlayerController.h"
 #include "Abilities/RainOfFireAbility.h"
+#include "Abilities/ReinforcementsAbility.h"
 
 void ARushPlayerController::SetupInputComponent()
 {
@@ -16,12 +17,12 @@ void ARushPlayerController::SetupInputComponent()
 
 void ARushPlayerController::TestAbility()
 {
-	RainOfFire = NewObject<URainOfFireAbility>(this);
+	Reinforcements = NewObject<UReinforcementsAbility>(this);
 
 	FHitResult HitResult;
 	GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_Visibility), false, HitResult);
 
 	FAbilityPayload Payload;
 	Payload.Location = HitResult.Location;
-	RainOfFire->Activate(Payload);
+	Reinforcements->Activate(Payload);
 }

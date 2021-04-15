@@ -17,5 +17,8 @@ public:
 	void TestAbility();
 
 	UPROPERTY()
+	UAbility* Reinforcements;
+
+	UPROPERTY()
 	UAbility* RainOfFire;
 };
