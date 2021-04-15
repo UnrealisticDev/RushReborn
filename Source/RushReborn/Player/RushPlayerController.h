@@ -4,6 +4,8 @@
 #include "GameFramework/PlayerController.h"
 #include "RushPlayerController.generated.h"
 
+class UAbility;
+
 UCLASS()
 class ARushPlayerController : public APlayerController
 {
@@ -11,4 +13,9 @@ class ARushPlayerController : public APlayerController
 
 public:
 
+	void SetupInputComponent() override;
+	void TestAbility();
+
+	UPROPERTY()
+	UAbility* RainOfFire;
 };
