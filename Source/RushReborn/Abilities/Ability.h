@@ -27,6 +27,7 @@ public:
 
 	UAbility();
 
+	virtual void CanActivate(const FAbilityPayload& Payload);
 	virtual void Activate(const FAbilityPayload& Payload);
 
 	UFUNCTION(BlueprintPure, Category = "Status")
