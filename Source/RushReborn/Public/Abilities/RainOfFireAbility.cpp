@@ -14,6 +14,7 @@ URainOfFireAbility::URainOfFireAbility()
 {
 	Title = NSLOCTEXT("RainOfFire", "RainOfFire Title", "Rain of Fire");
 	Description = NSLOCTEXT("RainOfFire", "RainOfFire Description", "Rains fire and brimstone from the sky.");
+	Icon = ConstructorHelpers::FObjectFinder<UTexture2D>(TEXT("Texture2D'/Game/RushReborn/Art/UI/T_Asteroid.T_Asteroid'")).Object;
 	Cooldown = 80.f;
 }
 
