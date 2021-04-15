@@ -4,6 +4,8 @@
 
 ARushPlayerController::ARushPlayerController()
 {
+	bShowMouseCursor = true;
+
 	Reinforcements = CreateDefaultSubobject<UReinforcementsAbility>(TEXT("Reinforcements"));
 	RainOfFire = CreateDefaultSubobject<URainOfFireAbility>(TEXT("Rain of Fire"));
 }
