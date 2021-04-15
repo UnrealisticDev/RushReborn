@@ -1,5 +1,5 @@
 #include "RushPlayerController.h"
-#include "../Abilities/RainOfFireAbility.h"
+#include "Abilities/RainOfFireAbility.h"
 
 void ARushPlayerController::SetupInputComponent()
 {
