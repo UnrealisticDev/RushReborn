@@ -13,8 +13,15 @@ class ARushPlayerController : public APlayerController
 
 public:
 
+	ARushPlayerController();
 	void SetupInputComponent() override;
 	void TestAbility();
+
+	const UAbility* GetAbility(TSubclassOf<UAbility> AbilityClass);
+	void OnAbilitySelected(TSubclassOf<UAbility> AbilityClass);
+	void OnAbilityUnselected(TSubclassOf<UAbility> AbilityClass);
+
+private:
 
 	UPROPERTY()
 	UAbility* Reinforcements;

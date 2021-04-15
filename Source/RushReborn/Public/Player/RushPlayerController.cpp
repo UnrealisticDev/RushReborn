@@ -2,6 +2,12 @@
 #include "Abilities/RainOfFireAbility.h"
 #include "Abilities/ReinforcementsAbility.h"
 
+ARushPlayerController::ARushPlayerController()
+{
+	Reinforcements = CreateDefaultSubobject<UReinforcementsAbility>(TEXT("Reinforcements"));
+	RainOfFire = CreateDefaultSubobject<URainOfFireAbility>(TEXT("Rain of Fire"));
+}
+
 void ARushPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
@@ -25,4 +31,32 @@ void ARushPlayerController::TestAbility()
 	FAbilityPayload Payload;
 	Payload.Location = HitResult.Location;
 	Reinforcements->Activate(Payload);
+}
+
+const UAbility* ARushPlayerController::GetAbility(TSubclassOf<UAbility> AbilityClass)
+{
+	if (AbilityClass == UReinforcementsAbility::StaticClass())
+	{
+		return Reinforcements;
+	}
+
+	else if (AbilityClass == URainOfFireAbility::StaticClass())
+	{
+		return RainOfFire;
+	}
+
+	else
+	{
+		return nullptr;
+	}
+}
+
+void ARushPlayerController::OnAbilitySelected(TSubclassOf<UAbility> AbilityClass)
+{
+	// @todo
+}
+
+void ARushPlayerController::OnAbilityUnselected(TSubclassOf<UAbility> AbilityClass)
+{
+	// @todo
 }
