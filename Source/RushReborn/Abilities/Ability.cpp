@@ -8,7 +8,7 @@ UAbility::UAbility()
 
 }
 
-void UAbility::CanActivate(const FAbilityPayload& Payload)
+bool UAbility::CanActivate(const FAbilityPayload& Payload)
 {
 	return true;
 }
