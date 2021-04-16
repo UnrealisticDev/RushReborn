@@ -8,6 +8,8 @@ ARushPlayerController::ARushPlayerController()
 
 	Reinforcements = CreateDefaultSubobject<UReinforcementsAbility>(TEXT("Reinforcements"));
 	RainOfFire = CreateDefaultSubobject<URainOfFireAbility>(TEXT("Rain of Fire"));
+
+	SelectedAbility = EAbilitySelected::None;
 }
 
 void ARushPlayerController::SetupInputComponent()
@@ -25,14 +27,23 @@ void ARushPlayerController::SetupInputComponent()
 
 void ARushPlayerController::TestAbility()
 {
-	Reinforcements = NewObject<UReinforcementsAbility>(this);
-
 	FHitResult HitResult;
 	GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_Visibility), false, HitResult);
 
 	FAbilityPayload Payload;
 	Payload.Location = HitResult.Location;
-	Reinforcements->Activate(Payload);
+
+	if (SelectedAbility == EAbilitySelected::Reinforcements)
+	{
+		SelectedAbility = EAbilitySelected::None;
+		Reinforcements->Activate(Payload);
+	}
+
+	else if (SelectedAbility == EAbilitySelected::RainofFire)
+	{
+		SelectedAbility = EAbilitySelected::None;
+		RainOfFire->Activate(Payload);
+	}
 }
 
 const UAbility* ARushPlayerController::GetAbility(TSubclassOf<UAbility> AbilityClass)
@@ -53,12 +64,26 @@ const UAbility* ARushPlayerController::GetAbility(TSubclassOf<UAbility> AbilityC
 	}
 }
 
-void ARushPlayerController::OnAbilitySelected(TSubclassOf<UAbility> AbilityClass)
+bool ARushPlayerController::IsAbilitySelected(TSubclassOf<UAbility> AbilityClass) const
 {
-	// @todo
+	return AbilityClass == UReinforcementsAbility::StaticClass() && SelectedAbility == EAbilitySelected::Reinforcements
+		|| AbilityClass == URainOfFireAbility::StaticClass() && SelectedAbility == EAbilitySelected::RainofFire;
 }
 
-void ARushPlayerController::OnAbilityUnselected(TSubclassOf<UAbility> AbilityClass)
+void ARushPlayerController::SelectAbility(TSubclassOf<UAbility> AbilityClass)
 {
-	// @todo
+	if (AbilityClass == UReinforcementsAbility::StaticClass())
+	{
+		SelectedAbility = EAbilitySelected::Reinforcements;
+	}
+
+	else if (AbilityClass == URainOfFireAbility::StaticClass())
+	{
+		SelectedAbility = EAbilitySelected::RainofFire;
+	}
+}
+
+void ARushPlayerController::UnselectAbility()
+{
+	SelectedAbility = EAbilitySelected::None;
 }

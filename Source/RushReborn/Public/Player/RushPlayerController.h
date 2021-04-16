@@ -18,8 +18,9 @@ public:
 	void TestAbility();
 
 	const UAbility* GetAbility(TSubclassOf<UAbility> AbilityClass);
-	void OnAbilitySelected(TSubclassOf<UAbility> AbilityClass);
-	void OnAbilityUnselected(TSubclassOf<UAbility> AbilityClass);
+	bool IsAbilitySelected(TSubclassOf<UAbility> AbilityClass) const;
+	void SelectAbility(TSubclassOf<UAbility> AbilityClass);
+	void UnselectAbility();
 
 private:
 
@@ -28,4 +29,13 @@ private:
 
 	UPROPERTY()
 	UAbility* RainOfFire;
+
+	enum class EAbilitySelected : uint8
+	{
+		None,
+		Reinforcements,
+		RainofFire
+	};
+
+	EAbilitySelected SelectedAbility;
 };

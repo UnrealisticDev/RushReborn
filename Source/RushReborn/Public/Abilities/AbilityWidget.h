@@ -6,8 +6,6 @@
 
 class UAbility;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSelected);
-
 UCLASS(Blueprintable)
 class UAbilityWidget : public UUserWidget
 {
@@ -20,11 +18,11 @@ public:
 	UFUNCTION(BlueprintPure)
 	bool CanBeSelected() const;
 
+	UFUNCTION(BlueprintPure)
+	bool IsSelected() const;
+
 	UFUNCTION(BlueprintCallable)
 	void Select();
-
-	UPROPERTY(BlueprintAssignable)
-	FOnSelected OnSelected;
 
 	UFUNCTION(BlueprintCallable)
 	void Unselect();
@@ -38,7 +36,4 @@ private:
 
 	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess="true"))
 	TWeakObjectPtr<const UAbility> TargetAbility;
-
-	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess="true"))
-	bool bIsSelected;
 };

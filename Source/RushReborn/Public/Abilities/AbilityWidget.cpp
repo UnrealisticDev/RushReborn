@@ -22,24 +22,28 @@ bool UAbilityWidget::CanBeSelected() const
 	}
 }
 
-void UAbilityWidget::Select()
+bool UAbilityWidget::IsSelected() const
 {
-	bIsSelected = true;
-	
 	ARushPlayerController* RushPlayerController = Cast<ARushPlayerController>(GetOwningPlayer());
 	check(RushPlayerController);
-	RushPlayerController->OnAbilitySelected(TargetAbilityClass);
 
-	OnSelected.Broadcast();
+	return RushPlayerController->IsAbilitySelected(TargetAbilityClass);
+}
+
+void UAbilityWidget::Select()
+{
+	ARushPlayerController* RushPlayerController = Cast<ARushPlayerController>(GetOwningPlayer());
+	check(RushPlayerController);
+
+	RushPlayerController->SelectAbility(TargetAbilityClass);
 }
 
 void UAbilityWidget::Unselect()
 {
-	bIsSelected = false;
-
 	ARushPlayerController* RushPlayerController = Cast<ARushPlayerController>(GetOwningPlayer());
 	check(RushPlayerController);
-	RushPlayerController->OnAbilityUnselected(TargetAbilityClass);
+
+	RushPlayerController->UnselectAbility();
 }
 
 void UAbilityWidget::CacheTargetAbility()
