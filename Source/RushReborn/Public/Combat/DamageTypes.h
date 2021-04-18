@@ -4,31 +4,20 @@
 #include "GameFramework/DamageType.h"
 #include "DamageTypes.generated.h"
 
-UCLASS(Abstract)
-class URushDamage : public UDamageType
-{
-	GENERATED_BODY()
-
-public:
-
-	UPROPERTY()
-	float Magnitude;
-};
-
 UCLASS()
-class UPhysicalDamage : public URushDamage
+class UPhysicalDamage : public UDamageType
 {
 	GENERATED_BODY()
 };
 
 UCLASS()
-class UMagicalDamage : public URushDamage
+class UMagicalDamage : public UDamageType
 {
 	GENERATED_BODY()
 };
 
 UCLASS()
-class UTrueDamage : public URushDamage
+class UTrueDamage : public UDamageType
 {
 	GENERATED_BODY()
 };
