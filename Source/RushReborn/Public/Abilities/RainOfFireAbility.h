@@ -22,8 +22,8 @@ private:
 	UPROPERTY()
 	FVector TargetLocation;
 
-	UPROPERTY(Config)
-	FSoftClassPath ProjectileClass;
+	UPROPERTY()
+	UClass* ProjectileClass;
 
 	UPROPERTY()
 	int32 ProjectileCount;

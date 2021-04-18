@@ -1,4 +1,5 @@
 #include "RainOfFireAbility.h"
+#include "Meteor.h"
 #include "UObject/Object.h"
 #include "Engine/World.h"
 #include "TimerManager.h"
@@ -16,13 +17,13 @@ URainOfFireAbility::URainOfFireAbility()
 	Description = NSLOCTEXT("RainOfFire", "RainOfFire Description", "Rains fire and brimstone from the sky.");
 	Icon = ConstructorHelpers::FObjectFinder<UTexture2D>(TEXT("Texture2D'/Game/RushReborn/Art/UI/T_Asteroid.T_Asteroid'")).Object;
 	Cooldown = 80.f;
+
+	ProjectileClass = AMeteor::StaticClass();
 }
 
 void URainOfFireAbility::Activate(const FAbilityPayload& Payload)
 {
 	Super::Activate(Payload);
-
-	check(ProjectileClass.IsValid());
 
 	TargetLocation = Payload.Location;
 	ProjectilesSpawned = 0;
@@ -55,7 +56,7 @@ void URainOfFireAbility::SpawnProjectile()
 		SpawnTransform.SetLocation(TargetLocation + SpawnOffset);
 	}
 
-	GetWorld()->SpawnActorAbsolute(ProjectileClass.TryLoadClass<UObject>(), SpawnTransform);
+	GetWorld()->SpawnActorAbsolute(ProjectileClass, SpawnTransform);
 
 	if (ProjectilesSpawned >= ProjectileCount)
 	{
