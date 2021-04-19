@@ -1,7 +1,9 @@
 #include "ReinforcementCharacter.h"
+#include "Combat/DamageTypes.h"
 #include "Combat/StatsComponent.h"
 #include "Combat/Teams.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Math/UnrealMathUtility.h"
 
 AReinforcementCharacter::AReinforcementCharacter()
 {
@@ -50,6 +52,14 @@ void AReinforcementCharacter::Disengage()
 bool AReinforcementCharacter::IsAlive() const
 {
 	return Stats->CurrentHealth > 0.f;
+}
+
+void AReinforcementCharacter::Attack(AActor* Target)
+{
+	const float AttackDamage = FMath::RandRange(Stats->AttackDamage.GetLowerBoundValue(), Stats->AttackDamage.GetUpperBoundValue());
+	FDamageEvent DamageEvent;
+	DamageEvent.DamageTypeClass = UPhysicalDamage::StaticClass();
+	Target->TakeDamage(AttackDamage, DamageEvent, GetController(), this);
 }
 
 void AReinforcementCharacter::OnHealthDepleted()

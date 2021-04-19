@@ -24,7 +24,10 @@ public:
 	AActor* GetActorEngagedWith() const override;
 	void Engage(AActor* ActorToEngage) override;
 	void Disengage() override;
+	
 	bool IsAlive() const override;
+
+	void Attack(AActor* Target) override;
 
 	UFUNCTION()
 	void OnHealthDepleted();
