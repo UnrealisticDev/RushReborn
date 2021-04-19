@@ -39,13 +39,13 @@ EBTNodeResult::Type UBTTask_Attack::ExecuteTask(UBehaviorTreeComponent& OwnerCom
 
 void UBTTask_Attack::Attack(UBehaviorTreeComponent* OwnerComp, AActor* Attacker, AActor* AttackTarget)
 {
-	if (AttackTarget == nullptr)
+	Cast<ICombatantInterface>(Attacker)->Attack(AttackTarget);
+
+	if (!Cast<ICombatantInterface>(AttackTarget)->IsAlive())
 	{
 		OwnerComp->GetBlackboardComponent()->SetValueAsObject(Target.SelectedKeyName, nullptr);
-		return;
+		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, TEXT("Aborting"));
 	}
-	
-	Cast<ICombatantInterface>(Attacker)->Attack(AttackTarget);
 }
 
 EBTNodeResult::Type UBTTask_Attack::AbortTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
@@ -53,5 +53,5 @@ EBTNodeResult::Type UBTTask_Attack::AbortTask(UBehaviorTreeComponent& OwnerComp,
 	FBTAttackTaskMemory* State = (FBTAttackTaskMemory*)NodeMemory;
 	GetWorld()->GetTimerManager().ClearTimer(State->AttackTimer);
 	
-	return EBTNodeResult::Succeeded;
+	return EBTNodeResult::Aborted;
 }
