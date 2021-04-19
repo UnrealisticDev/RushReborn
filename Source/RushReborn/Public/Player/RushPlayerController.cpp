@@ -1,6 +1,7 @@
 #include "RushPlayerController.h"
 #include "Abilities/RainOfFireAbility.h"
 #include "Abilities/ReinforcementsAbility.h"
+#include "Combat/Teams.h"
 
 ARushPlayerController::ARushPlayerController()
 {
@@ -23,6 +24,11 @@ void ARushPlayerController::SetupInputComponent()
 		this,
 		&ARushPlayerController::TestAbility
 	);
+}
+
+uint8 ARushPlayerController::GetTeamId()
+{
+	return (uint8)ETeams::Player;
 }
 
 void ARushPlayerController::TestAbility()

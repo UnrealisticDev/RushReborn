@@ -12,3 +12,8 @@ ARushSpectatorPawn::ARushSpectatorPawn()
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	CameraComponent->SetupAttachment(SpringArmComponent);
 }
+
+uint8 ARushSpectatorPawn::GetTeamId()
+{
+	return Cast<ITeamAgentInterface>(GetController())->GetTeamId();
+}

@@ -1,13 +1,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Combat/TeamInterface.h"
 #include "GameFramework/PlayerController.h"
 #include "RushPlayerController.generated.h"
 
 class UAbility;
 
 UCLASS()
-class ARushPlayerController : public APlayerController
+class ARushPlayerController : public APlayerController, public ITeamAgentInterface
 {
 	GENERATED_BODY()
 
@@ -15,6 +16,9 @@ public:
 
 	ARushPlayerController();
 	void SetupInputComponent() override;
+
+	uint8 GetTeamId() override;
+	
 	void TestAbility();
 
 	const UAbility* GetAbility(TSubclassOf<UAbility> AbilityClass);

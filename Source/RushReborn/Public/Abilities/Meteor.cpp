@@ -1,5 +1,6 @@
 ﻿#include "Meteor.h"
 #include "Combat/DamageTypes.h"
+#include "Combat/TeamUtilities.h"
 #include "Components/SphereComponent.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Engine/World.h"
@@ -42,7 +43,11 @@ void AMeteor::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveCo
 
 	for (const FHitResult& LocalHit : Hits)
 	{
-		ApplyDamageToActor(LocalHit.Actor.Get());
+		AActor* HitActor = LocalHit.Actor.Get();
+		if (UTeamUtilities::AreEnemies(HitActor, GetInstigator()))
+		{
+			ApplyDamageToActor(HitActor);
+		}
 	}
 	
 	if (ImpactParticle.IsValid())

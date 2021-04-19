@@ -3,9 +3,9 @@
 #include "UObject/Object.h"
 #include "Engine/World.h"
 #include "TimerManager.h"
+#include "Kismet/GameplayStatics.h"
 #include "Math/UnrealMathUtility.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "Engine/Engine.h"
 
 URainOfFireAbility::URainOfFireAbility()
 	: ProjectileCount(3)
@@ -56,7 +56,8 @@ void URainOfFireAbility::SpawnProjectile()
 		SpawnTransform.SetLocation(TargetLocation + SpawnOffset);
 	}
 
-	GetWorld()->SpawnActorAbsolute(ProjectileClass, SpawnTransform);
+	AActor* Projectile = GetWorld()->SpawnActorAbsolute(ProjectileClass, SpawnTransform);
+	Projectile->SetInstigator(UGameplayStatics::GetPlayerPawn(this, 0));
 
 	if (ProjectilesSpawned >= ProjectileCount)
 	{
