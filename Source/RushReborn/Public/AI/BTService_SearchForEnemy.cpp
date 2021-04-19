@@ -26,13 +26,26 @@ void UBTService_SearchForEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint
 		FCollisionShape::MakeSphere(SearchRadius)
 	);
 
+	AActor* ClosestEnemy = nullptr;
 	for (const FHitResult& Hit : Hits)
 	{
 		AActor* HitActor = Hit.GetActor();
 		if (UTeamUtilities::AreEnemies(OwnerPawn, Hit.GetActor()) && !Cast<ICombatantInterface>(HitActor)->IsEngaged())
 		{
-			OwnerComp.GetBlackboardComponent()->SetValueAsObject(FoundEnemy.SelectedKeyName, Hit.GetActor());
-			break;
+			if (ClosestEnemy && FVector::Dist(HitActor->GetActorLocation(), OwnerLocation) < FVector::Dist(ClosestEnemy->GetActorLocation(), OwnerLocation))
+			{
+				ClosestEnemy = HitActor;
+			}
+
+			else
+			{
+				ClosestEnemy = HitActor;
+			}
 		}
+	}
+
+	if (ClosestEnemy)
+	{
+		OwnerComp.GetBlackboardComponent()->SetValueAsObject(FoundEnemy.SelectedKeyName, ClosestEnemy);
 	}
 }
