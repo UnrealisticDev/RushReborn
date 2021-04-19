@@ -44,13 +44,16 @@ void AMeteor::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveCo
 	{
 		ApplyDamageToActor(LocalHit.Actor.Get());
 	}
-
+	
 	if (ImpactParticle.IsValid())
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Cast<UParticleSystem>(ImpactParticle.TryLoad()), GetActorTransform());
 	}
 
-	Destroy();
+	// A necessary hack to allow the body particle to gracefully complete
+	// instead of just disappearing on impact
+	BodyParticle->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+	SetLifeSpan(0.5f);
 }
 
 void AMeteor::ApplyDamageToActor(AActor* Actor)
