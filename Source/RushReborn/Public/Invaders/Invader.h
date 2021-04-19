@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Invader.generated.h"
 
+class UWidgetComponent;
 class UStatsComponent;
 
 UCLASS(Blueprintable)
@@ -16,6 +17,7 @@ class AInvader : public ACharacter, public ITeamAgentInterface, public ICombatan
 public:
 
 	AInvader();
+	void BeginPlay() override;
 
 	uint8 GetTeamId() override;
 
@@ -28,6 +30,9 @@ public:
 
 protected:
 
+	UPROPERTY(VisibleAnywhere)
+	UWidgetComponent* Healthbar;
+	
 	UPROPERTY(VisibleAnywhere)
 	UStatsComponent* Stats;
 
