@@ -24,6 +24,8 @@ public:
 	void SetEngaged(bool bNewEngaged) override;
 	bool IsAlive() const override;
 
+	void OnHealthDepleted();
+
 protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

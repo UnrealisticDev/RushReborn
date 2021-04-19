@@ -12,6 +12,8 @@ AReinforcementCharacter::AReinforcementCharacter()
 	Stats->MagicResistance = 0;
 	Stats->AttackDamage = FFloatRange(1, 2);
 	Stats->AttackRate = 1.f;
+
+	Stats->HealthDepleted.AddDynamic(this, &AReinforcementCharacter::OnHealthDepleted);
 }
 
 void AReinforcementCharacter::BeginPlay()
@@ -39,4 +41,9 @@ void AReinforcementCharacter::SetEngaged(bool bNewEngaged)
 bool AReinforcementCharacter::IsAlive() const
 {
 	return Stats->CurrentHealth > 0.f;
+}
+
+void AReinforcementCharacter::OnHealthDepleted()
+{
+	Destroy();
 }
