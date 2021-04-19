@@ -15,6 +15,7 @@ class AReinforcementCharacter : public ACharacter, public ITeamAgentInterface
 public:
 
 	AReinforcementCharacter();
+	void BeginPlay() override;
 	
 	uint8 GetTeamId() override;
 

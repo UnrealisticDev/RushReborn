@@ -1,6 +1,7 @@
 #include "ReinforcementCharacter.h"
 #include "Combat/StatsComponent.h"
 #include "Combat/Teams.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 AReinforcementCharacter::AReinforcementCharacter()
 {
@@ -10,6 +11,13 @@ AReinforcementCharacter::AReinforcementCharacter()
 	Stats->MagicResistance = 0;
 	Stats->AttackDamage = FFloatRange(1, 2);
 	Stats->AttackRate = 1.f;
+}
+
+void AReinforcementCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+	GetCharacterMovement()->MaxWalkSpeed = Stats->MovementSpeed;
 }
 
 uint8 AReinforcementCharacter::GetTeamId()
