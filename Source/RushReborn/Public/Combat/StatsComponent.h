@@ -26,26 +26,24 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FHealthDepleted HealthDepleted;
 
-private:
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats | Defensive", Meta=(AllowPrivateAccess="true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats | Defensive")
 	float MaxHealth;
 
-	UPROPERTY(BlueprintReadOnly, Category = "Stats | Defensive", Meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(BlueprintReadOnly, Category = "Stats | Defensive")
 	float CurrentHealth;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats | Defensive", Meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats | Defensive")
 	int Armor;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats | Defensive", Meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats | Defensive")
 	int MagicResistance;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats | Offensive", Meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats | Offensive")
 	FFloatRange AttackDamage;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats | Offensive", Meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats | Offensive")
 	float AttackRate;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats | Movement", Meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats | Movement")
 	float MovementSpeed;
 };
