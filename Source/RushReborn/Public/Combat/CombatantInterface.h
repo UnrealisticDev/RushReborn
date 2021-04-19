@@ -3,6 +3,8 @@
 #include "UObject/Interface.h"
 #include "CombatantInterface.generated.h"
 
+class AActor;
+
 UINTERFACE(meta = (CannotImplementInterfaceInBlueprints))
 class UCombatantInterface : public UInterface
 {
@@ -20,5 +22,6 @@ public:
 	virtual bool IsEngaged() const = 0;
 	virtual void SetEngaged(bool bNewEngaged) = 0;
 	virtual bool IsAlive() const = 0;
-	virtual void Attack(FAttackFinished OnAttackFinished) {};
+	virtual void Attack(AActor* Target) {}
+	virtual void Attack(AActor* Target, FAttackFinished OnAttackFinished) {};
 };
