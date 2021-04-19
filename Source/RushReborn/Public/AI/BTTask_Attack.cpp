@@ -44,7 +44,6 @@ void UBTTask_Attack::Attack(UBehaviorTreeComponent* OwnerComp, AActor* Attacker,
 	if (!Cast<ICombatantInterface>(AttackTarget)->IsAlive())
 	{
 		OwnerComp->GetBlackboardComponent()->SetValueAsObject(Target.SelectedKeyName, nullptr);
-		GEngine->AddOnScreenDebugMessage(-1, 2.f, FColor::Green, TEXT("Aborting"));
 	}
 }
 
