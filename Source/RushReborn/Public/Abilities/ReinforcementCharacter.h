@@ -24,6 +24,7 @@ public:
 	void SetEngaged(bool bNewEngaged) override;
 	bool IsAlive() const override;
 
+	UFUNCTION()
 	void OnHealthDepleted();
 
 protected:
