@@ -4,7 +4,6 @@
 #include "GameFramework/CharacterMovementComponent.h"
 
 AReinforcementCharacter::AReinforcementCharacter()
-	: bIsEngaged(false)
 {
 	Stats = CreateDefaultSubobject<UStatsComponent>(TEXT("Stats"));
 	Stats->MaxHealth = Stats->CurrentHealth = 30;
@@ -30,12 +29,22 @@ uint8 AReinforcementCharacter::GetTeamId()
 
 bool AReinforcementCharacter::IsEngaged() const
 {
-	return bIsEngaged;
+	return ActorEngagedWith != nullptr;
 }
 
-void AReinforcementCharacter::SetEngaged(bool bNewEngaged)
+AActor* AReinforcementCharacter::GetActorEngagedWith() const
 {
-	bIsEngaged = bNewEngaged;
+	return ActorEngagedWith;
+}
+
+void AReinforcementCharacter::Engage(AActor* ActorToEngage)
+{
+	ActorEngagedWith = ActorToEngage;
+}
+
+void AReinforcementCharacter::Disengage()
+{
+	ActorEngagedWith = nullptr;
 }
 
 bool AReinforcementCharacter::IsAlive() const

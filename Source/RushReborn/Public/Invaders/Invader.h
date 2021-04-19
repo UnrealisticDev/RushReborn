@@ -22,7 +22,9 @@ public:
 	uint8 GetTeamId() override;
 
 	bool IsEngaged() const override;
-	void SetEngaged(bool bNewEngaged) override;
+	AActor* GetActorEngagedWith() const override;
+	void Engage(AActor* ActorToEngage) override;
+	void Disengage() override;
 	bool IsAlive() const override;
 
 	UFUNCTION()
@@ -39,5 +41,5 @@ protected:
 private:
 
 	UPROPERTY()
-	bool bIsEngaged;
+	AActor* ActorEngagedWith;
 };

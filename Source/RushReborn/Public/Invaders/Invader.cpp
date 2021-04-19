@@ -5,7 +5,6 @@
 #include "Components/WidgetComponent.h"
 
 AInvader::AInvader()
-	: bIsEngaged(false)
 {
 	Stats = CreateDefaultSubobject<UStatsComponent>(TEXT("Stats"));
 	Stats->HealthDepleted.AddDynamic(this, &AInvader::OnHealthDepleted);
@@ -33,12 +32,22 @@ uint8 AInvader::GetTeamId()
 
 bool AInvader::IsEngaged() const
 {
-	return bIsEngaged;
+	return ActorEngagedWith != nullptr;
 }
 
-void AInvader::SetEngaged(bool bNewEngaged)
+AActor* AInvader::GetActorEngagedWith() const
 {
-	bIsEngaged = bNewEngaged;
+	return ActorEngagedWith;
+}
+
+void AInvader::Engage(AActor* ActorToEngage)
+{
+	ActorEngagedWith = ActorToEngage;
+}
+
+void AInvader::Disengage()
+{
+	ActorEngagedWith = nullptr;
 }
 
 bool AInvader::IsAlive() const
