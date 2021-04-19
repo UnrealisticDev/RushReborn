@@ -15,7 +15,10 @@ class ICombatantInterface
 
 public:
 
+	DECLARE_DELEGATE(FAttackFinished);
+
 	virtual bool IsEngaged() const = 0;
 	virtual void SetEngaged(bool bNewEngaged) = 0;
 	virtual bool IsAlive() const = 0;
+	virtual void Attack(FAttackFinished OnAttackFinished) {};
 };
