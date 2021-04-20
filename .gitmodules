@@ -1,0 +1,3 @@
+[submodule "Plugins/Tsunami"]
+	path = Plugins/Tsunami
+	url = https://github.com/UnrealisticDev/Tsunami.git
