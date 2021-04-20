@@ -1,10 +1,12 @@
 #include "Invader.h"
+#include "SplineMovementComponent.h"
 #include "Combat/StatsComponent.h"
 #include "Combat/StatsWidget.h"
 #include "Combat/Teams.h"
 #include "Components/WidgetComponent.h"
 
-AInvader::AInvader()
+AInvader::AInvader(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer.SetDefaultSubobjectClass<USplineMovementComponent>(CharacterMovementComponentName))
 {
 	Stats = CreateDefaultSubobject<UStatsComponent>(TEXT("Stats"));
 	Stats->HealthDepleted.AddDynamic(this, &AInvader::OnHealthDepleted);
@@ -19,6 +21,7 @@ void AInvader::BeginPlay()
 {
 	Super::BeginPlay();
 
+	GetCharacterMovement()->MaxWalkSpeed = Stats->MovementSpeed;
 	if (UStatsWidget* StatsHealthbar = Cast<UStatsWidget>(Healthbar->GetWidget()))
 	{
 		StatsHealthbar->SetSource(Stats);
@@ -58,4 +61,19 @@ bool AInvader::IsAlive() const
 void AInvader::OnHealthDepleted()
 {
 	Destroy();
+}
+
+void AInvader::SetSplineToFollow(USplineComponent* Spline)
+{
+	Cast<ISplineFollowInterface>(GetMovementComponent())->SetSplineToFollow(Spline);
+}
+
+void AInvader::StartSplineMovement()
+{
+	Cast<ISplineFollowInterface>(GetMovementComponent())->StartSplineMovement();
+}
+
+void AInvader::StopSplineMovement()
+{
+	Cast<ISplineFollowInterface>(GetMovementComponent())->StopSplineMovement();
 }

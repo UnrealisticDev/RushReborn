@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SplineFollowInterface.h"
 #include "Combat/CombatantInterface.h"
 #include "Combat/TeamInterface.h"
 #include "GameFramework/Character.h"
@@ -10,13 +11,13 @@ class UWidgetComponent;
 class UStatsComponent;
 
 UCLASS(Blueprintable)
-class AInvader : public ACharacter, public ITeamAgentInterface, public ICombatantInterface
+class AInvader : public ACharacter, public ITeamAgentInterface, public ICombatantInterface, public ISplineFollowInterface
 {
 	GENERATED_BODY()
 
 public:
 
-	AInvader();
+	AInvader(const FObjectInitializer& ObjectInitializer);
 	void BeginPlay() override;
 
 	uint8 GetTeamId() override;
@@ -29,6 +30,10 @@ public:
 
 	UFUNCTION()
 	void OnHealthDepleted();
+
+	void SetSplineToFollow(USplineComponent* Spline) override;
+	void StartSplineMovement() override;
+	void StopSplineMovement() override;
 
 protected:
 
