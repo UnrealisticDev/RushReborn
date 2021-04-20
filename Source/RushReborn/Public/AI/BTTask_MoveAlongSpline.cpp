@@ -9,3 +9,13 @@ EBTNodeResult::Type UBTTask_MoveAlongSpline::ExecuteTask(UBehaviorTreeComponent&
 
 	return EBTNodeResult::InProgress;
 }
+
+EBTNodeResult::Type UBTTask_MoveAlongSpline::AbortTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
+{
+	if (OwnerComp.GetAIOwner() && OwnerComp.GetAIOwner()->GetPawn())
+	{
+		Cast<ISplineFollowInterface>(OwnerComp.GetAIOwner()->GetPawn())->StopSplineMovement();
+	}
+	
+	return EBTNodeResult::Aborted;
+}

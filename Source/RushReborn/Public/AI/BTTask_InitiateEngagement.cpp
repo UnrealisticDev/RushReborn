@@ -9,7 +9,6 @@ EBTNodeResult::Type UBTTask_InitiateEngagement::ExecuteTask(UBehaviorTreeCompone
 	AActor* EnemyActor = Cast<AActor>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(Enemy.SelectedKeyName));
 	
 	Cast<ICombatantInterface>(OwningPawn)->Engage(EnemyActor);
-	Cast<ICombatantInterface>(EnemyActor)->Engage(OwningPawn);
 
 	return EBTNodeResult::Succeeded;
 }

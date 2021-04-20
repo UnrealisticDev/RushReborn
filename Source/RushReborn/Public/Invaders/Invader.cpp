@@ -1,9 +1,13 @@
 #include "Invader.h"
+#include "AIController.h"
 #include "SplineMovementComponent.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "Combat/DamageTypes.h"
 #include "Combat/StatsComponent.h"
 #include "Combat/StatsWidget.h"
 #include "Combat/Teams.h"
 #include "Components/WidgetComponent.h"
+#include "Math/UnrealMathUtility.h"
 
 AInvader::AInvader(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer.SetDefaultSubobjectClass<USplineMovementComponent>(CharacterMovementComponentName))
@@ -15,6 +19,9 @@ AInvader::AInvader(const FObjectInitializer& ObjectInitializer)
 	Healthbar->SetDrawSize(FVector2D(100, 10));
 	Healthbar->SetWidgetSpace(EWidgetSpace::Screen);
 	Healthbar->SetupAttachment(GetRootComponent());
+
+	IsEngagedKeyName = TEXT("bIsEngaged");
+	ActorEngagedWithKeyName = TEXT("ActorEngagedWith");
 }
 
 void AInvader::BeginPlay()
@@ -46,16 +53,36 @@ AActor* AInvader::GetActorEngagedWith() const
 void AInvader::Engage(AActor* ActorToEngage)
 {
 	ActorEngagedWith = ActorToEngage;
+	if (AAIController* AIController = Cast<AAIController>(GetController()))
+	{
+		AIController->GetBlackboardComponent()->SetValueAsBool(IsEngagedKeyName, true);
+		AIController->GetBlackboardComponent()->SetValueAsObject(ActorEngagedWithKeyName, ActorToEngage);
+	}
 }
 
 void AInvader::Disengage()
 {
 	ActorEngagedWith = nullptr;
+	if (AAIController* AIController = Cast<AAIController>(GetController()))
+	{
+		AIController->GetBlackboardComponent()->SetValueAsBool(IsEngagedKeyName, false);
+		AIController->GetBlackboardComponent()->SetValueAsObject(ActorEngagedWithKeyName, nullptr);
+	}
 }
 
 bool AInvader::IsAlive() const
 {
 	return Stats->CurrentHealth > 0.f;
+}
+
+void AInvader::Attack(AActor* Target)
+{
+	check(Target);
+
+	float DamageAmount = FMath::RandRange(Stats->AttackDamage.GetLowerBoundValue(), Stats->AttackDamage.GetUpperBoundValue());
+	FDamageEvent DamageEvent;
+	DamageEvent.DamageTypeClass = UPhysicalDamage::StaticClass();
+	Target->TakeDamage(DamageAmount, DamageEvent, GetController(), this);
 }
 
 void AInvader::OnHealthDepleted()

@@ -27,6 +27,7 @@ public:
 	void Engage(AActor* ActorToEngage) override;
 	void Disengage() override;
 	bool IsAlive() const override;
+	void Attack(AActor* Target) override;
 
 	UFUNCTION()
 	void OnHealthDepleted();
@@ -47,4 +48,10 @@ private:
 
 	UPROPERTY()
 	AActor* ActorEngagedWith;
+
+	UPROPERTY()
+	FName IsEngagedKeyName;
+
+	UPROPERTY()
+	FName ActorEngagedWithKeyName;
 };

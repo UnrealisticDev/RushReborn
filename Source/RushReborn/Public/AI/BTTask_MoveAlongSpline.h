@@ -12,4 +12,5 @@ class UBTTask_MoveAlongSpline : public UBTTaskNode
 public:
 
 	EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+	EBTNodeResult::Type AbortTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 };

@@ -42,10 +42,18 @@ AActor* AReinforcementCharacter::GetActorEngagedWith() const
 void AReinforcementCharacter::Engage(AActor* ActorToEngage)
 {
 	ActorEngagedWith = ActorToEngage;
+	if (ICombatantInterface* EngagedCombatant = Cast<ICombatantInterface>(ActorToEngage))
+	{
+		EngagedCombatant->Engage(this);
+	}
 }
 
 void AReinforcementCharacter::Disengage()
 {
+	if (ICombatantInterface* EngagedCombatant = Cast<ICombatantInterface>(ActorEngagedWith))
+	{
+		EngagedCombatant->Disengage();
+	}
 	ActorEngagedWith = nullptr;
 }
 
