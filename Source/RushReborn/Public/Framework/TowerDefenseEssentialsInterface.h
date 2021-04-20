@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+#include "TsunamiTypes.h"
 #include "TowerDefenseEssentialsInterface.generated.h"
 
 UINTERFACE(Meta=(CannotImplementInterfaceInBlueprint))
@@ -33,6 +34,15 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Tower Defense Essentials")
 	virtual int32 GetTotalWaves() { return -1; }
+
+	UFUNCTION(BlueprintCallable, Category = "Tower Defense Essentials")
+	virtual bool IsNextWaveQueued() { return false; }
+
+	UFUNCTION(BlueprintCallable, Category = "Tower Defense Essentials")
+	virtual ETsunamiWaveStartMethod GetNextWaveStartMethod() { return ETsunamiWaveStartMethod::External; }
+
+	UFUNCTION(BlueprintCallable, Category = "Tower Defense Essentials")
+	virtual float GetNextWaveStartTimeElapsedPercent() { return 0.5f; }
 
 	UFUNCTION(BlueprintCallable, Category = "Tower Defense Essentials")
 	virtual void StartNextWave() {}

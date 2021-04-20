@@ -27,6 +27,9 @@ public:
 	void AddGold(int32 Count) override;
 	virtual int32 GetCurrentWave() override;
 	virtual int32 GetTotalWaves() override;
+	virtual bool IsNextWaveQueued() override;
+	virtual ETsunamiWaveStartMethod GetNextWaveStartMethod() override;
+	virtual float GetNextWaveStartTimeElapsedPercent() override;
 	virtual void StartNextWave() override;
 
 	UFUNCTION()
