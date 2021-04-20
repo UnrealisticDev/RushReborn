@@ -22,6 +22,7 @@ void AReinforcementCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	GetCharacterMovement()->MaxWalkSpeed = Stats->MovementSpeed;
+	SetLifeSpan(20.f);
 }
 
 uint8 AReinforcementCharacter::GetTeamId()
