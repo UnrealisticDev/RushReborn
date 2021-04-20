@@ -17,6 +17,7 @@ public:
 
 	AReinforcementCharacter();
 	void BeginPlay() override;
+	void Destroyed() override;
 	
 	uint8 GetTeamId() override;
 

@@ -25,6 +25,13 @@ void AReinforcementCharacter::BeginPlay()
 	SetLifeSpan(20.f);
 }
 
+void AReinforcementCharacter::Destroyed()
+{
+	Super::Destroyed();
+
+	Disengage(); // Don't hang on to any enemies that we might be engaged with
+}
+
 uint8 AReinforcementCharacter::GetTeamId()
 {
 	return (uint8)ETeams::Player;
