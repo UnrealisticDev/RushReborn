@@ -69,7 +69,7 @@ uint8 ARushPlayerController::GetTeamId()
 
 void ARushPlayerController::Select(ISelectableInterface* Selectable)
 {
-	CurrentSelection.SetInterface(Selectable);
+	CurrentSelection = Cast<UObject>(Selectable);
 	CurrentSelection->OnSelected(this);
 }
 
