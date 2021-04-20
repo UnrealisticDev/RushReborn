@@ -1,14 +1,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "SelectorInterface.h"
 #include "Combat/TeamInterface.h"
 #include "GameFramework/PlayerController.h"
 #include "RushPlayerController.generated.h"
 
+class ISelectableInterface;
 class UAbility;
 
 UCLASS()
-class ARushPlayerController : public APlayerController, public ITeamAgentInterface
+class ARushPlayerController : public APlayerController, public ITeamAgentInterface, public ISelectorInterface
 {
 	GENERATED_BODY()
 
@@ -17,7 +19,13 @@ public:
 	ARushPlayerController();
 	void SetupInputComponent() override;
 
+	void OnPressReleased();
+	
 	uint8 GetTeamId() override;
+
+	void Select(ISelectableInterface* Selectable) override;
+	void Unselect(ISelectableInterface* Selectable) override;
+	ISelectableInterface* GetCurrentSelection() override;
 	
 	void TestAbility();
 
@@ -28,6 +36,9 @@ public:
 
 private:
 
+	UPROPERTY()
+	TScriptInterface<ISelectableInterface> CurrentSelection;
+	
 	UPROPERTY()
 	UAbility* Reinforcements;
 

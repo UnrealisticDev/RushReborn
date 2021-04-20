@@ -1,4 +1,5 @@
 #include "RushPlayerController.h"
+#include "SelectableInterface.h"
 #include "Abilities/RainOfFireAbility.h"
 #include "Abilities/ReinforcementsAbility.h"
 #include "Combat/Teams.h"
@@ -22,13 +23,68 @@ void ARushPlayerController::SetupInputComponent()
 		"LeftMouseButton",
 		IE_Released,
 		this,
-		&ARushPlayerController::TestAbility
+		&ARushPlayerController::OnPressReleased
 	);
+}
+
+void ARushPlayerController::OnPressReleased()
+{
+	FHitResult HitUnderCursor;
+	GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECollisionChannel::ECC_Visibility), false, HitUnderCursor);
+
+	if (SelectedAbility > EAbilitySelected::None)
+	{
+		FAbilityPayload Payload;
+		Payload.Location = HitUnderCursor.Location;
+
+		switch (SelectedAbility)
+		{
+		case EAbilitySelected::Reinforcements:
+			Reinforcements->Activate(Payload);
+			break;
+		case EAbilitySelected::RainofFire:
+			RainOfFire->Activate(Payload);
+			break;
+		default:
+			break;
+		}
+
+		SelectedAbility = EAbilitySelected::None;
+		return;
+	}
+
+	else
+	{
+		if (ISelectableInterface* HitSelectable = Cast<ISelectableInterface>(HitUnderCursor.GetActor()))
+		{
+			Select(HitSelectable);
+		}
+	}
 }
 
 uint8 ARushPlayerController::GetTeamId()
 {
 	return (uint8)ETeams::Player;
+}
+
+void ARushPlayerController::Select(ISelectableInterface* Selectable)
+{
+	CurrentSelection.SetInterface(Selectable);
+	CurrentSelection->OnSelected(this);
+}
+
+void ARushPlayerController::Unselect(ISelectableInterface* Selectable)
+{
+	if (CurrentSelection == Selectable)
+	{
+		CurrentSelection = nullptr;
+		Selectable->OnUnselected(this);
+	}
+}
+
+ISelectableInterface* ARushPlayerController::GetCurrentSelection()
+{
+	return Cast<ISelectableInterface>(CurrentSelection.GetObject());
 }
 
 void ARushPlayerController::TestAbility()
