@@ -1,8 +1,24 @@
 ﻿#include "TowerAction.h"
 
-bool UTowerAction::CanSelect(const FTowerActionContext& Context)
+UTowerAction::UTowerAction()
+	: Cost(-1)
 {
-	return true;
+	
+}
+
+FText UTowerAction::GetDisplayName() const
+{
+	return Name;
+}
+
+UTexture2D* UTowerAction::GetDisplayIcon() const
+{
+	return Icon;
+}
+
+int32 UTowerAction::GetCost() const
+{
+	return Cost;
 }
 
 void UTowerAction::Select(const FTowerActionContext& Context)
@@ -33,6 +49,11 @@ void UTowerAction::Unselect(const FTowerActionContext& Context)
 bool UTowerAction::IsSelected()
 {
 	return bIsSelected;
+}
+
+bool UTowerAction::CanExecute(const FTowerActionContext& Context)
+{
+	return true;
 }
 
 void UTowerAction::Execute(const FTowerActionContext& Context)

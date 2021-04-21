@@ -1,4 +1,5 @@
 ﻿#include "TowerBerth.h"
+#include "Tower.h"
 #include "Components/SphereComponent.h"
 
 ATowerBerth::ATowerBerth()
@@ -16,4 +17,14 @@ void ATowerBerth::OnSelected(ISelectorInterface* Selector)
 void ATowerBerth::OnUnselected(ISelectorInterface* Selector)
 {
 	// @todo
+}
+
+TArray<UTowerAction*> ATowerBerth::GetActions() const
+{
+	return Tower ? Tower->Actions : Actions;
+}
+
+void ATowerBerth::ShowActions()
+{
+	// Take the widget and show the actions
 }

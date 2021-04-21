@@ -5,6 +5,7 @@
 #include "Player/SelectableInterface.h"
 #include "TowerBerth.generated.h"
 
+class UTowerAction;
 class ATower;
 class USphereComponent;
 
@@ -22,8 +23,14 @@ public:
 
 protected:
 
+	TArray<UTowerAction*> GetActions() const;
+	void ShowActions();
+
 	UPROPERTY()
 	ATower* Tower;
+
+	UPROPERTY(EditAnywhere, Instanced, Category = Actions)
+	TArray<UTowerAction*> Actions;
 	
 	UPROPERTY(VisibleAnywhere)
 	USphereComponent* InteractionZone;

@@ -4,6 +4,8 @@
 #include "GameFramework/Pawn.h"
 #include "Tower.generated.h"
 
+class UTowerAction;
+
 UCLASS()
 class ATower : public APawn
 {
@@ -11,5 +13,6 @@ class ATower : public APawn
 
 public:
 
-	
+	UPROPERTY(EditAnywhere, Instanced, Category = Actions)
+	TArray<UTowerAction*> Actions;
 };
