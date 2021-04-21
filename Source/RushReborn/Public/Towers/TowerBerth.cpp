@@ -30,6 +30,12 @@ void ATowerBerth::SetTower(ATower* NewTower)
 	Tower = NewTower;
 }
 
+void ATowerBerth::RemoveTower()
+{
+	Tower->Destroy();
+	Tower = nullptr;
+}
+
 TArray<UTowerAction*> ATowerBerth::GetActions() const
 {
 	return Tower ? Tower->Actions : Actions;

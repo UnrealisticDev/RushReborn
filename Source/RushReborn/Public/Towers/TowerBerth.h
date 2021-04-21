@@ -24,6 +24,7 @@ public:
 	void OnUnselected(ISelectorInterface* Selector) override;
 
 	void SetTower(ATower* NewTower);
+	void RemoveTower();
 
 protected:
 

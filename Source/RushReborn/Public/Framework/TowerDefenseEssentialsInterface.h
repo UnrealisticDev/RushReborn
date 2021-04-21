@@ -5,6 +5,14 @@
 #include "TsunamiTypes.h"
 #include "TowerDefenseEssentialsInterface.generated.h"
 
+UENUM()
+enum class EGamePhase : uint8
+{
+	Setup,
+	Spawning,
+	Complete
+};
+
 UINTERFACE(Meta=(CannotImplementInterfaceInBlueprint))
 class UTowerDefenseEssentialsInterface : public UInterface
 {
@@ -16,6 +24,9 @@ class ITowerDefenseEssentialsInterface
 	GENERATED_BODY()
 
 public:
+
+	UFUNCTION(BlueprintCallable, Category = "Tower Defense Essentials")
+	virtual EGamePhase GetGamePhase() const { return EGamePhase::Setup; }
 
 	UFUNCTION(BlueprintCallable, Category = "Tower Defense Essentials")
 	virtual int32 GetHealth() { return -1; }

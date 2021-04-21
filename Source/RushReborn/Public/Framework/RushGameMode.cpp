@@ -7,6 +7,7 @@
 #include "TimerManager.h"
 
 ARushGameMode::ARushGameMode()
+	: Phase(EGamePhase::Setup)
 {
 	PlayerControllerClass = ARushPlayerController::StaticClass();
 	DefaultPawnClass = ARushSpectatorPawn::StaticClass();
@@ -28,6 +29,11 @@ void ARushGameMode::BeginPlay()
 		WaveEngine->MountSequence(LoadedSequence);
 		WaveEngine->SequenceSpawnsDestroyed.AddDynamic(this, &ARushGameMode::Win);
 	}
+}
+
+EGamePhase ARushGameMode::GetGamePhase() const
+{
+	return Phase;
 }
 
 int32 ARushGameMode::GetHealth()
@@ -91,15 +97,20 @@ float ARushGameMode::GetNextWaveStartTimeElapsedPercent()
 
 void ARushGameMode::StartNextWave()
 {
+	if (Phase == EGamePhase::Setup)
+	{
+		Phase = EGamePhase::Spawning;
+	}
+	
 	WaveEngine->ManuallyStartQueuedWave();
 }
 
 void ARushGameMode::Win()
 {
-	// @todo
+	Phase = EGamePhase::Complete;
 }
 
 void ARushGameMode::Lose()
 {
-	// @todo
+	Phase = EGamePhase::Complete;
 }

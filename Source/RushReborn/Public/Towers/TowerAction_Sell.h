@@ -12,4 +12,14 @@ class UTowerAction_Sell : public UTowerAction
 public:
 
 	UTowerAction_Sell();
+
+	void Execute(const FTowerActionContext& Context);
+
+protected:
+
+	UPROPERTY(EditAnywhere, Category = Sell)
+	int32 SetupValue;
+
+	UPROPERTY(EditAnywhere, Category = Sell)
+	int32 SpawningValue;
 };

@@ -21,6 +21,7 @@ public:
 	ARushGameMode();
 	void BeginPlay() override;
 
+	EGamePhase GetGamePhase() const override;
 	int32 GetHealth() override;
 	void SubtractHealth(int32 Amount) override;
 	int32 GetGoldCount() override;
@@ -39,6 +40,9 @@ public:
 	void Lose();
 	
 private:
+
+	UPROPERTY()
+	EGamePhase Phase;
 
 	UPROPERTY()
 	int32 Health;
