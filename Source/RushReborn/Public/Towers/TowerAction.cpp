@@ -16,6 +16,11 @@ UTexture2D* UTowerAction::GetDisplayIcon() const
 	return Icon;
 }
 
+float UTowerAction::GetMenuAngle()
+{
+	return MenuAngle;
+}
+
 int32 UTowerAction::GetCost() const
 {
 	return Cost;

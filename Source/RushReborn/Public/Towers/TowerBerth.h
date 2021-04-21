@@ -5,6 +5,8 @@
 #include "Player/SelectableInterface.h"
 #include "TowerBerth.generated.h"
 
+class UTowerActionMenuWidget;
+class UWidgetComponent;
 class UTowerAction;
 class ATower;
 class USphereComponent;
@@ -25,6 +27,9 @@ protected:
 
 	TArray<UTowerAction*> GetActions() const;
 	void ShowActions();
+	void HideActions();
+
+	UTowerActionMenuWidget* GetActionMenuWidget() const;
 
 	UPROPERTY()
 	ATower* Tower;
@@ -34,4 +39,7 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere)
 	USphereComponent* InteractionZone;
+
+	UPROPERTY(VisibleAnywhere)
+	UWidgetComponent* ActionMenu;
 };

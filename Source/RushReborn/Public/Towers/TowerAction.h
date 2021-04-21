@@ -22,6 +22,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = Display)
 	UTexture2D* GetDisplayIcon() const;
 
+	UFUNCTION(BlueprintPure, Category = Display)
+	float GetMenuAngle();
+
 	UFUNCTION(BlueprintPure, Category = Cost)
 	int32 GetCost() const;
 
@@ -39,6 +42,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = Display)
 	UTexture2D* Icon;
+
+	UPROPERTY(EditAnywhere, Category = Display)
+	float MenuAngle;
 
 	UPROPERTY(EditAnywhere, Category = Cost)
 	int32 Cost;

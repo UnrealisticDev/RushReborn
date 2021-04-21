@@ -6,7 +6,7 @@
 class ATowerBerth;
 class ATower;
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct FTowerActionContext
 {
 	GENERATED_BODY()
