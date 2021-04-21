@@ -26,7 +26,7 @@ public:
 protected:
 
 	TArray<UTowerAction*> GetActions() const;
-	void ShowActions();
+	void ShowActions(ISelectorInterface* Selector);
 	void HideActions();
 
 	UTowerActionMenuWidget* GetActionMenuWidget() const;

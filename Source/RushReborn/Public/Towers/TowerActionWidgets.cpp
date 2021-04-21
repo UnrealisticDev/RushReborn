@@ -1,11 +1,51 @@
 #include "TowerActionWidgets.h"
 #include "TowerAction.h"
+#include "Blueprint/WidgetTree.h"
 #include "Components/CanvasPanelSlot.h"
 #include "Kismet/KismetMathLibrary.h"
 
 UTowerAction* UTowerActionWidget::GetAction() const
 {
 	return Action;
+}
+
+bool UTowerActionWidget::CanBeExecuted() const
+{
+	return Action->CanExecute(Context);
+}
+
+void UTowerActionWidget::Select()
+{
+	if (Action->RequiresConfirm())
+	{
+		if (bAwaitingConfirmation)
+		{
+			if (!Action->CanExecute(Context))
+			{
+				return;
+			}
+			
+			Action->Execute(Context);
+			ActionExecuted.ExecuteIfBound(this);
+		}
+
+		else
+		{
+			bAwaitingConfirmation = true;
+			ActionSelected.ExecuteIfBound(this);
+		}
+	}
+
+	else
+	{
+		Action->Execute(Context);
+		ActionExecuted.ExecuteIfBound(this);
+	}
+}
+
+void UTowerActionWidget::Unselect()
+{
+	bAwaitingConfirmation = false;
 }
 
 void UTowerActionMenuWidget::PositionAction(UTowerActionWidget* ActionWidget, UCanvasPanelSlot* ActionSlot)
@@ -25,7 +65,27 @@ void UTowerActionMenuWidget::PositionAction(UTowerActionWidget* ActionWidget, UC
 
 void UTowerActionMenuWidget::SetupActionObservers(UTowerActionWidget* ActionWidget)
 {
-	//
+	ActionWidget->ActionSelected.BindUObject(this, &UTowerActionMenuWidget::OnActionSelected);
+	ActionWidget->ActionExecuted.BindUObject(this, &UTowerActionMenuWidget::OnActionExecuted);
+}
+
+void UTowerActionMenuWidget::OnActionSelected(UTowerActionWidget* SelectedActionWidget)
+{
+	WidgetTree->ForEachWidget([&SelectedActionWidget](UWidget* Widget)
+	{
+		if (UTowerActionWidget* ChildActionWidget = Cast<UTowerActionWidget>(Widget))
+		{
+			if (ChildActionWidget != SelectedActionWidget)
+			{
+				ChildActionWidget->Unselect();
+			}
+		}
+	});
+}
+
+void UTowerActionMenuWidget::OnActionExecuted(UTowerActionWidget* ExecutedActionWidget)
+{
+	Hide();
 }
 
 void UTowerActionMenuWidget::Hide_Implementation()

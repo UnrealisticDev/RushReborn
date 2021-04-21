@@ -28,14 +28,18 @@ public:
 	UFUNCTION(BlueprintPure, Category = Cost)
 	int32 GetCost() const;
 
+	UFUNCTION(BlueprintPure, Category = Selection)
+	bool RequiresConfirm() const;
+
 	virtual void Select(const FTowerActionContext& Context);
 	virtual void Unselect(const FTowerActionContext& Context);
-	virtual bool IsSelected();
 
 	virtual bool CanExecute(const FTowerActionContext& Context);
 	virtual void Execute(const FTowerActionContext& Context);
 
 protected:
+
+	void UnselectTowerBerth(const FTowerActionContext& Context);
 
 	UPROPERTY(EditAnywhere, Category = Display)
 	FText Name;
@@ -48,9 +52,6 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = Cost)
 	int32 Cost;
-	
-	UPROPERTY(BlueprintReadOnly, Category = Selection, Meta = (AllowPrivateAccess = "true"))
-	bool bIsSelected;
 	
 	UPROPERTY(BlueprintReadOnly, Category = Selection, Meta=(AllowPrivateAccess="true"))
 	bool bRequiresConfirm;

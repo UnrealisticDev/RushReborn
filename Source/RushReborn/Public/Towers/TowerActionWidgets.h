@@ -17,9 +17,18 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	UTowerAction* GetAction() const;
-	
+
+	UFUNCTION(BlueprintPure)
+	bool CanBeExecuted() const;
+
+	UFUNCTION(BlueprintCallable)
 	void Select();
 	void Unselect();
+
+	DECLARE_DELEGATE_OneParam(FTowerActionCallback, UTowerActionWidget*);
+
+	FTowerActionCallback ActionSelected;
+	FTowerActionCallback ActionExecuted;
 
 protected:
 
@@ -28,6 +37,9 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, Meta=(ExposeOnSpawn))
 	FTowerActionContext Context;
+
+	UPROPERTY(BlueprintReadOnly)
+	bool bAwaitingConfirmation;
 };
 
 UCLASS()
@@ -50,6 +62,9 @@ public:
 	void Hide();
 
 protected:
+
+	void OnActionSelected(UTowerActionWidget* SelectedActionWidget);
+	void OnActionExecuted(UTowerActionWidget* ExecutedActionWidget);
 
 	UPROPERTY(EditAnywhere)
 	float RadialOffset;

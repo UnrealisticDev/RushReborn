@@ -15,6 +15,11 @@ public:
 
 	UTowerAction_Make();
 
+	bool CanExecute(const FTowerActionContext& Context) override;
+	void Execute(const FTowerActionContext& Context) override;
+
+protected:
+
 	UPROPERTY(EditAnywhere, Category = Make)
 	TSubclassOf<ATower> TowerClass;
 };

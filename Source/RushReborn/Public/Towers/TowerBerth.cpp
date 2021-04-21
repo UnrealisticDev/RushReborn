@@ -3,6 +3,7 @@
 #include "TowerActionWidgets.h"
 #include "Components/SphereComponent.h"
 #include "Components/WidgetComponent.h"
+#include "Player/SelectorInterface.h"
 
 ATowerBerth::ATowerBerth()
 {
@@ -11,11 +12,12 @@ ATowerBerth::ATowerBerth()
 	InteractionZone->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Block);
 
 	ActionMenu = CreateDefaultSubobject<UWidgetComponent>(TEXT("ActionMenu"));
+	ActionMenu->SetupAttachment(GetRootComponent());
 }
 
 void ATowerBerth::OnSelected(ISelectorInterface* Selector)
 {
-	ShowActions();
+	ShowActions(Selector);
 }
 
 void ATowerBerth::OnUnselected(ISelectorInterface* Selector)
@@ -28,10 +30,11 @@ TArray<UTowerAction*> ATowerBerth::GetActions() const
 	return Tower ? Tower->Actions : Actions;
 }
 
-void ATowerBerth::ShowActions()
+void ATowerBerth::ShowActions(ISelectorInterface* Selector)
 {
 	FTowerActionContext Context;
 	Context.TowerBerth = this;
+	Context.Selector = Cast<UObject>(Selector);
 	GetActionMenuWidget()->Show(GetActions(), Context);
 }
 

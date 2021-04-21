@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "TowerActionContext.generated.h"
 
+class ISelectorInterface;
 class ATowerBerth;
 class ATower;
 
@@ -15,4 +16,7 @@ public:
 
 	UPROPERTY()
 	TWeakObjectPtr<ATowerBerth> TowerBerth;
+
+	UPROPERTY()
+	TScriptInterface<ISelectorInterface> Selector;
 };

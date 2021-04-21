@@ -50,11 +50,12 @@ void ARushPlayerController::OnPressReleased()
 		}
 
 		SelectedAbility = EAbilitySelected::None;
-		return;
 	}
 
 	else
 	{
+		Unselect(Cast<ISelectableInterface>(CurrentSelection.GetObject()));
+
 		if (ISelectableInterface* HitSelectable = Cast<ISelectableInterface>(HitUnderCursor.GetActor()))
 		{
 			Select(HitSelectable);
@@ -75,7 +76,7 @@ void ARushPlayerController::Select(ISelectableInterface* Selectable)
 
 void ARushPlayerController::Unselect(ISelectableInterface* Selectable)
 {
-	if (CurrentSelection == Selectable)
+	if (Selectable && CurrentSelection == Selectable)
 	{
 		CurrentSelection = nullptr;
 		Selectable->OnUnselected(this);
