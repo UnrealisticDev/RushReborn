@@ -14,28 +14,27 @@ UStatsComponent::UStatsComponent()
 	, MovementSpeed(300)
 {
 	bWantsInitializeComponent = true;
-
-	CurrentHealth = MaxHealth;
 }
 
 void UStatsComponent::InitializeComponent()
 {
 	Super::InitializeComponent();
 
+	CurrentHealth = MaxHealth;
 	GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UStatsComponent::OnTakeAnyDamage);
 }
 
 void UStatsComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType,
-	AController* InstigatedBy, AActor* DamageCauser)
+                                      AController* InstigatedBy, AActor* DamageCauser)
 {
 	if (DamageType->GetClass() == UPhysicalDamage::StaticClass())
 	{
-		Damage *= Armor * .01f;
+		Damage *= (100 - Armor) / 100.f;
 	}
 
 	else if (DamageType->GetClass() == UMagicalDamage::StaticClass())
 	{
-		Damage *= MagicResistance * .01f;
+		Damage *= (100 - MagicResistance) / 100.f;
 	}
 
 	// else assume TrueDamage
