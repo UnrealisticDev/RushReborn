@@ -23,6 +23,8 @@ public:
 	void OnSelected(ISelectorInterface* Selector) override;
 	void OnUnselected(ISelectorInterface* Selector) override;
 
+	void SetTower(ATower* NewTower);
+
 protected:
 
 	TArray<UTowerAction*> GetActions() const;

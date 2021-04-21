@@ -25,7 +25,8 @@ void UTowerAction_Make::Execute(const FTowerActionContext& Context)
 
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	GetWorld()->SpawnActorAbsolute(TowerClass, Context.TowerBerth->GetActorTransform(), SpawnParams);
+	ATower* NewTower = Cast<ATower>(GetWorld()->SpawnActorAbsolute(TowerClass, Context.TowerBerth->GetActorTransform(), SpawnParams));
+	Context.TowerBerth->SetTower(NewTower);
 
 	UnselectTowerBerth(Context);
 }

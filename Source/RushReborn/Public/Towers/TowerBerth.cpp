@@ -25,6 +25,11 @@ void ATowerBerth::OnUnselected(ISelectorInterface* Selector)
 	HideActions();
 }
 
+void ATowerBerth::SetTower(ATower* NewTower)
+{
+	Tower = NewTower;
+}
+
 TArray<UTowerAction*> ATowerBerth::GetActions() const
 {
 	return Tower ? Tower->Actions : Actions;
