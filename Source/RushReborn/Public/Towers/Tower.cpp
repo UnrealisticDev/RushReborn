@@ -3,6 +3,6 @@
 
 uint8 ATower::GetTeamId()
 {
-	return ETeams::Player;
+	return (uint8)ETeams::Player;
 }
 
