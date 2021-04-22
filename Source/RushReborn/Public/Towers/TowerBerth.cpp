@@ -10,6 +10,7 @@ ATowerBerth::ATowerBerth()
 	InteractionZone = CreateDefaultSubobject<USphereComponent>(TEXT("InteractionZone"));
 	InteractionZone->SetSphereRadius(100.f);
 	InteractionZone->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Block);
+	SetRootComponent(InteractionZone);
 
 	ActionMenu = CreateDefaultSubobject<UWidgetComponent>(TEXT("ActionMenu"));
 	ActionMenu->SetupAttachment(GetRootComponent());
