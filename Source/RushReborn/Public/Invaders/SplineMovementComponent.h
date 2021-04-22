@@ -17,6 +17,7 @@ public:
 	void SetSplineToFollow(USplineComponent* Spline) override;
 	void StartSplineMovement() override;
 	void StopSplineMovement() override;
+	float GetRemainingDistanceAlongSpline() override;
 	
 	void PhysCustom(float DeltaTime, int32 Iterations) override;
 

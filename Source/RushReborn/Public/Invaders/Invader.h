@@ -35,6 +35,7 @@ public:
 	void SetSplineToFollow(USplineComponent* Spline) override;
 	void StartSplineMovement() override;
 	void StopSplineMovement() override;
+	float GetRemainingDistanceAlongSpline() override;
 
 protected:
 

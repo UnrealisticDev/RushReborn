@@ -104,3 +104,8 @@ void AInvader::StopSplineMovement()
 {
 	Cast<ISplineFollowInterface>(GetMovementComponent())->StopSplineMovement();
 }
+
+float AInvader::GetRemainingDistanceAlongSpline()
+{
+	return Cast<ISplineFollowInterface>(GetMovementComponent())->GetRemainingDistanceAlongSpline();
+}

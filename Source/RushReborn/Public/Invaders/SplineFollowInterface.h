@@ -21,4 +21,5 @@ public:
 	virtual void SetSplineToFollow(USplineComponent* Spline) {}
 	virtual void StartSplineMovement() {}
 	virtual void StopSplineMovement() {}
+	virtual float GetRemainingDistanceAlongSpline() { return -1.f; }
 };

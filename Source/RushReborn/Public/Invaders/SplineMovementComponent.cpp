@@ -17,6 +17,11 @@ void USplineMovementComponent::StopSplineMovement()
 	SetMovementMode(EMovementMode::MOVE_Walking);
 }
 
+float USplineMovementComponent::GetRemainingDistanceAlongSpline()
+{
+	return SplineToFollow ? SplineToFollow->GetSplineLength() - DistanceOnSpline : -1.f;
+}
+
 void USplineMovementComponent::PhysCustom(float DeltaTime, int32 Iterations)
 {
 	DistanceOnSpline += MaxWalkSpeed * DeltaTime;
