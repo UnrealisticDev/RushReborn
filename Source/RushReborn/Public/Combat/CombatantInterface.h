@@ -20,12 +20,12 @@ public:
 
 	DECLARE_DELEGATE(FAttackFinished);
 
-	virtual bool IsEngaged() const = 0;
+	virtual bool IsEngaged() const { return false; }
 	virtual AActor* GetActorEngagedWith() const { return nullptr; }
 	virtual void Engage(AActor* ActorToEngage) {}
 	virtual void Disengage() {}
 
-	virtual bool IsAlive() const = 0;
+	virtual bool IsAlive() const { return true; }
 
 	virtual void Attack(AActor* Target) {}
 	virtual void Attack(AActor* Target, FAttackFinished OnAttackFinished) {};
