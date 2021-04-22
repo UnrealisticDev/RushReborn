@@ -14,7 +14,7 @@ EBTNodeResult::Type UBTTask_WaitAnyEnemy::ExecuteTask(UBehaviorTreeComponent& Ow
 		return EBTNodeResult::Failed;
 	}
 
-	OwnerComp.GetAIOwner()->GetPawn()->OnActorBeginOverlap.AddDynamic(this, &UBTTask_WaitAnyEnemy::OnOwnerOverlapped);
+	OwnerComp.GetAIOwner()->GetPawn()->OnActorBeginOverlap.AddUniqueDynamic(this, &UBTTask_WaitAnyEnemy::OnOwnerOverlapped);
 	OwnerComponent = &OwnerComp;
 
 	return EBTNodeResult::InProgress;
