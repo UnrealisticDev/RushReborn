@@ -2,7 +2,7 @@
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Combat/TeamUtilities.h"
-#include "Invaders/SplineFollowInterface.h"
+#include "Characters/SplineFollowInterface.h"
 
 EBTNodeResult::Type UBTTask_SelectTarget::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {

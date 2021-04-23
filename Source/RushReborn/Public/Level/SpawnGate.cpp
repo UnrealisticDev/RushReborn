@@ -2,7 +2,7 @@
 #include "SplineRepeater.h"
 #include "TsunamiSpawnComponents.h"
 #include "Components/SplineComponent.h"
-#include "Invaders/SplineFollowInterface.h"
+#include "Characters/SplineFollowInterface.h"
 
 ASpawnGate::ASpawnGate()
 {

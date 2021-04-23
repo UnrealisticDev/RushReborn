@@ -1,7 +1,7 @@
 ﻿#include "BTTask_MoveAlongSpline.h"
 #include "AIController.h"
 #include "BehaviorTree/BehaviorTreeTypes.h"
-#include "Invaders/SplineFollowInterface.h"
+#include "Characters/SplineFollowInterface.h"
 
 EBTNodeResult::Type UBTTask_MoveAlongSpline::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {

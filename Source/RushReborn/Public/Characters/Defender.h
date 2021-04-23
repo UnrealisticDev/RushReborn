@@ -4,18 +4,18 @@
 #include "Combat/CombatantInterface.h"
 #include "Combat/TeamInterface.h"
 #include "GameFramework/Character.h"
-#include "Militia.generated.h"
+#include "Defender.generated.h"
 
 class UStatsComponent;
 
 UCLASS()
-class AMilitia : public ACharacter, public ITeamAgentInterface, public ICombatantInterface
+class ADefender : public ACharacter, public ITeamAgentInterface, public ICombatantInterface
 {
 	GENERATED_BODY()
 
 public:
 
-	AMilitia();
+	ADefender();
 	void BeginPlay() override;
 
 	uint8 GetTeamId() override;
