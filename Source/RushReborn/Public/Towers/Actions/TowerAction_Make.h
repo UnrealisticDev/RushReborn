@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "TowerAction.h"
+#include "Towers/TowerAction.h"
 #include "TowerAction_Make.generated.h"
 
 class ATower;

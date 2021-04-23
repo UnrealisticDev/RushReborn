@@ -1,9 +1,9 @@
 #include "TowerAction_Make.h"
-#include "TowerBerth.h"
+#include "Towers/TowerBerth.h"
 #include "Framework/TowerDefenseEssentialsInterface.h"
 #include "GameFramework/GameModeBase.h"
 #include "Kismet/GameplayStatics.h"
-#include "Tower.h"
+#include "Towers/Tower.h"
 
 UTowerAction_Make::UTowerAction_Make()
 {
