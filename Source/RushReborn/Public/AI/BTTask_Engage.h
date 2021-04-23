@@ -2,10 +2,10 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
-#include "BTTask_InitiateEngagement.generated.h"
+#include "BTTask_Engage.generated.h"
 
 UCLASS()
-class UBTTask_InitiateEngagement : public UBTTaskNode
+class UBTTask_Engage : public UBTTaskNode
 {
 	GENERATED_BODY()
 
@@ -16,5 +16,5 @@ public:
 protected:
 
 	UPROPERTY(EditAnywhere, Category = Engage)
-	FBlackboardKeySelector Enemy;
+	FBlackboardKeySelector Target;
 };
