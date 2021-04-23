@@ -114,3 +114,26 @@ void AMeleeTower::Destroyed()
 
 	Super::Destroyed();
 }
+
+bool AMeleeTower::CanRally(FVector NewRallyPoint) const
+{
+	return FVector::Dist(GetActorLocation(), NewRallyPoint) <= InfluenceRadius;
+}
+
+void AMeleeTower::Rally(FVector NewRallyPoint)
+{
+	check(CanRally(NewRallyPoint));
+
+	RallyPoint = NewRallyPoint;
+	for (int Index = 0; Index < 3; ++Index)
+	{
+		const TWeakObjectPtr<APawn> Soldier = Soldiers[Index];
+		if (AAIController* AIController = Cast<AAIController>(Soldier->GetController()))
+		{
+			FVector Home = CalculateHomeLocation(Index);
+			DrawDebugSphere(GetWorld(), Home, 10.f, 8, FColor::Orange, true);
+			AIController->GetBlackboardComponent()->SetValueAsVector(TEXT("Home"), CalculateHomeLocation(Index));
+			AIController->GetBlackboardComponent()->SetValueAsBool(TEXT("bRallying"), true);
+		}
+	}
+}

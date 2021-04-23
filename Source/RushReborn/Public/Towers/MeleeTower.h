@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "RallyCoordinatorInterface.h"
 #include "Tower.h"
 #include "Components/ActorComponent.h"
 #include "MeleeTower.generated.h"
@@ -21,7 +22,7 @@ public:
 };
 
 UCLASS()
-class AMeleeTower : public ATower
+class AMeleeTower : public ATower, public IRallyCoordinatorInterface
 {
 	GENERATED_BODY()
 
@@ -40,6 +41,9 @@ public:
 	void OnSoldierDied(int32 Index);
 
 	void Destroyed() override;
+
+	bool CanRally(FVector NewRallyPoint) const override;
+	void Rally(FVector NewRallyPoint) override;
 
 protected:
 	

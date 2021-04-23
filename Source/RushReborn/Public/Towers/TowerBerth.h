@@ -23,6 +23,7 @@ public:
 	void OnSelected(ISelectorInterface* Selector) override;
 	void OnUnselected(ISelectorInterface* Selector) override;
 
+	ATower* GetTower() const;
 	void SetTower(ATower* NewTower);
 	void RemoveTower();
 

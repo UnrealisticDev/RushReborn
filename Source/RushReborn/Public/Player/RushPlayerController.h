@@ -4,6 +4,7 @@
 #include "SelectorInterface.h"
 #include "Combat/TeamInterface.h"
 #include "GameFramework/PlayerController.h"
+#include "Towers/TowerActionContext.h"
 #include "RushPlayerController.generated.h"
 
 class ISelectableInterface;
@@ -26,15 +27,24 @@ public:
 	void Select(ISelectableInterface* Selectable) override;
 	void Unselect(ISelectableInterface* Selectable) override;
 	ISelectableInterface* GetCurrentSelection() override;
-	
-	void TestAbility();
 
 	const UAbility* GetAbility(TSubclassOf<UAbility> AbilityClass);
 	bool IsAbilitySelected(TSubclassOf<UAbility> AbilityClass) const;
 	void SelectAbility(TSubclassOf<UAbility> AbilityClass);
 	void UnselectAbility();
 
+	void BeginTargetingRally(const FTowerActionContext& RallyContext);
+
 private:
+
+	enum class EInputState : uint8
+	{
+		Free,
+		TargetingAbility,
+		TargetingRally
+	};
+
+	EInputState InputState;
 
 	UPROPERTY()
 	TScriptInterface<ISelectableInterface> CurrentSelection;
@@ -47,10 +57,12 @@ private:
 
 	enum class EAbilitySelected : uint8
 	{
-		None,
 		Reinforcements,
 		RainofFire
 	};
 
 	EAbilitySelected SelectedAbility;
+
+	UPROPERTY()
+	FTowerActionContext TowerActionContext;
 };

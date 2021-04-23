@@ -12,4 +12,6 @@ class UTowerAction_Rally : public UTowerAction
 public:
 
 	UTowerAction_Rally();
+
+	void Execute(const FTowerActionContext& Context) override;
 };

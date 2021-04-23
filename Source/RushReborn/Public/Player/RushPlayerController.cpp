@@ -3,6 +3,9 @@
 #include "Abilities/RainOfFireAbility.h"
 #include "Abilities/ReinforcementsAbility.h"
 #include "Combat/Teams.h"
+#include "Towers/RallyCoordinatorInterface.h"
+#include "Towers/TowerBerth.h"
+#include "Towers/Tower.h"
 
 ARushPlayerController::ARushPlayerController()
 {
@@ -11,7 +14,7 @@ ARushPlayerController::ARushPlayerController()
 	Reinforcements = CreateDefaultSubobject<UReinforcementsAbility>(TEXT("Reinforcements"));
 	RainOfFire = CreateDefaultSubobject<URainOfFireAbility>(TEXT("Rain of Fire"));
 
-	SelectedAbility = EAbilitySelected::None;
+	InputState = EInputState::Free;
 }
 
 void ARushPlayerController::SetupInputComponent()
@@ -32,7 +35,17 @@ void ARushPlayerController::OnPressReleased()
 	FHitResult HitUnderCursor;
 	GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECollisionChannel::ECC_Visibility), false, HitUnderCursor);
 
-	if (SelectedAbility > EAbilitySelected::None)
+	if (InputState == EInputState::Free)
+	{
+		Unselect(Cast<ISelectableInterface>(CurrentSelection.GetObject()));
+
+		if (ISelectableInterface* HitSelectable = Cast<ISelectableInterface>(HitUnderCursor.GetActor()))
+		{
+			Select(HitSelectable);
+		}
+	}
+
+	else if (InputState == EInputState::TargetingAbility)
 	{
 		FAbilityPayload Payload;
 		Payload.Location = HitUnderCursor.Location;
@@ -49,16 +62,18 @@ void ARushPlayerController::OnPressReleased()
 			break;
 		}
 
-		SelectedAbility = EAbilitySelected::None;
+		InputState = EInputState::Free;
 	}
-
-	else
+	
+	else if (InputState == EInputState::TargetingRally)
 	{
-		Unselect(Cast<ISelectableInterface>(CurrentSelection.GetObject()));
-
-		if (ISelectableInterface* HitSelectable = Cast<ISelectableInterface>(HitUnderCursor.GetActor()))
+		UE_LOG(LogTemp, Log, TEXT("Rallying"));
+		IRallyCoordinatorInterface* RallyingTower = Cast<IRallyCoordinatorInterface>(TowerActionContext.TowerBerth->GetTower());
+		if (RallyingTower && RallyingTower->CanRally(HitUnderCursor.Location))
 		{
-			Select(HitSelectable);
+			RallyingTower->Rally(HitUnderCursor.Location);
+			Unselect(TowerActionContext.TowerBerth.Get());
+			InputState = EInputState::Free;
 		}
 	}
 }
@@ -88,27 +103,6 @@ ISelectableInterface* ARushPlayerController::GetCurrentSelection()
 	return Cast<ISelectableInterface>(CurrentSelection.GetObject());
 }
 
-void ARushPlayerController::TestAbility()
-{
-	FHitResult HitResult;
-	GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_Visibility), false, HitResult);
-
-	FAbilityPayload Payload;
-	Payload.Location = HitResult.Location;
-
-	if (SelectedAbility == EAbilitySelected::Reinforcements)
-	{
-		SelectedAbility = EAbilitySelected::None;
-		Reinforcements->Activate(Payload);
-	}
-
-	else if (SelectedAbility == EAbilitySelected::RainofFire)
-	{
-		SelectedAbility = EAbilitySelected::None;
-		RainOfFire->Activate(Payload);
-	}
-}
-
 const UAbility* ARushPlayerController::GetAbility(TSubclassOf<UAbility> AbilityClass)
 {
 	if (AbilityClass == UReinforcementsAbility::StaticClass())
@@ -129,12 +123,15 @@ const UAbility* ARushPlayerController::GetAbility(TSubclassOf<UAbility> AbilityC
 
 bool ARushPlayerController::IsAbilitySelected(TSubclassOf<UAbility> AbilityClass) const
 {
-	return AbilityClass == UReinforcementsAbility::StaticClass() && SelectedAbility == EAbilitySelected::Reinforcements
-		|| AbilityClass == URainOfFireAbility::StaticClass() && SelectedAbility == EAbilitySelected::RainofFire;
+	return InputState == EInputState::TargetingAbility
+	&& (AbilityClass == UReinforcementsAbility::StaticClass() && SelectedAbility == EAbilitySelected::Reinforcements
+		|| AbilityClass == URainOfFireAbility::StaticClass() && SelectedAbility == EAbilitySelected::RainofFire);
 }
 
 void ARushPlayerController::SelectAbility(TSubclassOf<UAbility> AbilityClass)
 {
+	InputState = EInputState::TargetingAbility;
+	
 	if (AbilityClass == UReinforcementsAbility::StaticClass())
 	{
 		SelectedAbility = EAbilitySelected::Reinforcements;
@@ -148,5 +145,12 @@ void ARushPlayerController::SelectAbility(TSubclassOf<UAbility> AbilityClass)
 
 void ARushPlayerController::UnselectAbility()
 {
-	SelectedAbility = EAbilitySelected::None;
+	InputState = EInputState::Free;
+}
+
+void ARushPlayerController::BeginTargetingRally(const FTowerActionContext& RallyContext)
+{
+	InputState = EInputState::TargetingRally;
+
+	TowerActionContext = RallyContext;
 }

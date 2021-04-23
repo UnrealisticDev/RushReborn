@@ -26,6 +26,11 @@ void ATowerBerth::OnUnselected(ISelectorInterface* Selector)
 	HideActions();
 }
 
+ATower* ATowerBerth::GetTower() const
+{
+	return Tower;
+}
+
 void ATowerBerth::SetTower(ATower* NewTower)
 {
 	Tower = NewTower;
