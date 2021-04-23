@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Combat/CombatantInterface.h"
+#include "Combat/EngagementInterfaces.h"
 #include "Combat/TeamInterface.h"
 #include "GameFramework/Character.h"
 #include "Defender.generated.h"
@@ -10,7 +11,7 @@ class UWidgetComponent;
 class UStatsComponent;
 
 UCLASS()
-class ADefender : public ACharacter, public ITeamAgentInterface, public ICombatantInterface
+class ADefender : public ACharacter, public ITeamAgentInterface, public IEngagorInterface, public ICombatantInterface
 {
 	GENERATED_BODY()
 
@@ -21,10 +22,9 @@ public:
 
 	uint8 GetTeamId() override;
 
-	bool IsEngaged() const override;
-	AActor* GetActorEngagedWith() const override;
-	void Engage(AActor* ActorToEngage) override;
+	void Engage(IEngageeInterface* Engagee) override;
 	void Disengage() override;
+	
 	bool IsAlive() const override;
 	void Attack(AActor* Target) override;
 
@@ -42,7 +42,7 @@ protected:
 	UStatsComponent* Stats;
 
 private:
-	
+
 	UPROPERTY()
-	AActor* ActorEngagedWith;
+	TScriptInterface<IEngageeInterface> Engaged;
 };

@@ -21,7 +21,7 @@ AInvader::AInvader(const FObjectInitializer& ObjectInitializer)
 	Healthbar->SetupAttachment(GetRootComponent());
 
 	IsEngagedKeyName = TEXT("bIsEngaged");
-	ActorEngagedWithKeyName = TEXT("ActorEngagedWith");
+	TargetKeyName = TEXT("Target");
 }
 
 void AInvader::BeginPlay()
@@ -40,34 +40,40 @@ uint8 AInvader::GetTeamId()
 	return (uint8)ETeams::Invader;
 }
 
+void AInvader::EngagedBy(IEngagorInterface* Engagor)
+{
+	if (Engagor)
+	{
+		Engagors.Add(Cast<UObject>(Engagor));
+		if (Engagors.Num() == 1)
+		{
+			if (AAIController* AIController = Cast<AAIController>(GetController()))
+			{
+				AIController->GetBlackboardComponent()->SetValueAsBool(IsEngagedKeyName, true);
+				AIController->GetBlackboardComponent()->SetValueAsObject(TargetKeyName, Cast<UObject>(Engagor));
+			}
+		}
+	}
+}
+
+void AInvader::DisengagedBy(IEngagorInterface* Engagor)
+{
+	if (Engagor)
+	{
+		Engagors.Remove(Cast<UObject>(Engagor));
+		if (Engagors.Num() == 0)
+		{
+			if (AAIController* AIController = Cast<AAIController>(GetController()))
+			{
+				AIController->GetBlackboardComponent()->SetValueAsBool(IsEngagedKeyName, false);
+			}
+		}
+	}
+}
+
 bool AInvader::IsEngaged() const
 {
-	return ActorEngagedWith != nullptr;
-}
-
-AActor* AInvader::GetActorEngagedWith() const
-{
-	return ActorEngagedWith;
-}
-
-void AInvader::Engage(AActor* ActorToEngage)
-{
-	ActorEngagedWith = ActorToEngage;
-	if (AAIController* AIController = Cast<AAIController>(GetController()))
-	{
-		AIController->GetBlackboardComponent()->SetValueAsBool(IsEngagedKeyName, true);
-		AIController->GetBlackboardComponent()->SetValueAsObject(ActorEngagedWithKeyName, ActorToEngage);
-	}
-}
-
-void AInvader::Disengage()
-{
-	ActorEngagedWith = nullptr;
-	if (AAIController* AIController = Cast<AAIController>(GetController()))
-	{
-		AIController->GetBlackboardComponent()->SetValueAsBool(IsEngagedKeyName, false);
-		AIController->GetBlackboardComponent()->SetValueAsObject(ActorEngagedWithKeyName, nullptr);
-	}
+	return Engagors.Num() > 0;
 }
 
 bool AInvader::IsAlive() const

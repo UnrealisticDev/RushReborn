@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "SplineFollowInterface.h"
 #include "Combat/CombatantInterface.h"
+#include "Combat/EngagementInterfaces.h"
 #include "Combat/TeamInterface.h"
 #include "GameFramework/Character.h"
 #include "Invader.generated.h"
@@ -11,7 +12,7 @@ class UWidgetComponent;
 class UStatsComponent;
 
 UCLASS(Blueprintable)
-class AInvader : public ACharacter, public ITeamAgentInterface, public ICombatantInterface, public ISplineFollowInterface
+class AInvader : public ACharacter, public ITeamAgentInterface, public IEngageeInterface, public ICombatantInterface, public ISplineFollowInterface
 {
 	GENERATED_BODY()
 
@@ -22,10 +23,10 @@ public:
 
 	uint8 GetTeamId() override;
 
+	void EngagedBy(IEngagorInterface* Engagor) override;
+	void DisengagedBy(IEngagorInterface* Engagor) override;
 	bool IsEngaged() const override;
-	AActor* GetActorEngagedWith() const override;
-	void Engage(AActor* ActorToEngage) override;
-	void Disengage() override;
+	
 	bool IsAlive() const override;
 	void Attack(AActor* Target) override;
 
@@ -48,11 +49,11 @@ protected:
 private:
 
 	UPROPERTY()
-	AActor* ActorEngagedWith;
-
+	TArray<TScriptInterface<IEngagorInterface>> Engagors;
+	
 	UPROPERTY()
 	FName IsEngagedKeyName;
 
 	UPROPERTY()
-	FName ActorEngagedWithKeyName;
+	FName TargetKeyName;
 };

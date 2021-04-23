@@ -33,32 +33,22 @@ uint8 ADefender::GetTeamId()
 	return (uint8)ETeams::Player;
 }
 
-bool ADefender::IsEngaged() const
+void ADefender::Engage(IEngageeInterface* Engagee)
 {
-	return ActorEngagedWith != nullptr;
-}
-
-AActor* ADefender::GetActorEngagedWith() const
-{
-	return ActorEngagedWith;
-}
-
-void ADefender::Engage(AActor* ActorToEngage)
-{
-	ActorEngagedWith = ActorToEngage;
-	if (ICombatantInterface* EngagedCombatant = Cast<ICombatantInterface>(ActorToEngage))
+	if (Engagee)
 	{
-		EngagedCombatant->Engage(this);
+		Engaged = Cast<UObject>(Engagee);
+		Engaged->EngagedBy(this);
 	}
 }
 
 void ADefender::Disengage()
 {
-	if (ICombatantInterface* EngagedCombatant = Cast<ICombatantInterface>(ActorEngagedWith))
+	if (Engaged)
 	{
-		EngagedCombatant->Disengage();
+		Engaged->DisengagedBy(this);
 	}
-	ActorEngagedWith = nullptr;
+	Engaged = nullptr;
 }
 
 bool ADefender::IsAlive() const

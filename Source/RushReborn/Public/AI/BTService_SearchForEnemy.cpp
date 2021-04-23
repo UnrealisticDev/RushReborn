@@ -1,7 +1,7 @@
 #include "BTService_SearchForEnemy.h"
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
-#include "Combat/CombatantInterface.h"
+#include "Combat/EngagementInterfaces.h"
 #include "Combat/TeamUtilities.h"
 
 UBTService_SearchForEnemy::UBTService_SearchForEnemy()
@@ -30,7 +30,7 @@ void UBTService_SearchForEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint
 	for (const FHitResult& Hit : Hits)
 	{
 		AActor* HitActor = Hit.GetActor();
-		if (UTeamUtilities::AreEnemies(OwnerPawn, Hit.GetActor()) && !Cast<ICombatantInterface>(HitActor)->IsEngaged())
+		if (UTeamUtilities::AreEnemies(OwnerPawn, Hit.GetActor()) && !Cast<IEngageeInterface>(HitActor)->IsEngaged())
 		{
 			if (ClosestEnemy && FVector::Dist(HitActor->GetActorLocation(), OwnerLocation) < FVector::Dist(ClosestEnemy->GetActorLocation(), OwnerLocation))
 			{

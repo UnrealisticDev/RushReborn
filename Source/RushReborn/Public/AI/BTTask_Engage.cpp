@@ -1,14 +1,19 @@
 #include "BTTask_Engage.h"
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
-#include "Combat/CombatantInterface.h"
+#include "Combat/EngagementInterfaces.h"
 
 EBTNodeResult::Type UBTTask_Engage::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
-	APawn* OwningPawn = OwnerComp.GetAIOwner()->GetPawn();
-	AActor* TargetActor = Cast<AActor>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(Target.SelectedKeyName));
+	IEngagorInterface* EngagorOwner = Cast<IEngagorInterface>(OwnerComp.GetAIOwner()->GetPawn());
+	IEngageeInterface* EngageeTarget = Cast<IEngageeInterface>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(Target.SelectedKeyName));
+
+	if (!EngagorOwner || !EngageeTarget)
+	{
+		return EBTNodeResult::Failed;
+	}
 	
-	Cast<ICombatantInterface>(OwningPawn)->Engage(TargetActor);
+	EngagorOwner->Engage(EngageeTarget);
 
 	return EBTNodeResult::Succeeded;
 }
