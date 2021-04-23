@@ -26,26 +26,32 @@ void UBTService_SearchForEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint
 		FCollisionShape::MakeSphere(SearchRadius)
 	);
 
-	AActor* ClosestEnemy = nullptr;
-	for (const FHitResult& Hit : Hits)
+	Hits.RemoveAll([&OwnerPawn](const FHitResult& Hit)
 	{
-		AActor* HitActor = Hit.GetActor();
-		if (UTeamUtilities::AreEnemies(OwnerPawn, Hit.GetActor()) && !Cast<IEngageeInterface>(HitActor)->IsEngaged())
+		return !UTeamUtilities::AreEnemies(OwnerPawn, Hit.GetActor());
+	});
+
+	Hits.Sort([&OwnerLocation](const FHitResult& A, const FHitResult& B)
+	{
+		return FVector::Dist(A.GetActor()->GetActorLocation(), OwnerLocation) < FVector::Dist(B.GetActor()->GetActorLocation(), OwnerLocation);
+	});
+
+	if (Hits.Num() > 0)
+	{
+		FHitResult* Hit = Hits.FindByPredicate([](const FHitResult& Hit)
 		{
-			if (ClosestEnemy && FVector::Dist(HitActor->GetActorLocation(), OwnerLocation) < FVector::Dist(ClosestEnemy->GetActorLocation(), OwnerLocation))
-			{
-				ClosestEnemy = HitActor;
-			}
+			IEngageeInterface* Engagee = Cast<IEngageeInterface>(Hit.GetActor());
+			return Engagee && !Engagee->IsEngaged();
+		});
 
-			else
-			{
-				ClosestEnemy = HitActor;
-			}
+		if (Hit)
+		{
+			OwnerComp.GetBlackboardComponent()->SetValueAsObject(FoundEnemy.SelectedKeyName, Hit->GetActor());	
 		}
-	}
 
-	if (ClosestEnemy)
-	{
-		OwnerComp.GetBlackboardComponent()->SetValueAsObject(FoundEnemy.SelectedKeyName, ClosestEnemy);
+		else
+		{
+			OwnerComp.GetBlackboardComponent()->SetValueAsObject(FoundEnemy.SelectedKeyName, Hits[0].GetActor());	
+		}
 	}
 }
