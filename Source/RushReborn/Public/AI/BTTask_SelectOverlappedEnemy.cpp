@@ -1,10 +1,15 @@
-#include "BTTask_SelectTarget.h"
+#include "BTTask_SelectOverlappedEnemy.h"
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Combat/TeamUtilities.h"
 #include "Characters/SplineFollowInterface.h"
 
-EBTNodeResult::Type UBTTask_SelectTarget::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
+UBTTask_SelectOverlappedEnemy::UBTTask_SelectOverlappedEnemy()
+{
+	NodeName = "Select Overlapped Enemy";
+}
+
+EBTNodeResult::Type UBTTask_SelectOverlappedEnemy::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	if (!OwnerComp.GetAIOwner() || !OwnerComp.GetAIOwner()->GetPawn())
 	{
@@ -43,12 +48,12 @@ EBTNodeResult::Type UBTTask_SelectTarget::ExecuteTask(UBehaviorTreeComponent& Ow
 			}
 		}
 		
-		OwnerComp.GetBlackboardComponent()->SetValueAsObject(Target.SelectedKeyName, TargetClosestToBase);
+		OwnerComp.GetBlackboardComponent()->SetValueAsObject(SelectedEnemy.SelectedKeyName, TargetClosestToBase);
 	}
 
 	else
 	{
-		OwnerComp.GetBlackboardComponent()->SetValueAsObject(Target.SelectedKeyName, nullptr);
+		OwnerComp.GetBlackboardComponent()->SetValueAsObject(SelectedEnemy.SelectedKeyName, nullptr);
 	}
 
 	return EBTNodeResult::Succeeded;
