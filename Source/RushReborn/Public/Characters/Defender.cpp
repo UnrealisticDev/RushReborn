@@ -1,13 +1,20 @@
 #include "Defender.h"
 #include "Combat/DamageTypes.h"
 #include "Combat/StatsComponent.h"
+#include "Combat/StatsWidget.h"
 #include "Combat/Teams.h"
+#include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 ADefender::ADefender()
 {
 	Stats = CreateDefaultSubobject<UStatsComponent>(TEXT("Stats"));
 	Stats->HealthDepleted.AddDynamic(this, &ADefender::OnHealthDepleted);
+
+	Healthbar = CreateDefaultSubobject<UWidgetComponent>(TEXT("Healthbar"));
+	Healthbar->SetDrawSize(FVector2D(100, 10));
+	Healthbar->SetWidgetSpace(EWidgetSpace::Screen);
+	Healthbar->SetupAttachment(GetRootComponent());
 }
 
 void ADefender::BeginPlay()
@@ -15,6 +22,10 @@ void ADefender::BeginPlay()
 	Super::BeginPlay();
 
 	GetCharacterMovement()->MaxWalkSpeed = Stats->MovementSpeed;
+	if (UStatsWidget* StatsHealthbar = Cast<UStatsWidget>(Healthbar->GetWidget()))
+	{
+		StatsHealthbar->SetSource(Stats);
+	}
 }
 
 uint8 ADefender::GetTeamId()

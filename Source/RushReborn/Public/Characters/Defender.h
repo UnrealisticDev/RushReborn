@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Defender.generated.h"
 
+class UWidgetComponent;
 class UStatsComponent;
 
 UCLASS()
@@ -34,6 +35,9 @@ public:
 
 protected:
 
+	UPROPERTY(VisibleAnywhere)
+	UWidgetComponent* Healthbar;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UStatsComponent* Stats;
 
