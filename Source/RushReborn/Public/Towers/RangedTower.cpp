@@ -1,7 +1,7 @@
 #include "RangedTower.h"
 #include "Components/SphereComponent.h"
 #include "Combat/StatsComponent.h"
-#include "Projectile.h"
+#include "Projectiles/Projectile.h"
 
 ARangedTower::ARangedTower()
 {
