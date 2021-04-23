@@ -1,13 +1,13 @@
-#include "BTTask_WaitAttackReset.h"
+#include "BTTask_WaitAttackCooldown.h"
 #include "AIController.h"
 #include "Combat/StatsComponent.h"
 
-UBTTask_WaitAttackReset::UBTTask_WaitAttackReset()
+UBTTask_WaitAttackCooldown::UBTTask_WaitAttackCooldown()
 {
-	NodeName = "Wait Attack Reset";
+	NodeName = "Wait Attack Cooldown";
 }
 
-EBTNodeResult::Type UBTTask_WaitAttackReset::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
+EBTNodeResult::Type UBTTask_WaitAttackCooldown::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
 	AActor* OwnerActor = OwnerComp.GetAIOwner()->GetPawn();
 	if (OwnerActor)
@@ -20,4 +20,9 @@ EBTNodeResult::Type UBTTask_WaitAttackReset::ExecuteTask(UBehaviorTreeComponent&
 	}
 		
 	return Super::ExecuteTask(OwnerComp, NodeMemory);
+}
+
+FString UBTTask_WaitAttackCooldown::GetStaticDescription() const
+{
+	return "Wait Attack Cooldown";
 }
