@@ -2,16 +2,16 @@
 
 #include "CoreMinimal.h"
 #include "BehaviorTree/BTTaskNode.h"
-#include "BTTask_WaitAnyEnemy.generated.h"
+#include "BTTask_WaitOverlapEnemy.generated.h"
 
 UCLASS()
-class UBTTask_WaitAnyEnemy : public UBTTaskNode
+class UBTTask_WaitOverlapEnemy : public UBTTaskNode
 {
 	GENERATED_BODY()
 
 public:
 
-	UBTTask_WaitAnyEnemy();
+	UBTTask_WaitOverlapEnemy();
 
 	EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 
