@@ -3,6 +3,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "DrawDebugHelpers.h"
+#include "AI/DefenderState.h"
 
 USoldierDeathTracker::USoldierDeathTracker()
 {
@@ -133,7 +134,7 @@ void AMeleeTower::Rally(FVector NewRallyPoint)
 			FVector Home = CalculateHomeLocation(Index);
 			DrawDebugSphere(GetWorld(), Home, 10.f, 8, FColor::Orange, true);
 			AIController->GetBlackboardComponent()->SetValueAsVector(TEXT("Home"), CalculateHomeLocation(Index));
-			AIController->GetBlackboardComponent()->SetValueAsBool(TEXT("bRallying"), true);
+			AIController->GetBlackboardComponent()->SetValueAsEnum(TEXT("State"), (uint8)EDefenderState::Rally);
 		}
 	}
 }

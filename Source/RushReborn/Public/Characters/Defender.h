@@ -24,6 +24,7 @@ public:
 
 	void Engage(IEngageeInterface* Engagee) override;
 	void Disengage() override;
+	IEngageeInterface* GetEngagee() const override;
 	
 	bool IsAlive() const override;
 	void Attack(AActor* Target) override;

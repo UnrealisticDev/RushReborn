@@ -20,6 +20,7 @@ public:
 
 	virtual void Engage(IEngageeInterface* Engagee) = 0;
 	virtual void Disengage() = 0;
+	virtual IEngageeInterface* GetEngagee() const = 0;
 };
 
 UINTERFACE(Meta=(CannotImplementInterfaceInBlueprints))
@@ -37,4 +38,5 @@ public:
 	virtual void EngagedBy(IEngagorInterface* Engagor) = 0;
 	virtual void DisengagedBy(IEngagorInterface* Engagor) = 0;
 	virtual bool IsEngaged() const = 0;
+	virtual int32 GetEngagementCount() const = 0;
 };

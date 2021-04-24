@@ -76,6 +76,11 @@ bool AInvader::IsEngaged() const
 	return Engagors.Num() > 0;
 }
 
+int32 AInvader::GetEngagementCount() const
+{
+	return Engagors.Num();
+}
+
 bool AInvader::IsAlive() const
 {
 	return Stats->CurrentHealth > 0.f;

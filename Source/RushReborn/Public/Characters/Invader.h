@@ -26,6 +26,7 @@ public:
 	void EngagedBy(IEngagorInterface* Engagor) override;
 	void DisengagedBy(IEngagorInterface* Engagor) override;
 	bool IsEngaged() const override;
+	int32 GetEngagementCount() const override;
 	
 	bool IsAlive() const override;
 	void Attack(AActor* Target) override;

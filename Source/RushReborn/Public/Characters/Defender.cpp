@@ -51,6 +51,11 @@ void ADefender::Disengage()
 	Engaged = nullptr;
 }
 
+IEngageeInterface* ADefender::GetEngagee() const
+{
+	return (IEngageeInterface*)Engaged.GetInterface();
+}
+
 bool ADefender::IsAlive() const
 {
 	return Stats->CurrentHealth > 0.f;
