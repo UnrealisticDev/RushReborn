@@ -1,6 +1,7 @@
 #include "RainOfFireAbility.h"
 #include "Meteor.h"
 #include "UObject/Object.h"
+#include "UObject/ConstructorHelpers.h"
 #include "Engine/World.h"
 #include "TimerManager.h"
 #include "Kismet/GameplayStatics.h"
