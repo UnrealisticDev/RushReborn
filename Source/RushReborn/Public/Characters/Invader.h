@@ -52,6 +52,8 @@ public:
 	float GetRemainingDistanceAlongSpline() override;
 	//~ End ISplineFollowInterface
 
+	void Destroyed() override;
+
 protected:
 
 	/** Healthbar widget. */
@@ -61,6 +63,10 @@ protected:
 	/** Stats component. */
 	UPROPERTY(VisibleAnywhere)
 	UStatsComponent* Stats;
+
+	/** Gold earned on death (even when invader reaches home base). */
+	UPROPERTY(EditInstanceOnly, Category = Death)
+	int32 Bounty;
 
 private:
 

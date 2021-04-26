@@ -7,6 +7,7 @@
 #include "Combat/StatsWidget.h"
 #include "Combat/Teams.h"
 #include "Components/WidgetComponent.h"
+#include "Framework/TowerDefenseEssentialsInterface.h"
 #include "Math/UnrealMathUtility.h"
 
 AInvader::AInvader(const FObjectInitializer& ObjectInitializer)
@@ -19,6 +20,8 @@ AInvader::AInvader(const FObjectInitializer& ObjectInitializer)
 	Healthbar->SetDrawSize(FVector2D(100, 10));
 	Healthbar->SetWidgetSpace(EWidgetSpace::Screen);
 	Healthbar->SetupAttachment(GetRootComponent());
+
+	Bounty = -1;
 
 	IsEngagedKeyName = TEXT("bIsEngaged");
 	TargetKeyName = TEXT("Target");
@@ -119,4 +122,14 @@ void AInvader::StopSplineMovement()
 float AInvader::GetRemainingDistanceAlongSpline()
 {
 	return Cast<ISplineFollowInterface>(GetMovementComponent())->GetRemainingDistanceAlongSpline();
+}
+
+void AInvader::Destroyed()
+{
+	check(GetWorld());
+	check(Cast<ITowerDefenseEssentialsInterface>(GetWorld()->GetAuthGameMode()));
+	
+	Cast<ITowerDefenseEssentialsInterface>(GetWorld()->GetAuthGameMode())->AddGold(Bounty);
+	
+	Super::Destroyed();
 }
