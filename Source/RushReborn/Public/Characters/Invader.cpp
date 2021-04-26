@@ -9,6 +9,7 @@
 #include "Components/WidgetComponent.h"
 #include "Framework/TowerDefenseEssentialsInterface.h"
 #include "Math/UnrealMathUtility.h"
+#include "GameFramework/GameModeBase.h"
 
 AInvader::AInvader(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer.SetDefaultSubobjectClass<USplineMovementComponent>(CharacterMovementComponentName))
@@ -126,7 +127,10 @@ float AInvader::GetRemainingDistanceAlongSpline()
 
 void AInvader::Destroyed()
 {
-	Cast<ITowerDefenseEssentialsInterface>(GetWorld()->GetAuthGameMode())->AddGold(Bounty);
+	if (ITowerDefenseEssentialsInterface* EssentialsGameMode = Cast<ITowerDefenseEssentialsInterface>(GetWorld()->GetAuthGameMode()))
+	{
+		EssentialsGameMode->AddGold(Bounty);	
+	}
 	
 	Super::Destroyed();
 }
