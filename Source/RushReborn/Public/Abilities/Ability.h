@@ -16,7 +16,6 @@ public:
 };
 
 class UTexture2D;
-class UWorld;
 
 UCLASS(Abstract)
 class UAbility : public UObject
