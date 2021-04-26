@@ -6,10 +6,13 @@
 #include "RushGameMode.generated.h"
 
 class UTsunamiEngine;
-class UTsunamiSequence;
 
 /**
- * 
+ * The RushGameMode is the primary gameplay
+ * orchestrator for this demo. It is the host for
+ * all essential global stats (e.g. health, gold)
+ * and it is responsible for coordinating and tracking
+ * spawning.
  */
 UCLASS(Config=Game)
 class RUSHREBORN_API ARushGameMode : public AGameModeBase, public ITowerDefenseEssentialsInterface
@@ -21,38 +24,47 @@ public:
 	ARushGameMode();
 	void BeginPlay() override;
 
+	//~ Begin ITowerDefenseEssentialsInterface
 	EGamePhase GetGamePhase() const override;
 	int32 GetHealth() override;
 	void SubtractHealth(int32 Amount) override;
 	int32 GetGoldCount() override;
 	void AddGold(int32 Count) override;
-	virtual int32 GetCurrentWave() override;
-	virtual int32 GetTotalWaves() override;
-	virtual bool IsNextWaveQueued() override;
-	virtual ETsunamiWaveStartMethod GetNextWaveStartMethod() override;
-	virtual float GetNextWaveStartTimeElapsedPercent() override;
-	virtual void StartNextWave() override;
+	int32 GetCurrentWave() override;
+	int32 GetTotalWaves() override;
+	bool IsNextWaveQueued() override;
+	ETsunamiWaveStartMethod GetNextWaveStartMethod() override;
+	float GetNextWaveStartTimeElapsedPercent() override;
+	void StartNextWave() override;
+	//~ End ITowerDefenseEssentialsInterface
 
+	/** Called when the game is won. */
 	UFUNCTION()
 	void Win();
 
+	/** Called when the game is lost. */
 	UFUNCTION()
 	void Lose();
 	
 private:
 
+	/** The current phase of the game. */
 	UPROPERTY()
 	EGamePhase Phase;
 
+	/** Global health count. */
 	UPROPERTY()
 	int32 Health;
-	
+
+	/** Global gold count. */
 	UPROPERTY()
 	int32 Gold;
 
+	/** Spawning engine. */
 	UPROPERTY()
 	UTsunamiEngine* WaveEngine;
 
+	/** Spawn sequence to play. */
 	UPROPERTY(Config)
 	FSoftObjectPath SpawnSequence;
 };
