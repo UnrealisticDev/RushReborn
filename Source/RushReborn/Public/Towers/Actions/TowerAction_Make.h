@@ -6,6 +6,10 @@
 
 class ATower;
 
+/**
+ * Makes a new tower on the source
+ * tower berth for the specified cost.
+ */
 UCLASS(Meta=(DisplayName="Make"))
 class UTowerAction_Make : public UTowerAction
 {
@@ -20,6 +24,7 @@ public:
 
 protected:
 
+	/** The tower to make. */
 	UPROPERTY(EditAnywhere, Category = Make)
 	TSubclassOf<ATower> TowerClass;
 };
