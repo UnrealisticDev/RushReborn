@@ -4,7 +4,7 @@
 #include "Ability.h"
 #include "RainOfFireAbility.generated.h"
 
-UCLASS(Config=Game)
+UCLASS()
 class URainOfFireAbility : public UAbility
 {
 	GENERATED_BODY()
