@@ -28,15 +28,15 @@ void URainOfFireAbility::Activate(const FAbilityPayload& Payload)
 	TargetLocation = Payload.Location;
 	ProjectilesSpawned = 0;
 
-	bool bShouldLoop = true;
-	float bInitialDelay = 0.001f;
+	const bool bShouldLoop = true;
+	const float InitialDelay = 0.0f;
 	GetWorld()->GetTimerManager().SetTimer
 	(
 		ProjectileSpawnTimer,
 		this, &URainOfFireAbility::SpawnProjectile,
 		ProjectileSpawnInterval,
 		bShouldLoop,
-		bInitialDelay
+		InitialDelay
 	);
 }
 
@@ -47,8 +47,8 @@ void URainOfFireAbility::SpawnProjectile()
 	FTransform SpawnTransform;
 	{
 		FVector SpawnOffset;
-		float RandAngle = FMath::RandRange(0.f, 360.f);
-		float RandRadius = FMath::RandRange(0.f, ProjectileSpawnRadius);
+		const float RandAngle = FMath::RandRange(0.f, 360.f);
+		const float RandRadius = FMath::RandRange(0.f, ProjectileSpawnRadius);
 		SpawnOffset.X = UKismetMathLibrary::DegSin(RandAngle) * RandRadius;
 		SpawnOffset.Y = UKismetMathLibrary::DegCos(RandAngle) * RandRadius;
 		SpawnOffset.Z = ProjectileSpawnHeight;
