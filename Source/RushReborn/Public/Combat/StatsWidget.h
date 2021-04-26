@@ -6,6 +6,14 @@
 
 class UStatsComponent;
 
+/**
+ * A Stats widget is a barebones
+ * base class to be used by widgets that
+ * want to showcase information from a
+ * source Stats component.
+ *
+ * The source component has to be set manually.
+ */
 UCLASS(Blueprintable)
 class UStatsWidget : public UUserWidget
 {

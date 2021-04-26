@@ -30,7 +30,7 @@ void ADefender::BeginPlay()
 
 uint8 ADefender::GetTeamId()
 {
-	return (uint8)ETeams::Player;
+	return (uint8)ETeams::Defender;
 }
 
 void ADefender::Engage(IEngageeInterface* Engagee)

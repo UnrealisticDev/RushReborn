@@ -6,6 +6,10 @@
 
 class AActor;
 
+/**
+ * Exposes functionality for attacking a target
+ * and checking the liveliness of the owner.
+ */
 UINTERFACE(meta = (CannotImplementInterfaceInBlueprints))
 class UCombatantInterface : public UInterface
 {
@@ -18,10 +22,9 @@ class ICombatantInterface
 
 public:
 
-	DECLARE_DELEGATE(FAttackFinished);
-	
+	/** Returns true if the owner is alive. */
 	virtual bool IsAlive() const { return true; }
 
+	/** Attack the specified target. */
 	virtual void Attack(AActor* Target) {}
-	virtual void Attack(AActor* Target, FAttackFinished OnAttackFinished) {};
 };

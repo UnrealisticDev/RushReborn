@@ -6,6 +6,7 @@
 
 class AActor;
 
+/** Provides utilities for dealing with team agents. */
 UCLASS()
 class UTeamUtilities : public UBlueprintFunctionLibrary
 {
@@ -13,9 +14,17 @@ class UTeamUtilities : public UBlueprintFunctionLibrary
 
 public:
 
+	/**
+	 * Returns true if both actors are on the same team.
+	 * False otherwise, including if either actor does not implement ITeamAgentInterface.
+	 */
 	UFUNCTION(BlueprintCallable)
 	static bool AreAllies(AActor* A, AActor* B);
 
+	/**
+	 * Returns true if both actors are not on the same team.
+	 * False otherwise, including if either actor does not implement ITeamAgentInterface.
+	 */
 	UFUNCTION(BlueprintCallable)
 	static bool AreEnemies(AActor* A, AActor* B);
 };

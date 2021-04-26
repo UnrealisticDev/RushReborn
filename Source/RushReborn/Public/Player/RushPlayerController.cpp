@@ -80,7 +80,7 @@ void ARushPlayerController::OnPressReleased()
 
 uint8 ARushPlayerController::GetTeamId()
 {
-	return (uint8)ETeams::Player;
+	return (uint8)ETeams::Defender;
 }
 
 void ARushPlayerController::Select(ISelectableInterface* Selectable)
