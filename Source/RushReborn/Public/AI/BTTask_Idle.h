@@ -4,6 +4,7 @@
 #include "BehaviorTree/BTTaskNode.h"
 #include "BTTask_Idle.generated.h"
 
+/** Do nothing. */
 UCLASS()
 class UBTTask_Idle : public UBTTaskNode
 {
