@@ -38,15 +38,15 @@ void UBTService_SearchForEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint
 
 	if (Hits.Num() > 0)
 	{
-		FHitResult* Hit = Hits.FindByPredicate([](const FHitResult& Hit)
+		FHitResult* UnengagedHit = Hits.FindByPredicate([](const FHitResult& Hit)
 		{
 			IEngageeInterface* Engagee = Cast<IEngageeInterface>(Hit.GetActor());
 			return Engagee && !Engagee->IsEngaged();
 		});
 
-		if (Hit)
+		if (UnengagedHit)
 		{
-			OwnerComp.GetBlackboardComponent()->SetValueAsObject(FoundEnemy.SelectedKeyName, Hit->GetActor());	
+			OwnerComp.GetBlackboardComponent()->SetValueAsObject(FoundEnemy.SelectedKeyName, UnengagedHit->GetActor());	
 		}
 
 		else
