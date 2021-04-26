@@ -7,6 +7,12 @@ class ISelectorInterface;
 class ATowerBerth;
 class ATower;
 
+/**
+ * Generic context for tower actions.
+ * This provides relevant state while
+ * allowing actions to be generally
+ * source-agnostic.
+ */
 USTRUCT(BlueprintType)
 struct FTowerActionContext
 {

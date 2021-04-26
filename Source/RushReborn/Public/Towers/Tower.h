@@ -7,6 +7,11 @@
 
 class UTowerAction;
 
+/**
+ * The base Tower class simply provides
+ * team functionality and a list of
+ * tower actions.
+ */
 UCLASS()
 class ATower : public APawn, public ITeamAgentInterface
 {
@@ -14,8 +19,11 @@ class ATower : public APawn, public ITeamAgentInterface
 
 public:
 
+	//~ Begin ITeamAgentInterface
 	uint8 GetTeamId() override;
+	//~ End ITeamAgentInterface
 
+	/** The actions corresponding to this tower. */
 	UPROPERTY(EditAnywhere, Instanced, Category = Actions)
 	TArray<UTowerAction*> Actions;
 };

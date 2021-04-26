@@ -101,21 +101,6 @@ void AMeleeTower::OnSoldierDied(int32 Index)
 	GetWorld()->GetTimerManager().SetTimer(ThrowawayHandle, RespawnDelegate, 10.f, false);
 }
 
-void AMeleeTower::Destroyed()
-{
-	bManualDestroy = true;
-
-	for (const TWeakObjectPtr<APawn>& Soldier : Soldiers)
-	{
-		if (Soldier.IsValid())
-		{
-			Soldier->Destroy();
-		}
-	}
-
-	Super::Destroyed();
-}
-
 bool AMeleeTower::CanRally(FVector NewRallyPoint) const
 {
 	return FVector::Dist(GetActorLocation(), NewRallyPoint) <= InfluenceRadius;
@@ -137,4 +122,19 @@ void AMeleeTower::Rally(FVector NewRallyPoint)
 			AIController->GetBlackboardComponent()->SetValueAsEnum(TEXT("State"), (uint8)EDefenderState::Rally);
 		}
 	}
+}
+
+void AMeleeTower::Destroyed()
+{
+	bManualDestroy = true;
+
+	for (const TWeakObjectPtr<APawn>& Soldier : Soldiers)
+	{
+		if (Soldier.IsValid())
+		{
+			Soldier->Destroy();
+		}
+	}
+
+	Super::Destroyed();
 }
