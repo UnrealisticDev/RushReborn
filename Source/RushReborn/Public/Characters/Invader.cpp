@@ -90,7 +90,7 @@ void AInvader::Attack(AActor* Target)
 {
 	check(Target);
 
-	float DamageAmount = FMath::RandRange(Stats->AttackDamage.GetLowerBoundValue(), Stats->AttackDamage.GetUpperBoundValue());
+	const float DamageAmount = FMath::RandRange(Stats->AttackDamage.GetLowerBoundValue(), Stats->AttackDamage.GetUpperBoundValue());
 	FDamageEvent DamageEvent;
 	DamageEvent.DamageTypeClass = UPhysicalDamage::StaticClass();
 	Target->TakeDamage(DamageAmount, DamageEvent, GetController(), this);
