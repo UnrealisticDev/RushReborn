@@ -4,6 +4,11 @@
 #include "Engine/TriggerBox.h"
 #include "HomeBase.generated.h"
 
+/**
+ * The HomeBase is a minimal trigger box that
+ * reduces global health whenever another actor
+ * overlaps it. It destroys the overlapping actor.
+ */
 UCLASS()
 class AHomeBase : public ATriggerBox
 {
