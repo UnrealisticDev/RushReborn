@@ -12,7 +12,7 @@ EBTNodeResult::Type UBTTask_MoveAlongSpline::ExecuteTask(UBehaviorTreeComponent&
 
 EBTNodeResult::Type UBTTask_MoveAlongSpline::AbortTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
-	if (OwnerComp.GetAIOwner() && OwnerComp.GetAIOwner()->GetPawn())
+	if (OwnerComp.GetAIOwner() && OwnerComp.GetAIOwner()->GetPawn()) // need to validate here, could be aborted when owner destroyed 
 	{
 		Cast<ISplineFollowInterface>(OwnerComp.GetAIOwner()->GetPawn())->StopSplineMovement();
 	}

@@ -4,6 +4,11 @@
 #include "BehaviorTree/BTTaskNode.h"
 #include "BTTask_MoveAlongSpline.generated.h"
 
+/**
+ * Moves the owning actor along a spline.
+ * Depends on the owning actor implementing
+ * the ISplineFollowInterface.
+ */
 UCLASS()
 class UBTTask_MoveAlongSpline : public UBTTaskNode
 {
