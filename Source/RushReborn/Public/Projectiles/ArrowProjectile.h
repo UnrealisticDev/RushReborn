@@ -6,6 +6,7 @@
 
 class UCurveFloat;
 
+/** Projectile used by archer tower. */
 UCLASS()
 class AArrowProjectile : public AProjectile
 {
@@ -18,12 +19,15 @@ public:
 	void Move(float DeltaSeconds) override;
 	void Impact() override;
 
-	FVector CalculateArcVertex() const;
+private:
 	
+	/** Calculates arc vertex. */
+	FVector CalculateArcVertex() const;
+
+	/** Apply damage to target. */
 	void ApplyDamageToTarget();
 
-private:
-
+	/** Current movement lerp alpha. */
 	UPROPERTY()
 	float MoveAlpha;
 };

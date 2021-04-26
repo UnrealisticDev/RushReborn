@@ -18,15 +18,19 @@ public:
 	void Move(float DeltaSeconds) override;
 	void Impact() override;
 
-	FVector CalculateArcVertex() const;
+private:
 	
+	/** Calculates arc vertex. */
+	FVector CalculateArcVertex() const;
+
+	/** Apply damage to enemies in area. */
 	void ApplyDamageInArea();
 
-private:
-
+	/** Current movement lerp alpha. */
 	UPROPERTY()
 	float MoveAlpha;
 
+	/** Area of effect to damage enemies in. */
 	UPROPERTY(EditAnywhere, Category = Impact)
 	float AreaOfEffect;
 };

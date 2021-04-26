@@ -17,6 +17,9 @@ public:
 	
 	void Move(float DeltaSeconds);
 	void Impact() override;
-	
+
+private:
+
+	/** Apply damage to target. */
 	void ApplyDamageToTarget();
 };
