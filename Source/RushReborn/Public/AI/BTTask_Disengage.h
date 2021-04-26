@@ -4,6 +4,13 @@
 #include "BehaviorTree/BTTaskNode.h"
 #include "BTTask_Disengage.generated.h"
 
+/**
+ * The owner actor will disengage any
+ * currently engaged target.
+ *
+ * The owner actor must implement the
+ * IEngagorInterface.
+ */
 UCLASS()
 class UBTTask_Disengage : public UBTTaskNode
 {
