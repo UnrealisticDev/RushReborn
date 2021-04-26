@@ -33,11 +33,13 @@ void UBTService_WatchForUnengagedEnemy::TickNode(UBehaviorTreeComponent& OwnerCo
 			Params
 		);
 
+		// Discard non-enemy hits
 		Hits.RemoveAll([&OwnerPawn](const FHitResult& Hit)
 		{
 			return !UTeamUtilities::AreEnemies(OwnerPawn, Hit.GetActor());
 		});
 
+		// Sort by proximity to owner
 		Hits.Sort([&OwnerLocation](const FHitResult& A, const FHitResult& B)
 		{
 			return FVector::Dist(A.GetActor()->GetActorLocation(), OwnerLocation) < FVector::Dist(
@@ -46,16 +48,17 @@ void UBTService_WatchForUnengagedEnemy::TickNode(UBehaviorTreeComponent& OwnerCo
 
 		if (Hits.Num() > 0)
 		{
-			FHitResult* Hit = Hits.FindByPredicate([](const FHitResult& Hit)
+			// Try to find unengaged hit
+			FHitResult* UnengagedHit = Hits.FindByPredicate([](const FHitResult& Hit)
 			{
 				IEngageeInterface* Engagee = Cast<IEngageeInterface>(Hit.GetActor());
 				return Engagee && !Engagee->IsEngaged();
 			});
 
-			if (Hit)
+			if (UnengagedHit)
 			{
 				EngagorPawn->Disengage();
-				OwnerComp.GetBlackboardComponent()->SetValueAsObject(UnengagedEnemy.SelectedKeyName, Hit->GetActor());
+				OwnerComp.GetBlackboardComponent()->SetValueAsObject(UnengagedEnemy.SelectedKeyName, UnengagedHit->GetActor());
 				OwnerComp.GetBlackboardComponent()->SetValueAsEnum(State.SelectedKeyName, (uint8)EDefenderState::Engaged);
 			}
 		}
