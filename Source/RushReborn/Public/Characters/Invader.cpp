@@ -126,9 +126,6 @@ float AInvader::GetRemainingDistanceAlongSpline()
 
 void AInvader::Destroyed()
 {
-	check(GetWorld());
-	check(Cast<ITowerDefenseEssentialsInterface>(GetWorld()->GetAuthGameMode()));
-	
 	Cast<ITowerDefenseEssentialsInterface>(GetWorld()->GetAuthGameMode())->AddGold(Bounty);
 	
 	Super::Destroyed();
