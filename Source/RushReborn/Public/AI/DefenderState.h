@@ -4,6 +4,7 @@
 #include "BehaviorTree/BTTaskNode.h"
 #include "DefenderState.generated.h"
 
+/** The AI state of a defender. */
 UENUM(BlueprintType)
 enum class EDefenderState : uint8
 {
@@ -13,6 +14,7 @@ enum class EDefenderState : uint8
 	Attacking
 };
 
+/** Set the defender AI state to the specified one. */
 UCLASS()
 class UBTTask_SetDefenderState : public UBTTaskNode
 {
@@ -26,9 +28,11 @@ public:
 
 protected:
 
+	/** The state key to update. */
 	UPROPERTY(EditAnywhere, Category = State)
 	FBlackboardKeySelector State;
 
+	/** The new state. */
 	UPROPERTY(EditAnywhere, Category = State)
 	EDefenderState NewState;
 };
