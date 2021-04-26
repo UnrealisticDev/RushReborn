@@ -26,11 +26,13 @@ void UBTService_SearchForEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint
 		FCollisionShape::MakeSphere(SearchRadius)
 	);
 
+	// Discard non-enemy hits
 	Hits.RemoveAll([&OwnerPawn](const FHitResult& Hit)
 	{
 		return !UTeamUtilities::AreEnemies(OwnerPawn, Hit.GetActor());
 	});
 
+	// Sort by proximity to owner
 	Hits.Sort([&OwnerLocation](const FHitResult& A, const FHitResult& B)
 	{
 		return FVector::Dist(A.GetActor()->GetActorLocation(), OwnerLocation) < FVector::Dist(B.GetActor()->GetActorLocation(), OwnerLocation);
@@ -38,6 +40,7 @@ void UBTService_SearchForEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint
 
 	if (Hits.Num() > 0)
 	{
+		// Try to find unengaged hit
 		FHitResult* UnengagedHit = Hits.FindByPredicate([](const FHitResult& Hit)
 		{
 			IEngageeInterface* Engagee = Cast<IEngageeInterface>(Hit.GetActor());
