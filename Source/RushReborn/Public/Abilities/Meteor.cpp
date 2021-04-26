@@ -1,4 +1,5 @@
 ﻿#include "Meteor.h"
+#include "UObject/ConstructorHelpers.h"
 #include "Combat/DamageTypes.h"
 #include "Combat/TeamUtilities.h"
 #include "Components/SphereComponent.h"
