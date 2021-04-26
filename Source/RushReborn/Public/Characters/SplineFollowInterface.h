@@ -6,6 +6,10 @@
 
 class USplineComponent;
 
+/**
+ * Exposes functionality related to
+ * moving along a spline.
+ */
 UINTERFACE()
 class USplineFollowInterface: public UInterface
 {
@@ -18,8 +22,15 @@ class ISplineFollowInterface
 
 public:
 
+	/** Set the spline to follow. Does not start spline movement. */
 	virtual void SetSplineToFollow(USplineComponent* Spline) {}
+
+	/** Start following the spline. */
 	virtual void StartSplineMovement() {}
+
+	/** Stop following the spline. */
 	virtual void StopSplineMovement() {}
+
+	/** Get the distance left to travel on the spline. */
 	virtual float GetRemainingDistanceAlongSpline() { return -1.f; }
 };
