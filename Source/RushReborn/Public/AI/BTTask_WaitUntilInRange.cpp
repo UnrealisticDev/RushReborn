@@ -4,6 +4,7 @@
 UBTTask_WaitUntilInRange::UBTTask_WaitUntilInRange()
 {
 	Range = 50.f;
+	bNotifyTick = true;
 }
 
 EBTNodeResult::Type UBTTask_WaitUntilInRange::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
