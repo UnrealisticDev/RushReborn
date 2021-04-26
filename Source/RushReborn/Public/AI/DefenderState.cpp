@@ -3,7 +3,7 @@
 
 UBTTask_SetDefenderState::UBTTask_SetDefenderState()
 {
-	NodeName = "Set Militia State";
+	NodeName = "Set Defender State";
 }
 
 EBTNodeResult::Type UBTTask_SetDefenderState::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
