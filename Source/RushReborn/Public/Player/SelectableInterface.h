@@ -6,6 +6,11 @@
 
 class ISelectorInterface;
 
+/**
+ * Exposes common functionality for anything
+ * that can be selected by anything else.
+ * Pairs with ISelectorInterface.
+ */
 UINTERFACE()
 class USelectableInterface : public UInterface
 {
@@ -18,6 +23,9 @@ class ISelectableInterface
 
 public:
 
+	/** Acknowledge selection by selector. */
 	virtual void OnSelected(ISelectorInterface* Selector) {}
+
+	/** Acknowledge unselection by selector. */
 	virtual void OnUnselected(ISelectorInterface* Selector) {}
 };

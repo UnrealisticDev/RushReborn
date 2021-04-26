@@ -1,15 +1,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Combat/TeamInterface.h"
 #include "GameFramework/SpectatorPawn.h"
 #include "RushSpectatorPawn.generated.h"
 
 class USpringArmComponent;
 class UCameraComponent;
 
+/**
+ * A barebones pawn that serves as the
+ * camera target for the player.
+ */
 UCLASS()
-class ARushSpectatorPawn : public ASpectatorPawn, public ITeamAgentInterface
+class ARushSpectatorPawn : public ASpectatorPawn
 {
 	GENERATED_BODY()
 
@@ -17,13 +20,13 @@ public:
 
 	ARushSpectatorPawn();
 
-	uint8 GetTeamId() override;
-
 private:
 
+	/** The spring arm that holds the camera. */
 	UPROPERTY()
 	USpringArmComponent* SpringArmComponent;
 
+	/** The main game camera. */
 	UPROPERTY()
 	UCameraComponent* CameraComponent;
 };

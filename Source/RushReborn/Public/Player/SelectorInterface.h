@@ -6,6 +6,11 @@
 
 class ISelectableInterface;
 
+/**
+ * Exposes common functionality for anything
+ * that wants to select anything else.
+ * Pairs with ISelectableInterface.
+ */
 UINTERFACE()
 class USelectorInterface : public UInterface
 {
@@ -18,7 +23,12 @@ class ISelectorInterface
 
 public:
 
+	/** Select the specified selectable. */
 	virtual void Select(ISelectableInterface* Selectable) {}
+
+	/** Unselect the specified selectable. */
 	virtual void Unselect(ISelectableInterface* Selectable) {}
+
+	/** Get the current selection, if any. */
 	virtual ISelectableInterface* GetCurrentSelection() { return nullptr; }
 };
