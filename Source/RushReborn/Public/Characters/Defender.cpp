@@ -5,6 +5,8 @@
 #include "Combat/Teams.h"
 #include "Components/WidgetComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Engine/World.h"
+#include "TimerManager.h"
 
 ADefender::ADefender()
 {
@@ -67,6 +69,24 @@ void ADefender::Attack(AActor* Target)
 	FDamageEvent DamageEvent;
 	DamageEvent.DamageTypeClass = UPhysicalDamage::StaticClass();
 	Target->TakeDamage(AttackDamage, DamageEvent, GetController(), this);
+}
+
+float ADefender::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator,
+	AActor* DamageCauser)
+{
+	GetWorld()->GetTimerManager().SetTimer(RegenTimer, this, &ADefender::RegenHealth, 1.f, true, 2.f);
+
+	return Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
+}
+
+void ADefender::RegenHealth()
+{
+	Stats->CurrentHealth = FMath::Clamp(Stats->CurrentHealth + 10, 0.f, Stats->MaxHealth);
+
+	if (Stats->CurrentHealth == Stats->MaxHealth)
+	{
+		GetWorld()->GetTimerManager().ClearTimer(RegenTimer);
+	}
 }
 
 void ADefender::OnHealthDepleted()

@@ -41,6 +41,12 @@ public:
 	void Attack(AActor* Target) override;
 	//~ Begin ICombatantInterface
 
+	float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator,
+		AActor* DamageCauser) override;
+	
+	/** Regenerate health percent. */
+	void RegenHealth();
+	
 	UFUNCTION()
 	void OnHealthDepleted();
 
@@ -61,4 +67,8 @@ private:
 	/** Currently engaged actor. */
 	UPROPERTY()
 	TScriptInterface<IEngageeInterface> Engaged;
+
+	/** Timer to regenerate health. */
+	UPROPERTY()
+	FTimerHandle RegenTimer;
 };
