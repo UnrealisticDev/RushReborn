@@ -14,5 +14,5 @@ EBTNodeResult::Type UBTTask_SetDefenderState::ExecuteTask(UBehaviorTreeComponent
 
 FString UBTTask_SetDefenderState::GetStaticDescription() const
 {
-	return FString::Printf(TEXT("Set state to %hhd."), NewState);
+	return FString::Printf(TEXT("Set state to %s."), *StaticEnum<EDefenderState>()->GetValueAsString(NewState));
 }
