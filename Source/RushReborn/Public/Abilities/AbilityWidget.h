@@ -6,6 +6,16 @@
 
 class UAbility;
 
+/**
+ * An AbilityWidget represents a player's
+ * global ability such as Rain of Fire or Reinforcements.
+ * It caches the target ability on construct and
+ * provides blueprint-callable utilities for
+ * selecting and unselecting the ability.
+ *
+ * This widget depends on the owning player
+ * being a RushPlayerController.
+ */
 UCLASS(Blueprintable)
 class UAbilityWidget : public UUserWidget
 {
@@ -13,7 +23,7 @@ class UAbilityWidget : public UUserWidget
 
 public:
 
-	void NativeConstruct();
+	void NativeConstruct() override;
 
 	UFUNCTION(BlueprintPure)
 	bool CanBeSelected() const;
