@@ -8,7 +8,7 @@
  * Sells the source tower for the amount specified,
  * depending on which phase the game is currently in.
  */
-UCLASS(Meta=(DisplayName="Sell"))
+UCLASS(HideCategories=(Display, Cost), Meta=(DisplayName="Sell"))
 class UTowerAction_Sell : public UTowerAction
 {
 	GENERATED_BODY()

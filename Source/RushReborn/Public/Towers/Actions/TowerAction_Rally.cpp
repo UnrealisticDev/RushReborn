@@ -7,6 +7,9 @@
 UTowerAction_Rally::UTowerAction_Rally()
 {
 	bRequiresConfirm = false;
+	Name = NSLOCTEXT("Tower Action Rally", "Rally Name", "Rally");
+	Icon = ConstructorHelpers::FObjectFinder<UTexture2D>(TEXT("Texture2D'/Game/Marketplace/PiP_Survival/Textures/Survival/64x64/T_Location_64x64.T_Location_64x64'")).Object;
+	MenuAngle = 315.f;
 }
 
 void UTowerAction_Rally::Execute(const FTowerActionContext& Context)

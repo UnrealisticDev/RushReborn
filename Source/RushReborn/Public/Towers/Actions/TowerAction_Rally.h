@@ -8,7 +8,7 @@
  * Initiates targeting for rallying
  * on towers that support rallying.
  */
-UCLASS(Meta = (DisplayName = "Rally"))
+UCLASS(HideCategories=(Display, Cost), Meta=(DisplayName = "Rally"))
 class UTowerAction_Rally : public UTowerAction
 {
 	GENERATED_BODY()
