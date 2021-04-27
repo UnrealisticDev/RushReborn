@@ -6,7 +6,7 @@ UReinforcementsAbility::UReinforcementsAbility()
 {
 	Title = NSLOCTEXT("Reinforcements", "Reinforcements Title", "Call Reinforcements");
 	Description = NSLOCTEXT("Reinforcements", "Reinforcements Description", "To block and fight enemies.");
-	Icon = ConstructorHelpers::FObjectFinder<UTexture2D>(TEXT("Texture2D'/Game/RushReborn/Art/UI/T_Swords.T_Swords'")).Object;
+	Icon = ConstructorHelpers::FObjectFinder<UTexture2D>(TEXT("Texture2D'/Game/Marketplace/PiP_Survival/Textures/Survival/256x256/T_Axe_256x256.T_Axe_256x256'")).Object;
 	Cooldown = 10.f;
 }
 
