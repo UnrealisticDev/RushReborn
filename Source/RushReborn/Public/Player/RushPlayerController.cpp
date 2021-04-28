@@ -2,6 +2,7 @@
 #include "SelectableInterface.h"
 #include "Abilities/RainOfFireAbility.h"
 #include "Abilities/ReinforcementsAbility.h"
+#include "Blueprint/UserWidget.h"
 #include "Combat/Teams.h"
 #include "Towers/RallyCoordinatorInterface.h"
 #include "Towers/TowerBerth.h"
@@ -50,30 +51,32 @@ void ARushPlayerController::OnPressReleased()
 		FAbilityPayload Payload;
 		Payload.Location = HitUnderCursor.Location;
 
-		switch (SelectedAbility)
+		UAbility* RelevantAbility = SelectedAbility == EAbilitySelected::Reinforcements ? Reinforcements : RainOfFire;
+		if (RelevantAbility->CanActivate(Payload))
 		{
-		case EAbilitySelected::Reinforcements:
-			Reinforcements->Activate(Payload);
-			break;
-		case EAbilitySelected::RainofFire:
-			RainOfFire->Activate(Payload);
-			break;
-		default:
-			break;
+			RelevantAbility->Activate(Payload);
+			InputState = EInputState::Free;
 		}
 
-		InputState = EInputState::Free;
+		else
+		{
+			IndicateBadLocation(HitUnderCursor.Location);
+		}
 	}
 	
 	else if (InputState == EInputState::TargetingRally)
 	{
-		UE_LOG(LogTemp, Log, TEXT("Rallying"));
 		IRallyCoordinatorInterface* RallyingTower = Cast<IRallyCoordinatorInterface>(TowerActionContext.TowerBerth->GetTower());
 		if (RallyingTower && RallyingTower->CanRally(HitUnderCursor.Location))
 		{
 			RallyingTower->Rally(HitUnderCursor.Location);
 			Unselect(TowerActionContext.TowerBerth.Get());
 			InputState = EInputState::Free;
+		}
+
+		else
+		{
+			IndicateBadLocation(HitUnderCursor.Location);
 		}
 	}
 }
@@ -155,4 +158,23 @@ void ARushPlayerController::BeginTargetingRally(const FTowerActionContext& Rally
 	InputState = EInputState::TargetingRally;
 
 	TowerActionContext = RallyContext;
+}
+
+void ARushPlayerController::IndicateBadLocation(FVector Location)
+{
+	if (BadLocationWidgetClass.IsValid())
+	{
+		UUserWidget* BadLocationWidget = CreateWidget<UUserWidget>(this, BadLocationWidgetClass.TryLoadClass<UUserWidget>());
+		if (BadLocationWidget)
+		{
+			FVector2D ScreenLocation;
+			ProjectWorldLocationToScreen(Location, ScreenLocation);
+
+			FIntVector ViewportSize;
+			GetViewportSize(ViewportSize.X, ViewportSize.Y);
+
+			BadLocationWidget->AddToViewport();
+			BadLocationWidget->SetPositionInViewport(ScreenLocation);
+		}
+	}
 }

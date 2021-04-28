@@ -10,6 +10,20 @@ UReinforcementsAbility::UReinforcementsAbility()
 	Cooldown = 10.f;
 }
 
+bool UReinforcementsAbility::CanActivate(const FAbilityPayload& Payload)
+{
+	FHitResult HitTargetingZone;
+	GetWorld()->LineTraceSingleByChannel
+	(
+		HitTargetingZone, 
+		Payload.Location + FVector(0, 0, 100.f), 
+		Payload.Location + FVector(0, 0, -100.f),
+		ECollisionChannel::ECC_GameTraceChannel1 /* Targeting */
+	);
+
+	return HitTargetingZone.IsValidBlockingHit();
+}
+
 void UReinforcementsAbility::Activate(const FAbilityPayload& Payload)
 {
 	Super::Activate(Payload);

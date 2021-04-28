@@ -56,6 +56,8 @@ public:
 
 private:
 
+	void IndicateBadLocation(FVector Location);
+
 	/** The input states that this controller can be in. */
 	enum class EInputState : uint8
 	{
@@ -92,4 +94,7 @@ private:
 	/** Context for the current tower action. */
 	UPROPERTY()
 	FTowerActionContext TowerActionContext;
+
+	UPROPERTY(Config)
+	FSoftClassPath BadLocationWidgetClass;
 };

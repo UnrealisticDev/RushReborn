@@ -99,7 +99,20 @@ void AMeleeTower::OnSoldierDied(int32 Index)
 
 bool AMeleeTower::CanRally(FVector NewRallyPoint) const
 {
-	return FVector::Dist(GetActorLocation(), NewRallyPoint) <= InfluenceRadius;
+	const bool bWithinRange = FVector::Dist(GetActorLocation(), NewRallyPoint) <= InfluenceRadius;
+
+	FHitResult HitTargetingZone;
+	GetWorld()->LineTraceSingleByChannel
+	(
+		HitTargetingZone, 
+		NewRallyPoint + FVector(0, 0, 100.f), 
+		NewRallyPoint + FVector(0, 0, -100.f),
+		ECollisionChannel::ECC_GameTraceChannel1 /* Targeting */
+	);
+
+	const bool bInTargetingZone = HitTargetingZone.IsValidBlockingHit();
+
+	return bWithinRange && bInTargetingZone;
 }
 
 void AMeleeTower::Rally(FVector NewRallyPoint)

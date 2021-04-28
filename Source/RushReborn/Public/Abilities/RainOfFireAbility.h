@@ -18,6 +18,7 @@ public:
 
 	URainOfFireAbility();
 
+	bool CanActivate(const FAbilityPayload& Payload) override;
 	void Activate(const FAbilityPayload& Payload) override;
 
 private:
