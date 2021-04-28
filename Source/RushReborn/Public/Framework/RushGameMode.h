@@ -35,6 +35,7 @@ public:
 	bool IsNextWaveQueued() override;
 	ETsunamiWaveStartMethod GetNextWaveStartMethod() override;
 	float GetNextWaveStartTimeElapsedPercent() override;
+	TMap<TSubclassOf<AActor>, int32> GetNextWaveStats() override;
 	void StartNextWave() override;
 	//~ End ITowerDefenseEssentialsInterface
 

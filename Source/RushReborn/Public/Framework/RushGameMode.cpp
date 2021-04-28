@@ -5,6 +5,7 @@
 #include "Player/RushSpectatorPawn.h"
 #include "Engine/World.h"
 #include "TimerManager.h"
+#include "TsunamiBlueprintLibrary.h"
 
 ARushGameMode::ARushGameMode()
 	: Phase(EGamePhase::Setup)
@@ -94,6 +95,11 @@ float ARushGameMode::GetNextWaveStartTimeElapsedPercent()
 	}
 
 	return 0.f;
+}
+
+TMap<TSubclassOf<AActor>, int32> ARushGameMode::GetNextWaveStats()
+{
+	return UTsunamiBlueprintLibrary::GetWaveStats(WaveEngine->GetMountedSequence(), WaveEngine->GetSequenceState().GetQueuedWave());
 }
 
 void ARushGameMode::StartNextWave()

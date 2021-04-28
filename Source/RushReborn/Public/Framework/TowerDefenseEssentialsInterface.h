@@ -5,6 +5,8 @@
 #include "TsunamiTypes.h"
 #include "TowerDefenseEssentialsInterface.generated.h"
 
+class AActor;
+
 /** The phases of the game. */
 UENUM()
 enum class EGamePhase : uint8
@@ -74,6 +76,9 @@ public:
 	/** Get the percentage of time remaining until the next wave starts. */
 	UFUNCTION(BlueprintCallable, Category = "Tower Defense Essentials")
 	virtual float GetNextWaveStartTimeElapsedPercent() { return 0.5f; }
+
+	UFUNCTION(BlueprintCallable, Category = "Tower Defense Essentials")
+	virtual TMap<TSubclassOf<AActor>, int32> GetNextWaveStats() {return TMap<TSubclassOf<AActor>, int32>();}
 
 	/** Start the next wave manually. */
 	UFUNCTION(BlueprintCallable, Category = "Tower Defense Essentials")
