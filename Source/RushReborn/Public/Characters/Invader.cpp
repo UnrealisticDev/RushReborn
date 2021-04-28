@@ -20,7 +20,7 @@ AInvader::AInvader(const FObjectInitializer& ObjectInitializer)
 	Stats->HealthDepleted.AddDynamic(this, &AInvader::OnHealthDepleted);
 
 	Healthbar = CreateDefaultSubobject<UWidgetComponent>(TEXT("Healthbar"));
-	Healthbar->SetDrawSize(FVector2D(125, 5));
+	Healthbar->SetDrawSize(FVector2D(50, 5));
 	Healthbar->SetWidgetSpace(EWidgetSpace::Screen);
 	Healthbar->SetupAttachment(GetRootComponent());
 

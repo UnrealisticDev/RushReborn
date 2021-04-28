@@ -14,9 +14,11 @@ ADefender::ADefender()
 	Stats->HealthDepleted.AddDynamic(this, &ADefender::OnHealthDepleted);
 
 	Healthbar = CreateDefaultSubobject<UWidgetComponent>(TEXT("Healthbar"));
-	Healthbar->SetDrawSize(FVector2D(100, 10));
+	Healthbar->SetDrawSize(FVector2D(50, 5));
 	Healthbar->SetWidgetSpace(EWidgetSpace::Screen);
 	Healthbar->SetupAttachment(GetRootComponent());
+
+	AttackDelay = 0.5f;
 }
 
 void ADefender::BeginPlay()
@@ -65,10 +67,22 @@ bool ADefender::IsAlive() const
 
 void ADefender::Attack(AActor* Target)
 {
-	const float AttackDamage = FMath::RandRange(Stats->AttackDamage.GetLowerBoundValue(), Stats->AttackDamage.GetUpperBoundValue());
-	FDamageEvent DamageEvent;
-	DamageEvent.DamageTypeClass = UPhysicalDamage::StaticClass();
-	Target->TakeDamage(AttackDamage, DamageEvent, GetController(), this);
+	PlayAnimMontage(AttackMontages[FMath::RandRange(0, AttackMontages.Num() - 1)]);
+
+	FTimerHandle AttackTimer;
+	GetWorld()->GetTimerManager().SetTimer(AttackTimer, [this, Target]()
+	{
+		if (!this || !Target)
+		{
+			return;
+		}
+		
+		const float DamageAmount = FMath::RandRange(Stats->AttackDamage.GetLowerBoundValue(), Stats->AttackDamage.GetUpperBoundValue());
+		FDamageEvent DamageEvent;
+		DamageEvent.DamageTypeClass = UPhysicalDamage::StaticClass();
+		Target->TakeDamage(DamageAmount, DamageEvent, GetController(), this);
+	},
+		AttackDelay, false);
 }
 
 float ADefender::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator,

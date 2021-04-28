@@ -62,6 +62,14 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UStatsComponent* Stats;
 
+	/** Delay before attack damage occurs. */
+	UPROPERTY(EditDefaultsOnly, Category = Combat)
+	float AttackDelay;
+
+	/** Attack montages to be played at random. */
+	UPROPERTY(EditDefaultsOnly, Category = Combat)
+	TArray<UAnimMontage*> AttackMontages;
+
 private:
 
 	/** Currently engaged actor. */

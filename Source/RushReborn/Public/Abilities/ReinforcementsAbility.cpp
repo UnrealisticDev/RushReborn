@@ -2,7 +2,7 @@
 #include "UObject/ConstructorHelpers.h"
 
 UReinforcementsAbility::UReinforcementsAbility()
-	: SpawnOffset(50.f, -50.f, 0.f)
+	: SpawnOffset(150.f, -150.f, 0.f)
 {
 	Title = NSLOCTEXT("Reinforcements", "Reinforcements Title", "Call Reinforcements");
 	Description = NSLOCTEXT("Reinforcements", "Reinforcements Description", "To block and fight enemies.");
