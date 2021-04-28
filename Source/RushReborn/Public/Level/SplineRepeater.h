@@ -5,6 +5,7 @@
 #include "SplineRepeater.generated.h"
 
 class USplineComponent;
+class UStaticMesh;
 
 /**
  * The spline repeater is a utility actor
@@ -28,7 +29,7 @@ public:
 protected:
 
 	/** The root spline that others follow. */
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	USplineComponent* RootSpline;
 
 	/** Spline to the left of root. */
@@ -42,4 +43,7 @@ protected:
 	/** The distance to offset Left and Right from root. */
 	UPROPERTY(EditAnywhere, Category = Repeat)
 	float LateralOffset;
+
+	UPROPERTY(EditAnywhere, Category = Collision)
+	UStaticMesh* CollisionMesh;
 };
