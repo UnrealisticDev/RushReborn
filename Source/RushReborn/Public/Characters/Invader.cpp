@@ -1,5 +1,6 @@
 #include "Invader.h"
 #include "AIController.h"
+#include "BrainComponent.h"
 #include "SplineMovementComponent.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Combat/DamageTypes.h"
@@ -128,7 +129,11 @@ void AInvader::Attack(AActor* Target)
 
 void AInvader::OnHealthDepleted()
 {
-	Destroy();
+	if (!bDead)
+	{
+		bDead = true;
+		Die();
+	}
 }
 
 void AInvader::SetSplineToFollow(USplineComponent* Spline)
@@ -151,12 +156,25 @@ float AInvader::GetRemainingDistanceAlongSpline()
 	return Cast<ISplineFollowInterface>(GetMovementComponent())->GetRemainingDistanceAlongSpline();
 }
 
-void AInvader::Destroyed()
+void AInvader::Die()
 {
 	if (ITowerDefenseEssentialsInterface* EssentialsGameMode = Cast<ITowerDefenseEssentialsInterface>(GetWorld()->GetAuthGameMode()))
 	{
 		EssentialsGameMode->AddGold(Bounty);	
 	}
-	
+
+	if (IsPawnControlled())
+	{
+		Cast<AAIController>(GetController())->GetBrainComponent()->StopLogic("Death");
+	}
+
+	Healthbar->DestroyComponent();
+	SetActorEnableCollision(false);
+	GetMesh()->PlayAnimation(DeathAnimation, false);
+	SetLifeSpan(2.f);
+}
+
+void AInvader::Destroyed()
+{
 	Super::Destroyed();
 }

@@ -11,6 +11,7 @@
 class UWidgetComponent;
 class UStatsComponent;
 class UAnimMontage;
+class UAnimSequence;
 
 /**
  * An Invader is the base class for all
@@ -54,6 +55,7 @@ public:
 	float GetRemainingDistanceAlongSpline() override;
 	//~ End ISplineFollowInterface
 
+	void Die();
 	void Destroyed() override;
 
 protected:
@@ -66,15 +68,21 @@ protected:
 	UPROPERTY(VisibleAnywhere)
 	UStatsComponent* Stats;
 
+	/** Delay before attack damage occurs. */
 	UPROPERTY(EditDefaultsOnly, Category = Combat)
 	float AttackDelay;
-	
+
+	/** Attack montages to be played at random. */
 	UPROPERTY(EditDefaultsOnly, Category = Combat)
 	TArray<UAnimMontage*> AttackMontages;
 
 	/** Gold earned on death (even when invader reaches home base). */
 	UPROPERTY(EditDefaultsOnly, Category = Death)
 	int32 Bounty;
+
+	/** Animation to play on death. */
+	UPROPERTY(EditDefaultsOnly, Category = Death)
+	UAnimSequence* DeathAnimation;
 
 private:
 
@@ -89,4 +97,8 @@ private:
 	/** Blackboard key representing current target. */
 	UPROPERTY()
 	FName TargetKeyName;
+
+	/** Flag to keep track of death. */
+	UPROPERTY()
+	bool bDead;
 };
