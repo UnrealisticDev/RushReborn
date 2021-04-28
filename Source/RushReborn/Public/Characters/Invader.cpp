@@ -89,6 +89,16 @@ int32 AInvader::GetEngagementCount() const
 	return Engagors.Num();
 }
 
+TArray<IEngagorInterface*> AInvader::GetEngagors() const
+{
+	TArray<IEngagorInterface*> Out;
+	for (const TScriptInterface<IEngagorInterface>& Engagor : Engagors)
+	{
+		Out.Add((IEngagorInterface*)Engagor.GetInterface());
+	}
+	return Out;
+}
+
 bool AInvader::IsAlive() const
 {
 	return Stats->CurrentHealth > 0.f;

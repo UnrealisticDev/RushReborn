@@ -60,4 +60,7 @@ public:
 
 	/** Get number of engagors. */
 	virtual int32 GetEngagementCount() const = 0;
+
+	/** Get a list of current engagors. */
+	virtual TArray<IEngagorInterface*> GetEngagors() const = 0;
 };

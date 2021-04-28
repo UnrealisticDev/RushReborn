@@ -36,6 +36,7 @@ public:
 	void DisengagedBy(IEngagorInterface* Engagor) override;
 	bool IsEngaged() const override;
 	int32 GetEngagementCount() const override;
+	TArray<IEngagorInterface*> GetEngagors() const override;
 	//~ End IEngageeInterface
 
 	//~ Begin ICombatantInterface
