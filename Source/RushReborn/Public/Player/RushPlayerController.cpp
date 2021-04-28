@@ -141,6 +141,8 @@ void ARushPlayerController::SelectAbility(TSubclassOf<UAbility> AbilityClass)
 	{
 		SelectedAbility = EAbilitySelected::RainofFire;
 	}
+
+	Unselect(GetCurrentSelection());
 }
 
 void ARushPlayerController::UnselectAbility()
