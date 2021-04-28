@@ -77,6 +77,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Tower Defense Essentials")
 	virtual float GetNextWaveStartTimeElapsedPercent() { return 0.5f; }
 
+	/** Get a list of spawned actors and their respective counts for the next wave. */
 	UFUNCTION(BlueprintCallable, Category = "Tower Defense Essentials")
 	virtual TMap<TSubclassOf<AActor>, int32> GetNextWaveStats() {return TMap<TSubclassOf<AActor>, int32>();}
 
