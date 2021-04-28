@@ -27,6 +27,7 @@ Content/Developer
 # Marketplace content
 Content/Marketplace/BossyEnemy/*
 Content/Marketplace/PiP_Survival/*
+Content/Marketplace/ParagonMinions/*
 
 # User settings
 *.user
