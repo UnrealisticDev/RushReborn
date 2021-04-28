@@ -65,7 +65,7 @@ protected:
 	UStatsComponent* Stats;
 
 	/** Gold earned on death (even when invader reaches home base). */
-	UPROPERTY(EditInstanceOnly, Category = Death)
+	UPROPERTY(EditDefaultsOnly, Category = Death)
 	int32 Bounty;
 
 private:
