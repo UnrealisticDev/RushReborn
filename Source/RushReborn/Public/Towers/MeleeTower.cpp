@@ -2,7 +2,6 @@
 #include "AIController.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "DrawDebugHelpers.h"
 #include "AI/DefenderState.h"
 
 USoldierDeathTracker::USoldierDeathTracker()
@@ -51,7 +50,7 @@ FVector AMeleeTower::CalculateHomeLocation(int32 Index)
 	float Angle = 30.f + (120.f * Index);
 	FVector HomeOffset
 	(
-		UKismetMathLibrary::DegSin(Angle) * RallyOffset * -1,
+		UKismetMathLibrary::DegSin(Angle) * RallyOffset,
 		UKismetMathLibrary::DegCos(Angle) * RallyOffset,
 		0.f
 	);
@@ -77,11 +76,8 @@ void AMeleeTower::SpawnSoldier(int32 Index)
 	DeathTracker->Died.BindUObject(this, &AMeleeTower::OnSoldierDied, Index);
 	DeathTracker->RegisterComponent();
 
-	DrawDebugSphere(GetWorld(), RallyPoint, 10.f, 8, FColor::Orange, true);
 	if (AAIController* AIController = Cast<AAIController>(Soldier->GetController()))
 	{
-		FVector Home = CalculateHomeLocation(Index);
-		DrawDebugSphere(GetWorld(), Home, 10.f, 8, FColor::Orange, true);
 		AIController->GetBlackboardComponent()->SetValueAsVector(TEXT("Home"), CalculateHomeLocation(Index));
 	}
 
@@ -116,8 +112,6 @@ void AMeleeTower::Rally(FVector NewRallyPoint)
 		const TWeakObjectPtr<APawn> Soldier = Soldiers[Index];
 		if (AAIController* AIController = Cast<AAIController>(Soldier->GetController()))
 		{
-			FVector Home = CalculateHomeLocation(Index);
-			DrawDebugSphere(GetWorld(), Home, 10.f, 8, FColor::Orange, true);
 			AIController->GetBlackboardComponent()->SetValueAsVector(TEXT("Home"), CalculateHomeLocation(Index));
 			AIController->GetBlackboardComponent()->SetValueAsEnum(TEXT("State"), (uint8)EDefenderState::Rally);
 		}
