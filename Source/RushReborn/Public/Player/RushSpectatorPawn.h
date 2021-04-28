@@ -12,7 +12,7 @@ class UCameraComponent;
  * camera target for the player.
  */
 UCLASS()
-class ARushSpectatorPawn : public ASpectatorPawn
+class ARushSpectatorPawn : public ADefaultPawn
 {
 	GENERATED_BODY()
 
