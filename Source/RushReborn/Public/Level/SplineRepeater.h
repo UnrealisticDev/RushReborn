@@ -28,7 +28,7 @@ public:
 protected:
 
 	/** The root spline that others follow. */
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere)
 	USplineComponent* RootSpline;
 
 	/** Spline to the left of root. */
