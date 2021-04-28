@@ -10,6 +10,7 @@
 
 class UWidgetComponent;
 class UStatsComponent;
+class UAnimMontage;
 
 /**
  * An Invader is the base class for all
@@ -63,6 +64,12 @@ protected:
 	/** Stats component. */
 	UPROPERTY(VisibleAnywhere)
 	UStatsComponent* Stats;
+
+	UPROPERTY(EditDefaultsOnly, Category = Combat)
+	float AttackDelay;
+	
+	UPROPERTY(EditDefaultsOnly, Category = Combat)
+	TArray<UAnimMontage*> AttackMontages;
 
 	/** Gold earned on death (even when invader reaches home base). */
 	UPROPERTY(EditDefaultsOnly, Category = Death)

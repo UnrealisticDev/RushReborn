@@ -10,6 +10,8 @@
 #include "Framework/TowerDefenseEssentialsInterface.h"
 #include "Math/UnrealMathUtility.h"
 #include "GameFramework/GameModeBase.h"
+#include "Engine/World.h"
+#include "TimerManager.h"
 
 AInvader::AInvader(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer.SetDefaultSubobjectClass<USplineMovementComponent>(CharacterMovementComponentName))
@@ -18,10 +20,12 @@ AInvader::AInvader(const FObjectInitializer& ObjectInitializer)
 	Stats->HealthDepleted.AddDynamic(this, &AInvader::OnHealthDepleted);
 
 	Healthbar = CreateDefaultSubobject<UWidgetComponent>(TEXT("Healthbar"));
-	Healthbar->SetDrawSize(FVector2D(100, 10));
+	Healthbar->SetDrawSize(FVector2D(125, 5));
 	Healthbar->SetWidgetSpace(EWidgetSpace::Screen);
 	Healthbar->SetupAttachment(GetRootComponent());
 
+	AttackDelay = 0.5f;
+	
 	Bounty = -1;
 
 	IsEngagedKeyName = TEXT("bIsEngaged");
@@ -94,10 +98,22 @@ void AInvader::Attack(AActor* Target)
 {
 	check(Target);
 
-	const float DamageAmount = FMath::RandRange(Stats->AttackDamage.GetLowerBoundValue(), Stats->AttackDamage.GetUpperBoundValue());
-	FDamageEvent DamageEvent;
-	DamageEvent.DamageTypeClass = UPhysicalDamage::StaticClass();
-	Target->TakeDamage(DamageAmount, DamageEvent, GetController(), this);
+	PlayAnimMontage(AttackMontages[FMath::RandRange(0, AttackMontages.Num() - 1)]);
+
+	FTimerHandle AttackTimer;
+	GetWorld()->GetTimerManager().SetTimer(AttackTimer, [this, Target]()
+	{
+		if (!this || !Target)
+		{
+			return;
+		}
+		
+		const float DamageAmount = FMath::RandRange(Stats->AttackDamage.GetLowerBoundValue(), Stats->AttackDamage.GetUpperBoundValue());
+		FDamageEvent DamageEvent;
+		DamageEvent.DamageTypeClass = UPhysicalDamage::StaticClass();
+		Target->TakeDamage(DamageAmount, DamageEvent, GetController(), this);
+	},
+		AttackDelay, false);
 }
 
 void AInvader::OnHealthDepleted()

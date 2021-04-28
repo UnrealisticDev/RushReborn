@@ -22,7 +22,7 @@ void UBTService_WatchForUnengagedEnemy::TickNode(UBehaviorTreeComponent& OwnerCo
 		TArray<FHitResult> Hits;
 		FCollisionQueryParams Params;
 		Params.AddIgnoredActor(Cast<AActor>(CurrentEngagee));
-		GetWorld()->SweepMultiByChannel
+		GetWorld()->SweepMultiByObjectType
 		(
 			Hits,
 			OwnerLocation,

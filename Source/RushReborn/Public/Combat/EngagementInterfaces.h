@@ -36,7 +36,7 @@ public:
  * Exposes functionality for being
  * engaged by an actor.
  */
-UINTERFACE(Meta=(CannotImplementInterfaceInBlueprints))
+UINTERFACE(Meta=(CannotImplementInterfaceInBlueprint))
 class UEngageeInterface : public UInterface
 {
 	GENERATED_BODY()
@@ -55,6 +55,7 @@ public:
 	virtual void DisengagedBy(IEngagorInterface* Engagor) = 0;
 
 	/** Returns true if engaged by anyone. */
+	UFUNCTION(BlueprintCallable)
 	virtual bool IsEngaged() const = 0;
 
 	/** Get number of engagors. */

@@ -16,7 +16,7 @@ void UBTService_SearchForEnemy::TickNode(UBehaviorTreeComponent& OwnerComp, uint
 	const FVector OwnerLocation = OwnerPawn->GetActorLocation();
 	
 	TArray<FHitResult> Hits;	
-	GetWorld()->SweepMultiByChannel
+	GetWorld()->SweepMultiByObjectType
 	(
 		Hits, 
 		OwnerLocation, 
