@@ -25,8 +25,9 @@ void ARushGameMode::BeginPlay()
 	{
 		UTsunamiSequence* LoadedSequence = Cast<UTsunamiSequence>(SpawnSequence.TryLoad());
 		check(LoadedSequence);
-
+		
 		WaveEngine->MountSequence(LoadedSequence);
+		WaveEngine->WaveAccelerated.AddDynamic(this, &ARushGameMode::OnWaveAccelerated);
 		WaveEngine->SequenceSpawnsDestroyed.AddDynamic(this, &ARushGameMode::Win);
 	}
 }
@@ -103,6 +104,11 @@ void ARushGameMode::StartNextWave()
 	}
 	
 	WaveEngine->ManuallyStartQueuedWave();
+}
+
+void ARushGameMode::OnWaveAccelerated(int32 Wave, float TotalTime, float ElapsedTime)
+{
+	AddGold(TotalTime - ElapsedTime);
 }
 
 void ARushGameMode::Win()

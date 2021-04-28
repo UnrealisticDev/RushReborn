@@ -38,6 +38,9 @@ public:
 	void StartNextWave() override;
 	//~ End ITowerDefenseEssentialsInterface
 
+	UFUNCTION()
+	void OnWaveAccelerated(int32 Wave, float TotalTime, float ElapsedTime);
+
 	/** Called when the game is won. */
 	UFUNCTION()
 	void Win();
