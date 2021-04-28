@@ -40,9 +40,6 @@ public:
 	bool IsAlive() const override;
 	void Attack(AActor* Target) override;
 	//~ Begin ICombatantInterface
-
-	float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator,
-		AActor* DamageCauser) override;
 	
 	/** Regenerate health percent. */
 	void RegenHealth();

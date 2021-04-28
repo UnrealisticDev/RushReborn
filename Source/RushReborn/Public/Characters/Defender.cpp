@@ -44,6 +44,8 @@ void ADefender::Engage(IEngageeInterface* Engagee)
 		Engaged = Cast<UObject>(Engagee);
 		Engaged->EngagedBy(this);
 	}
+
+	GetWorld()->GetTimerManager().ClearTimer(RegenTimer);
 }
 
 void ADefender::Disengage()
@@ -53,6 +55,8 @@ void ADefender::Disengage()
 		Engaged->DisengagedBy(this);
 	}
 	Engaged = nullptr;
+
+	GetWorld()->GetTimerManager().SetTimer(RegenTimer, this, &ADefender::RegenHealth, 1.f, true, 2.f);
 }
 
 IEngageeInterface* ADefender::GetEngagee() const
@@ -83,14 +87,6 @@ void ADefender::Attack(AActor* Target)
 		Target->TakeDamage(DamageAmount, DamageEvent, GetController(), this);
 	},
 		AttackDelay, false);
-}
-
-float ADefender::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator,
-	AActor* DamageCauser)
-{
-	GetWorld()->GetTimerManager().SetTimer(RegenTimer, this, &ADefender::RegenHealth, 1.f, true, 2.f);
-
-	return Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
 }
 
 void ADefender::RegenHealth()
