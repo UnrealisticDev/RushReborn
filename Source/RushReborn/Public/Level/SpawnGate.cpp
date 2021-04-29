@@ -17,7 +17,9 @@ void ASpawnGate::Spawn(FTsunamiSpawnContext Context)
 	TArray<USplineComponent*> PossiblePaths = SpawnPaths->GetSplines();
 	USplineComponent* ChosenPath = PossiblePaths[FMath::Rand() % PossiblePaths.Num()];
 
-	AActor* SpawnedActor = GetWorld()->SpawnActorAbsolute(Context.SpawnClass, ChosenPath->GetTransformAtSplinePoint(0, ESplineCoordinateSpace::World));
+	FActorSpawnParameters Params;
+	Params.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+	AActor* SpawnedActor = GetWorld()->SpawnActorAbsolute(Context.SpawnClass, ChosenPath->GetTransformAtSplinePoint(0, ESplineCoordinateSpace::World), Params);
 	if (ISplineFollowInterface* SpawnedSplineFollower = Cast<ISplineFollowInterface>(SpawnedActor))
 	{
 		SpawnedSplineFollower->SetSplineToFollow(ChosenPath);
