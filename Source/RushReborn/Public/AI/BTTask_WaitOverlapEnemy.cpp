@@ -15,6 +15,18 @@ EBTNodeResult::Type UBTTask_WaitOverlapEnemy::ExecuteTask(UBehaviorTreeComponent
 		return EBTNodeResult::Failed;
 	}
 
+	AActor* OwnerActor = OwnerComp.GetAIOwner()->GetPawn();
+	TArray<AActor*> CurrentOverlaps;
+	OwnerActor->GetOverlappingActors(CurrentOverlaps);
+	if (CurrentOverlaps.Num() > 1 
+		&& CurrentOverlaps.FindByPredicate
+		(
+			[OwnerActor](AActor* OverlappingActor){return UTeamUtilities::AreEnemies(OwnerActor, OverlappingActor);}
+		))
+	{
+		return EBTNodeResult::Succeeded;
+	}
+
 	OwnerComp.GetAIOwner()->GetPawn()->OnActorBeginOverlap.AddUniqueDynamic(this, &UBTTask_WaitOverlapEnemy::OnOwnerOverlapped);
 	OwnerComponent = &OwnerComp;
 

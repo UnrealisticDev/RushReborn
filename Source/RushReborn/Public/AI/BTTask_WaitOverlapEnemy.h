@@ -8,6 +8,7 @@
  * Wait until the owner actor overlaps with an
  * enemy. Naturally, requires the owner actor to
  * have overlapping collision enabled.
+ * Will succeed if already overlapping enemy.
  *
  * Task is instanced.
  */
