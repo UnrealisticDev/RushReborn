@@ -42,6 +42,12 @@ public:
 
 	void BeginPlay() override;
 
+protected:
+
+	/** Get the location to spawn soldiers at. */
+	UFUNCTION(BlueprintImplementableEvent, Category = Spawn)
+	FVector GetSpawnPoint() const;
+
 private:
 	
 	/** Sets a default rallying point. */

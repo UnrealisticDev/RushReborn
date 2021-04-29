@@ -83,7 +83,7 @@ void AMeleeTower::SpawnSoldier(int32 Index)
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.Instigator = this;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
-	APawn* Soldier = Cast<APawn>(GetWorld()->SpawnActorAbsolute(SoldierClass, GetActorTransform(), SpawnParams));
+	APawn* Soldier = Cast<APawn>(GetWorld()->SpawnActorAbsolute(SoldierClass, FTransform(GetSpawnPoint()), SpawnParams));
 	if (!Soldier)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Couldn't open soldier."));
