@@ -42,7 +42,25 @@ void AMeleeTower::BeginPlay()
 
 void AMeleeTower::SetStartingRallyPoint()
 {
-	RallyPoint = GetActorLocation() + (GetActorForwardVector() * 400.f);
+	while (true)
+	{
+		FVector RandomPoint(FMath::RandPointInCircle(InfluenceRadius), 0);
+		RandomPoint += GetActorLocation();
+		FHitResult TargetableTest;
+		GetWorld()->LineTraceSingleByChannel
+		(
+			TargetableTest, 
+			RandomPoint + FVector(0, 0, 100), 
+			RandomPoint - FVector(0, 0, 100),
+			ECollisionChannel::ECC_GameTraceChannel1 /* Targeting */
+		);
+
+		if (TargetableTest.IsValidBlockingHit())
+		{
+			RallyPoint = RandomPoint;
+			break;
+		}
+	}
 }
 
 FVector AMeleeTower::CalculateHomeLocation(int32 Index)
@@ -93,7 +111,7 @@ void AMeleeTower::OnSoldierDied(int32 Index)
 
 	FTimerHandle ThrowawayHandle;
 	FTimerDelegate RespawnDelegate;
-	RespawnDelegate.BindUObject(this, &AMeleeTower::OnSoldierDied, Index);
+	RespawnDelegate.BindUObject(this, &AMeleeTower::SpawnSoldier, Index);
 	GetWorld()->GetTimerManager().SetTimer(ThrowawayHandle, RespawnDelegate, 10.f, false);
 }
 
