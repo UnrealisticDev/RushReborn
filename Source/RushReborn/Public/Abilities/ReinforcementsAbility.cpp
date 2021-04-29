@@ -31,7 +31,7 @@ void UReinforcementsAbility::Activate(const FAbilityPayload& Payload)
 	check(SpawnClass.IsValid());
 
 	FVector TargetLocation = Payload.Location;
-	GetWorld()->SpawnActor<AActor>(SpawnClass.TryLoadClass<AActor>(), TargetLocation + SpawnOffset, FRotator::ZeroRotator);
-	GetWorld()->SpawnActor<AActor>(SpawnClass.TryLoadClass<AActor>(), TargetLocation + (SpawnOffset * -1), FRotator::ZeroRotator);
+	GetWorld()->SpawnActor<AActor>(SpawnClass.TryLoadClass<AActor>(), TargetLocation + SpawnOffset + FVector(0, 0, 90), FRotator::ZeroRotator);
+	GetWorld()->SpawnActor<AActor>(SpawnClass.TryLoadClass<AActor>(), TargetLocation + (SpawnOffset * -1) + FVector(0, 0, 90), FRotator::ZeroRotator);
 }
 
