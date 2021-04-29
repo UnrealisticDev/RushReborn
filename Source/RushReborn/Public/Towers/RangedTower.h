@@ -47,4 +47,8 @@ protected:
 	/** The projectile to spawn. */
 	UPROPERTY(EditAnywhere, Category = Attack)
 	TSubclassOf<AProjectile> ProjectileClass;
+
+	/** Delay in spawning projectile. */
+	UPROPERTY(EditAnywhere, Category = Attack)
+	float AttackDelay;
 };

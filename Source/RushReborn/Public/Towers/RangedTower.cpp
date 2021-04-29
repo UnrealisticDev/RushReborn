@@ -9,16 +9,32 @@ ARangedTower::ARangedTower()
 	SetRootComponent(InfluenceBounds);
 	
 	Stats = CreateDefaultSubobject<UStatsComponent>(TEXT("Stats"));
+
+	AttackDelay = 0.5f;
 }
 
 void ARangedTower::Attack(AActor* Target)
 {
 	check(ProjectileClass);
 
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.Instigator = this;
-	AProjectile* Projectile = Cast<AProjectile>(GetWorld()->SpawnActorAbsolute(ProjectileClass, GetSpawnPoint(), SpawnParams));
-	Projectile->SetTarget(Target);
-	
 	OnAttack(Target);
+
+	FTimerHandle AttackTimer;
+	GetWorld()->GetTimerManager().SetTimer
+	(
+		AttackTimer,
+		[this, Target]()
+		{
+			if (!this || !Target)
+			{
+				return;
+			}
+			
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.Instigator = this;
+			AProjectile* Projectile = Cast<AProjectile>(
+				GetWorld()->SpawnActorAbsolute(ProjectileClass, GetSpawnPoint(), SpawnParams));
+			Projectile->SetTarget(Target);
+		},
+		AttackDelay, false);
 }
