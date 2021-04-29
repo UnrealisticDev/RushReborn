@@ -57,6 +57,7 @@ void ASplineRepeater::OnConstruction(const FTransform& Transform)
 			Mesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 			Mesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel1 /* Targeting */, ECollisionResponse::ECR_Block);
 			Mesh->bHiddenInGame = true;
+			Mesh->CastShadow = false;
 		}
 	}
 
