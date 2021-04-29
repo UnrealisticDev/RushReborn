@@ -3,6 +3,7 @@
 #include "BehaviorTree/BlackboardComponent.h"
 #include "Combat/TeamUtilities.h"
 #include "Characters/SplineFollowInterface.h"
+#include "Combat/CombatantInterface.h"
 
 UBTTask_SelectOverlappedEnemy::UBTTask_SelectOverlappedEnemy()
 {
@@ -24,6 +25,11 @@ EBTNodeResult::Type UBTTask_SelectOverlappedEnemy::ExecuteTask(UBehaviorTreeComp
 		{
 			return !UTeamUtilities::AreEnemies(OwnerPawn, OverlappingActor);
 		});
+
+	OverlappingActors.RemoveAll([](AActor* OverlappingActor)
+	{
+		return !OverlappingActor->Implements<UCombatantInterface>() || !Cast<ICombatantInterface>(OverlappingActor)->IsAlive();
+	});
 
 	if (OverlappingActors.Num() > 0)
 	{
