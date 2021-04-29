@@ -8,6 +8,8 @@ AProjectile::AProjectile()
 {
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
+
+	ImpactParticleScale = FVector::OneVector;
 }
 
 void AProjectile::BeginPlay()
@@ -75,5 +77,5 @@ void AProjectile::Impact()
 
 void AProjectile::SpawnImpactParticle()
 {
-	UGameplayStatics::SpawnEmitterAtLocation(this, ImpactParticle, GetActorLocation());
+	UGameplayStatics::SpawnEmitterAtLocation(this, ImpactParticle, GetActorLocation(), FRotator::ZeroRotator, ImpactParticleScale);
 }

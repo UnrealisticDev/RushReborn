@@ -86,4 +86,8 @@ protected:
 	/** Particle to spawn on impact. */
 	UPROPERTY(EditAnywhere, Category = Impact)
 	UParticleSystem* ImpactParticle;
+
+	/** Scale to spawn impact particle at. */
+	UPROPERTY(EditAnywhere, Category = Impact)
+	FVector ImpactParticleScale;
 };

@@ -10,6 +10,7 @@ AMageProjectile::AMageProjectile()
 
 void AMageProjectile::Move(float DeltaSeconds)
 {
+	const FVector OldLocation = GetActorLocation();
 	const FVector NewLocation = FMath::VInterpConstantTo
 	(
 		GetActorLocation(),
@@ -19,6 +20,7 @@ void AMageProjectile::Move(float DeltaSeconds)
 	);
 
 	SetActorLocation(NewLocation);
+	SetActorRotation((NewLocation - OldLocation).Rotation());
 }
 
 void AMageProjectile::Impact()
