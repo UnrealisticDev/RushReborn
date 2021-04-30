@@ -7,6 +7,7 @@
 #include "Towers/TowerActionContext.h"
 #include "RushPlayerController.generated.h"
 
+class ADecalActor;
 class ISelectableInterface;
 class UAbility;
 
@@ -17,7 +18,7 @@ class UAbility;
  * clicks (i.e. activate ability if targeting ability,
  * else select target under cursor).
  */
-UCLASS()
+UCLASS(Config=Game)
 class ARushPlayerController : public APlayerController, public ITeamAgentInterface, public ISelectorInterface
 {
 	GENERATED_BODY()
@@ -56,6 +57,33 @@ public:
 
 private:
 
+	/** Targeting UI functions. */
+	void ShowTargetActor();
+	void ConfigureTargetActor();
+	void UpdateTargetActor();
+	void HideTargetActor();
+
+	/** Actor used to display targeting information. */
+	UPROPERTY()
+	ADecalActor* TargetActor;
+
+	/** Timer to update location of target actor. */
+	UPROPERTY()
+	FTimerHandle TargetUpdateTimer;
+
+	/** Decal material for reinforcements targeting. */
+	UPROPERTY(Config)
+	FSoftObjectPath ReinforcementsTargetMaterial;
+
+	/** Decal material for rain of fire targeting. */
+	UPROPERTY(Config)
+	FSoftObjectPath RainOfFireTargetMaterial;
+	
+	/** Decal material for rally targeting. */
+	UPROPERTY(Config)
+	FSoftObjectPath RallyTargetMaterial;
+	
+	/** Shows UI to indicate bad location for targeted event. */
 	void IndicateBadLocation(FVector Location);
 
 	/** The input states that this controller can be in. */
@@ -68,6 +96,9 @@ private:
 
 	/** The current input state. */
 	EInputState InputState;
+
+	/** Central facility to set input state. */
+	void SetInputState(EInputState NewState);
 
 	/** The current selection. */
 	UPROPERTY()

@@ -7,6 +7,10 @@
 #include "Towers/RallyCoordinatorInterface.h"
 #include "Towers/TowerBerth.h"
 #include "Towers/Tower.h"
+#include "Engine/DecalActor.h"
+#include "Engine/World.h"
+#include "TimerManager.h"
+#include "Components/DecalComponent.h"
 
 ARushPlayerController::ARushPlayerController()
 {
@@ -55,7 +59,7 @@ void ARushPlayerController::OnPressReleased()
 		if (RelevantAbility->CanActivate(Payload))
 		{
 			RelevantAbility->Activate(Payload);
-			InputState = EInputState::Free;
+			SetInputState(EInputState::Free);
 		}
 
 		else
@@ -71,7 +75,7 @@ void ARushPlayerController::OnPressReleased()
 		{
 			RallyingTower->Rally(HitUnderCursor.Location);
 			Unselect(TowerActionContext.TowerBerth.Get());
-			InputState = EInputState::Free;
+			SetInputState(EInputState::Free);
 		}
 
 		else
@@ -133,7 +137,7 @@ bool ARushPlayerController::IsAbilitySelected(TSubclassOf<UAbility> AbilityClass
 
 void ARushPlayerController::SelectAbility(TSubclassOf<UAbility> AbilityClass)
 {
-	InputState = EInputState::TargetingAbility;
+	HideTargetActor();
 	
 	if (AbilityClass == UReinforcementsAbility::StaticClass())
 	{
@@ -145,19 +149,76 @@ void ARushPlayerController::SelectAbility(TSubclassOf<UAbility> AbilityClass)
 		SelectedAbility = EAbilitySelected::RainofFire;
 	}
 
+	SetInputState(EInputState::TargetingAbility);
+
 	Unselect(GetCurrentSelection());
 }
 
 void ARushPlayerController::UnselectAbility()
 {
-	InputState = EInputState::Free;
+	SetInputState(EInputState::Free);
 }
 
 void ARushPlayerController::BeginTargetingRally(const FTowerActionContext& RallyContext)
 {
-	InputState = EInputState::TargetingRally;
+	SetInputState(EInputState::TargetingRally);
 
 	TowerActionContext = RallyContext;
+}
+
+void ARushPlayerController::ShowTargetActor()
+{
+	TargetActor = GetWorld()->SpawnActor<ADecalActor>();
+	ConfigureTargetActor();
+	GetWorld()->GetTimerManager().SetTimer(TargetUpdateTimer, this, &ARushPlayerController::UpdateTargetActor, .03f, true);
+}
+
+void ARushPlayerController::ConfigureTargetActor()
+{
+	switch (InputState)
+	{
+	case EInputState::TargetingAbility:
+		switch (SelectedAbility)
+		{
+		case EAbilitySelected::Reinforcements:
+			TargetActor->GetDecal()->DecalSize.Y = TargetActor->GetDecal()->DecalSize.Z = 125.f;
+			TargetActor->SetDecalMaterial(Cast<UMaterialInterface>(ReinforcementsTargetMaterial.TryLoad()));
+			break;
+		case EAbilitySelected::RainofFire:
+			TargetActor->GetDecal()->DecalSize.Y = TargetActor->GetDecal()->DecalSize.Z = 500.f;
+			TargetActor->SetDecalMaterial(Cast<UMaterialInterface>(RainOfFireTargetMaterial.TryLoad()));
+			break;
+		default: 
+			break;
+		}
+		break;
+	case EInputState::TargetingRally:
+		TargetActor->SetDecalMaterial(Cast<UMaterialInterface>(RallyTargetMaterial.TryLoad()));
+		break;
+	case EInputState::Free:
+	default:
+		break;
+	}
+}
+
+void ARushPlayerController::UpdateTargetActor()
+{
+	FHitResult Hit;
+	GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECollisionChannel::ECC_Visibility), false, Hit);
+
+	if (Hit.IsValidBlockingHit())
+	{
+		TargetActor->SetActorLocation(Hit.Location);
+	}
+}
+
+void ARushPlayerController::HideTargetActor()
+{
+	if (TargetActor)
+	{
+		TargetActor->Destroy();
+		GetWorld()->GetTimerManager().ClearTimer(TargetUpdateTimer);
+	}
 }
 
 void ARushPlayerController::IndicateBadLocation(FVector Location)
@@ -176,5 +237,23 @@ void ARushPlayerController::IndicateBadLocation(FVector Location)
 			BadLocationWidget->AddToViewport();
 			BadLocationWidget->SetPositionInViewport(ScreenLocation);
 		}
+	}
+}
+
+void ARushPlayerController::SetInputState(EInputState NewState)
+{
+	InputState = NewState;
+
+	switch (InputState)
+	{
+	case EInputState::Free:
+		HideTargetActor();
+		break;
+	case EInputState::TargetingAbility:
+	case EInputState::TargetingRally:
+		ShowTargetActor();
+		break;
+	default: 
+		break;
 	}
 }
