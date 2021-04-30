@@ -48,7 +48,7 @@ void ABombardProjectile::ApplyDamageInArea()
 	DamageEvent.DamageTypeClass = UPhysicalDamage::StaticClass();
 
 	TArray<FHitResult> Hits;
-	GetWorld()->SweepMultiByChannel
+	GetWorld()->SweepMultiByObjectType
 	(
 		Hits, 
 		GetActorLocation(), 
