@@ -24,7 +24,8 @@ void UTowerActionWidget::Select()
 			{
 				return;
 			}
-			
+
+			Action->Unselect(Context);
 			Action->Execute(Context);
 			ActionExecuted.ExecuteIfBound(this);
 		}
@@ -32,6 +33,7 @@ void UTowerActionWidget::Select()
 		else
 		{
 			bAwaitingConfirmation = true;
+			Action->Select(Context);
 			ActionSelected.ExecuteIfBound(this);
 		}
 	}
@@ -46,6 +48,7 @@ void UTowerActionWidget::Select()
 void UTowerActionWidget::Unselect()
 {
 	bAwaitingConfirmation = false;
+	Action->Unselect(Context);
 }
 
 void UTowerActionMenuWidget::PositionAction(UTowerActionWidget* ActionWidget, UCanvasPanelSlot* ActionSlot)
@@ -90,5 +93,11 @@ void UTowerActionMenuWidget::OnActionExecuted(UTowerActionWidget* ExecutedAction
 
 void UTowerActionMenuWidget::Hide_Implementation()
 {
-	
+	WidgetTree->ForEachWidget([](UWidget* Widget)
+	{
+		if (UTowerActionWidget* ChildActionWidget = Cast<UTowerActionWidget>(Widget))
+		{
+			ChildActionWidget->Unselect();
+		}
+	});
 }

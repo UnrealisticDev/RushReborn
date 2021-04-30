@@ -38,3 +38,8 @@ void ARangedTower::Attack(AActor* Target)
 		},
 		AttackDelay, false);
 }
+
+float ARangedTower::GetInfluenceRadius() const
+{
+	return InfluenceBounds->GetScaledSphereRadius();
+}

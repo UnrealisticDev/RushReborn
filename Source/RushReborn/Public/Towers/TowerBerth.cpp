@@ -3,6 +3,7 @@
 #include "TowerActionWidgets.h"
 #include "Components/SphereComponent.h"
 #include "Components/WidgetComponent.h"
+#include "Components/DecalComponent.h"
 #include "Player/SelectorInterface.h"
 
 ATowerBerth::ATowerBerth()
@@ -14,16 +15,24 @@ ATowerBerth::ATowerBerth()
 
 	ActionMenu = CreateDefaultSubobject<UWidgetComponent>(TEXT("ActionMenu"));
 	ActionMenu->SetupAttachment(GetRootComponent());
+
+	RangeIndicatorDecal = CreateDefaultSubobject<UDecalComponent>(TEXT("RangeIndicatorDecal"));
+	RangeIndicatorDecal->SetupAttachment(GetRootComponent());
+	RangeIndicatorDecal->SetVisibility(false);
+	RangeIndicatorDecal->SetRelativeRotation(FRotator(-90, 0, 0));
+	RangeIndicatorDecal->DecalSize.X = 15.f;
 }
 
 void ATowerBerth::OnSelected(ISelectorInterface* Selector)
 {
 	ShowActions(Selector);
+	ShowRangeIndicator();
 }
 
 void ATowerBerth::OnUnselected(ISelectorInterface* Selector)
 {
 	HideActions();
+	HideRangeIndicator();
 }
 
 ATower* ATowerBerth::GetTower() const
@@ -63,4 +72,19 @@ void ATowerBerth::HideActions()
 UTowerActionMenuWidget* ATowerBerth::GetActionMenuWidget() const
 {
 	return Cast<UTowerActionMenuWidget>(ActionMenu->GetWidget());
+}
+
+void ATowerBerth::ShowRangeIndicator()
+{
+	if (Tower)
+	{
+		RangeIndicatorDecal->DecalSize.Y = Tower->GetInfluenceRadius();
+		RangeIndicatorDecal->DecalSize.Z = Tower->GetInfluenceRadius();
+		RangeIndicatorDecal->SetVisibility(true);
+	}
+}
+
+void ATowerBerth::HideRangeIndicator()
+{
+	RangeIndicatorDecal->SetVisibility(false);
 }

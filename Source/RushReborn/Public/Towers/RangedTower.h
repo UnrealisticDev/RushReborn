@@ -36,6 +36,9 @@ public:
 
 protected:
 
+	/** Get the range of this tower. */
+	float GetInfluenceRadius() const override;
+
 	/** The area within which this tower can attack. */
 	UPROPERTY(VisibleAnywhere)
 	USphereComponent* InfluenceBounds;

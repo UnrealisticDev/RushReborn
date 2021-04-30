@@ -40,6 +40,11 @@ void AMeleeTower::BeginPlay()
 	}
 }
 
+float AMeleeTower::GetInfluenceRadius() const
+{
+	return InfluenceRadius;
+}
+
 void AMeleeTower::SetStartingRallyPoint()
 {
 	while (true)

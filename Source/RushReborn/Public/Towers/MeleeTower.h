@@ -48,6 +48,9 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = Spawn)
 	FVector GetSpawnPoint() const;
 
+	/** Get the range of this tower. */
+	float GetInfluenceRadius() const override;
+
 private:
 	
 	/** Sets a default rallying point. */

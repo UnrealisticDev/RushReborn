@@ -10,6 +10,8 @@ class UWidgetComponent;
 class UTowerAction;
 class ATower;
 class USphereComponent;
+class UStaticMeshComponent;
+class UDecalComponent;
 
 /**
  * A TowerBerth is a station that can have
@@ -52,6 +54,12 @@ protected:
 	/** Get the tower action widget. */
 	UTowerActionMenuWidget* GetActionMenuWidget() const;
 
+	/** Show the range decal. */
+	void ShowRangeIndicator();
+
+	/** Hide the range decal. */
+	void HideRangeIndicator();
+
 	/** The currently placed tower. */
 	UPROPERTY()
 	ATower* Tower;
@@ -67,4 +75,8 @@ protected:
 	/** The tower action menu component. */
 	UPROPERTY(VisibleAnywhere)
 	UWidgetComponent* ActionMenu;
+
+	/** Shows the range of a placed tower. */
+	UPROPERTY(VisibleAnywhere)
+	UDecalComponent* RangeIndicatorDecal;
 };
