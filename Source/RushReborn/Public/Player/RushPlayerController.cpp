@@ -11,6 +11,7 @@
 #include "Engine/World.h"
 #include "TimerManager.h"
 #include "Components/DecalComponent.h"
+#include "Framework/Commands/InputChord.h"
 
 ARushPlayerController::ARushPlayerController()
 {
@@ -33,6 +34,16 @@ void ARushPlayerController::SetupInputComponent()
 		this,
 		&ARushPlayerController::OnPressReleased
 	);
+
+	FInputKeyBinding RainOfFireBinding;
+	RainOfFireBinding.Chord.Key = EKeys::One;
+	RainOfFireBinding.KeyDelegate = FInputActionHandlerSignature::CreateUObject(this, &ARushPlayerController::SelectAbility, TSubclassOf<UAbility>(URainOfFireAbility::StaticClass()));
+	InputComponent->KeyBindings.Emplace(MoveTemp(RainOfFireBinding));
+
+	FInputKeyBinding ReinforcementsBinding;
+	ReinforcementsBinding.Chord.Key = EKeys::Two;
+	ReinforcementsBinding.KeyDelegate = FInputActionHandlerSignature::CreateUObject(this, &ARushPlayerController::SelectAbility, TSubclassOf<UAbility>(UReinforcementsAbility::StaticClass()));
+	InputComponent->KeyBindings.Emplace(MoveTemp(ReinforcementsBinding));	
 }
 
 void ARushPlayerController::OnPressReleased()
@@ -132,26 +143,61 @@ bool ARushPlayerController::IsAbilitySelected(TSubclassOf<UAbility> AbilityClass
 {
 	return InputState == EInputState::TargetingAbility
 	&& (AbilityClass == UReinforcementsAbility::StaticClass() && SelectedAbility == EAbilitySelected::Reinforcements
-		|| AbilityClass == URainOfFireAbility::StaticClass() && SelectedAbility == EAbilitySelected::RainofFire);
+		|| AbilityClass == URainOfFireAbility::StaticClass() && SelectedAbility == EAbilitySelected::RainOfFire);
 }
 
 void ARushPlayerController::SelectAbility(TSubclassOf<UAbility> AbilityClass)
 {
 	HideTargetActor();
-	
-	if (AbilityClass == UReinforcementsAbility::StaticClass())
+
+	if (InputState != EInputState::TargetingAbility)
 	{
-		SelectedAbility = EAbilitySelected::Reinforcements;
+		if (AbilityClass == UReinforcementsAbility::StaticClass())
+		{
+			SelectedAbility = EAbilitySelected::Reinforcements;
+		}
+
+		else if (AbilityClass == URainOfFireAbility::StaticClass())
+		{
+			SelectedAbility = EAbilitySelected::RainOfFire;
+		}
+
+		SetInputState(EInputState::TargetingAbility);
+		Unselect(GetCurrentSelection());
 	}
 
-	else if (AbilityClass == URainOfFireAbility::StaticClass())
+	else
 	{
-		SelectedAbility = EAbilitySelected::RainofFire;
+		if (AbilityClass == UReinforcementsAbility::StaticClass())
+		{
+			if (SelectedAbility == EAbilitySelected::Reinforcements)
+			{
+				UnselectAbility();
+				return;
+			}
+
+			else
+			{
+				SelectedAbility = EAbilitySelected::Reinforcements;
+				ShowTargetActor();
+			}
+		}
+
+		else if (AbilityClass == URainOfFireAbility::StaticClass())
+		{
+			if (SelectedAbility == EAbilitySelected::RainOfFire)
+			{
+				UnselectAbility();
+				return;
+			}
+
+			else
+			{
+				SelectedAbility = EAbilitySelected::RainOfFire;
+				ShowTargetActor();
+			}
+		}
 	}
-
-	SetInputState(EInputState::TargetingAbility);
-
-	Unselect(GetCurrentSelection());
 }
 
 void ARushPlayerController::UnselectAbility()
@@ -184,7 +230,7 @@ void ARushPlayerController::ConfigureTargetActor()
 			TargetActor->GetDecal()->DecalSize.Y = TargetActor->GetDecal()->DecalSize.Z = 125.f;
 			TargetActor->SetDecalMaterial(Cast<UMaterialInterface>(ReinforcementsTargetMaterial.TryLoad()));
 			break;
-		case EAbilitySelected::RainofFire:
+		case EAbilitySelected::RainOfFire:
 			TargetActor->GetDecal()->DecalSize.Y = TargetActor->GetDecal()->DecalSize.Z = 500.f;
 			TargetActor->SetDecalMaterial(Cast<UMaterialInterface>(RainOfFireTargetMaterial.TryLoad()));
 			break;

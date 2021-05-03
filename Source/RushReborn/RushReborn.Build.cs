@@ -9,7 +9,7 @@ public class RushReborn : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
-		PrivateDependencyModuleNames.AddRange(new string[] { "UMG" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "UMG" });
 		PrivateDependencyModuleNames.AddRange(new string[] { "AIModule", "GameplayTasks" });
 		PrivateDependencyModuleNames.AddRange(new string[] { "Tsunami" });
 		

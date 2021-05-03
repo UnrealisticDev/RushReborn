@@ -116,7 +116,7 @@ private:
 	enum class EAbilitySelected : uint8
 	{
 		Reinforcements,
-		RainofFire
+		RainOfFire
 	};
 
 	/** The currently selected ability. */
