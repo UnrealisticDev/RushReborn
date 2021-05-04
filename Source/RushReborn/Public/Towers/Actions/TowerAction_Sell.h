@@ -8,7 +8,7 @@
  * Sells the source tower for the amount specified,
  * depending on which phase the game is currently in.
  */
-UCLASS(HideCategories=(Display, Cost), Meta=(DisplayName="Sell"))
+UCLASS(Config=Game, HideCategories=(Display, Cost), Meta=(DisplayName="Sell"))
 class UTowerAction_Sell : public UTowerAction
 {
 	GENERATED_BODY()
@@ -29,4 +29,10 @@ protected:
 	/** Gold earned if sold during Spawning phase. */
 	UPROPERTY(EditAnywhere, Category = Sell)
 	int32 SpawningValue;
+
+private:
+
+	/** Sound to play on execute. */
+	UPROPERTY(Config)
+	FSoftObjectPath ExecuteSound;
 };

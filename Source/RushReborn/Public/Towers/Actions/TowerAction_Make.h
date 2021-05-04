@@ -40,4 +40,10 @@ protected:
 	/** Range indicator material. */
 	UPROPERTY(Config)
 	FSoftObjectPath RangeIndicatorMaterial;
+
+private:
+
+	/** Sound to play on execute. */
+	UPROPERTY(Config)
+	FSoftObjectPath ExecuteSound;
 };

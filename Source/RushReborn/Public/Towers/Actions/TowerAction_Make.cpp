@@ -55,5 +55,7 @@ void UTowerAction_Make::Execute(const FTowerActionContext& Context)
 	ATower* NewTower = Cast<ATower>(GetWorld()->SpawnActorAbsolute(TowerClass, Context.TowerBerth->GetActorTransform(), SpawnParams));
 	Context.TowerBerth->SetTower(NewTower);
 
+	UGameplayStatics::PlaySound2D(this, Cast<USoundBase>(ExecuteSound.TryLoad()), 0.5f);
+
 	UnselectTowerBerth(Context);
 }

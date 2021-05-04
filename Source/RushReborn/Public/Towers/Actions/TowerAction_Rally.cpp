@@ -1,4 +1,5 @@
 #include "TowerAction_Rally.h"
+#include "Kismet/GameplayStatics.h"
 #include "Player/RushPlayerController.h"
 #include "Towers/RallyCoordinatorInterface.h"
 #include "Towers/Tower.h"
@@ -22,5 +23,6 @@ void UTowerAction_Rally::Execute(const FTowerActionContext& Context)
 	if (RushPlayerController)
 	{
 		RushPlayerController->BeginTargetingRally(Context);
+		UGameplayStatics::PlaySound2D(this, Cast<USoundBase>(ExecuteSound.TryLoad()), 0.5f);	
 	}
 }

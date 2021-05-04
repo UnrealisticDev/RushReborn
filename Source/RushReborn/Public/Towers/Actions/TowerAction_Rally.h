@@ -8,7 +8,7 @@
  * Initiates targeting for rallying
  * on towers that support rallying.
  */
-UCLASS(HideCategories=(Display, Cost), Meta=(DisplayName = "Rally"))
+UCLASS(Config=Game, HideCategories=(Display, Cost), Meta=(DisplayName = "Rally"))
 class UTowerAction_Rally : public UTowerAction
 {
 	GENERATED_BODY()
@@ -18,4 +18,10 @@ public:
 	UTowerAction_Rally();
 
 	void Execute(const FTowerActionContext& Context) override;
+
+private:
+
+	/** Sound to play on execute. */
+	UPROPERTY(Config)
+	FSoftObjectPath ExecuteSound;
 };

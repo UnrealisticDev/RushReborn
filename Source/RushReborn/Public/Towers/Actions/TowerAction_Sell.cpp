@@ -3,6 +3,7 @@
 #include "Framework/TowerDefenseEssentialsInterface.h"
 #include "Engine/World.h"
 #include "GameFramework/GameModeBase.h"
+#include "Kismet/GameplayStatics.h"
 #include "UObject/ConstructorHelpers.h"
 
 UTowerAction_Sell::UTowerAction_Sell()
@@ -44,6 +45,8 @@ void UTowerAction_Sell::Execute(const FTowerActionContext& Context)
 			: SpawningValue
 		);
 	}
+
+	UGameplayStatics::PlaySound2D(this, Cast<USoundBase>(ExecuteSound.TryLoad()), 0.5f);
 
 	UnselectTowerBerth(Context);
 }
