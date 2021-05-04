@@ -19,8 +19,14 @@ class ARushSpectatorPawn : public ADefaultPawn
 public:
 
 	ARushSpectatorPawn();
+	void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 private:
+
+	/** */
+	void ZoomIn();
+	void ZoomOut();
+	void Zoom(float Delta);
 
 	/** The spring arm that holds the camera. */
 	UPROPERTY()

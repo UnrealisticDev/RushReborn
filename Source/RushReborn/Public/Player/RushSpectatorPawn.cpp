@@ -13,3 +13,42 @@ ARushSpectatorPawn::ARushSpectatorPawn()
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	CameraComponent->SetupAttachment(SpringArmComponent);
 }
+
+void ARushSpectatorPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	PlayerInputComponent->BindKey
+	(
+		EKeys::MouseScrollUp,
+		IE_Pressed,
+		this,
+		&ARushSpectatorPawn::ZoomIn
+	);
+
+	PlayerInputComponent->BindKey
+	(
+		EKeys::MouseScrollDown,
+		IE_Pressed,
+		this,
+		&ARushSpectatorPawn::ZoomOut
+	);
+}
+
+float ZoomFactor = 300.f;
+
+void ARushSpectatorPawn::ZoomIn()
+{
+	Zoom(-ZoomFactor);
+}
+
+void ARushSpectatorPawn::ZoomOut()
+{
+	Zoom(ZoomFactor);
+}
+
+void ARushSpectatorPawn::Zoom(float Delta)
+{
+	float ZoomFinal = FMath::Clamp(SpringArmComponent->TargetArmLength + Delta, 0.f, 4700.f);
+	SpringArmComponent->TargetArmLength = ZoomFinal;
+}
