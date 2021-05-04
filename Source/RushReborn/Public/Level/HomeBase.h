@@ -9,7 +9,7 @@
  * reduces global health whenever another actor
  * overlaps it. It destroys the overlapping actor.
  */
-UCLASS()
+UCLASS(Config=Game)
 class AHomeBase : public ATriggerBox
 {
 	GENERATED_BODY()
@@ -17,4 +17,9 @@ class AHomeBase : public ATriggerBox
 public:
 
 	void NotifyActorBeginOverlap(AActor* OtherActor) override;
+
+private:
+
+	UPROPERTY(Config)
+	FSoftObjectPath OverlapCue;
 };
