@@ -25,25 +25,32 @@ public:
 
 	void NativeConstruct() override;
 
+	/** Can this ability be selected. */
 	UFUNCTION(BlueprintPure)
 	bool CanBeSelected() const;
 
+	/** Returns true if the ability is selected. */
 	UFUNCTION(BlueprintPure)
 	bool IsSelected() const;
 
+	/** Select this ability. */
 	UFUNCTION(BlueprintCallable)
 	void Select();
 
+	/** Unselect this ability. */
 	UFUNCTION(BlueprintCallable)
 	void Unselect();
 
 private:
 
+	/** Caches target ability from player based on target class. */
 	void CacheTargetAbility();
 
+	/** The ability class to watch. */
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<UAbility> TargetAbilityClass;
 
+	/** The target ability to watch. */
 	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess="true"))
 	TWeakObjectPtr<const UAbility> TargetAbility;
 };
