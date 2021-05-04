@@ -23,7 +23,7 @@ public:
 
 private:
 
-	/** */
+	/** Zoom facilities. */
 	void ZoomIn();
 	void ZoomOut();
 	void Zoom(float Delta);
