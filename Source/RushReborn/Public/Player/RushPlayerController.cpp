@@ -157,6 +157,12 @@ const UAbility* ARushPlayerController::GetSelectedAbility() const
 
 void ARushPlayerController::SelectAbility(TSubclassOf<UAbility> AbilityClass)
 {
+	if (AbilityClass == UReinforcementsAbility::StaticClass() && Reinforcements->IsOnCooldown()
+		|| AbilityClass == URainOfFireAbility::StaticClass() && RainOfFire->IsOnCooldown())
+	{
+		return;
+	}
+	
 	HideTargetActor();
 
 	if (InputState != EInputState::TargetingAbility)
