@@ -12,6 +12,7 @@ class UWidgetComponent;
 class UStatsComponent;
 class UAnimMontage;
 class UAnimSequence;
+class USoundBase;
 
 /**
  * An Invader is the base class for all
@@ -83,6 +84,10 @@ protected:
 	/** Animation to play on death. */
 	UPROPERTY(EditDefaultsOnly, Category = Death)
 	UAnimSequence* DeathAnimation;
+
+	/** Sound to play on death. */
+	UPROPERTY(EditDefaultsOnly, Category = Death)
+	USoundBase* DeathSound;
 
 private:
 

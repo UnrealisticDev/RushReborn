@@ -13,6 +13,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "Engine/World.h"
 #include "TimerManager.h"
+#include "Kismet/GameplayStatics.h"
 
 AInvader::AInvader(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer.SetDefaultSubobjectClass<USplineMovementComponent>(CharacterMovementComponentName))
@@ -172,6 +173,8 @@ void AInvader::Die()
 	SetActorEnableCollision(false);
 	GetMesh()->PlayAnimation(DeathAnimation, false);
 	SetLifeSpan(2.f);
+
+	UGameplayStatics::PlaySound2D(this, DeathSound, 0.5f);
 }
 
 void AInvader::Destroyed()
