@@ -17,6 +17,7 @@ public:
 
 	UTowerAction_Sell();
 
+	FText GetDescription() const override;
 	void Execute(const FTowerActionContext& Context) override;
 
 protected:

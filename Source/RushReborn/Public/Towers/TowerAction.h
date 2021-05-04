@@ -6,6 +6,7 @@
 #include "TowerAction.generated.h"
 
 class UTexture2D;
+class UUserWidget;
 
 /**
  * A TowerAction is any selectable action
@@ -26,6 +27,10 @@ public:
 	/** Get the display name of this action. */
 	UFUNCTION(BlueprintPure, Category = Display)
 	FText GetDisplayName() const;
+
+	/** Get the display name of this action. */
+	UFUNCTION(BlueprintPure, Category = Display)
+	virtual FText GetDescription() const;
 
 	/** Get the display icon of this action. */
 	UFUNCTION(BlueprintPure, Category = Display)
@@ -59,6 +64,10 @@ protected:
 	/** Display name. */
 	UPROPERTY(EditAnywhere, Category = Display)
 	FText Name;
+
+	/** Display description. */
+	UPROPERTY(EditAnywhere, Category = Display)
+	FText Description;
 
 	/** Display icon. */
 	UPROPERTY(EditAnywhere, Category = Display)

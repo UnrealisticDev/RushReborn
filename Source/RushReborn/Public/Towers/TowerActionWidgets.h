@@ -52,6 +52,18 @@ protected:
 	bool bAwaitingConfirmation;
 };
 
+/** A widget describing a tower action. */
+UCLASS()
+class UTowerActionDetailsWidget : public UUserWidget
+{
+	GENERATED_BODY()
+
+public:
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void Init(UTowerAction* InAction);
+};
+
 /** A widget to display a list of tower actions. */
 UCLASS()
 class UTowerActionMenuWidget : public UUserWidget

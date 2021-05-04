@@ -84,6 +84,9 @@ void UTowerActionMenuWidget::OnActionSelected(UTowerActionWidget* SelectedAction
 			}
 		}
 	});
+
+	WidgetTree->FindWidget<UTowerActionDetailsWidget>("Details")->Init(SelectedActionWidget->GetAction());
+	WidgetTree->FindWidget<UTowerActionDetailsWidget>("Details")->SetVisibility(ESlateVisibility::HitTestInvisible);
 }
 
 void UTowerActionMenuWidget::OnActionExecuted(UTowerActionWidget* ExecutedActionWidget)
@@ -100,4 +103,6 @@ void UTowerActionMenuWidget::Hide_Implementation()
 			ChildActionWidget->Unselect();
 		}
 	});
+
+	WidgetTree->FindWidget<UTowerActionDetailsWidget>("Details")->SetVisibility(ESlateVisibility::Hidden);
 }

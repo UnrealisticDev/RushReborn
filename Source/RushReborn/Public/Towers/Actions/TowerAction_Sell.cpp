@@ -15,6 +15,23 @@ UTowerAction_Sell::UTowerAction_Sell()
 	MenuAngle = 270.f;
 }
 
+FText UTowerAction_Sell::GetDescription() const
+{
+	if (ITowerDefenseEssentialsInterface* EssentialsGameMode = Cast<ITowerDefenseEssentialsInterface>(GetWorld()->GetAuthGameMode()))
+	{
+		return FText::Format
+		(
+			NSLOCTEXT("Tower Action Sell", "Sell Description", "Sell this tower and get a {0} GP refund."),
+			EssentialsGameMode->GetGamePhase() == EGamePhase::Setup ? SetupValue : SpawningValue
+		);
+	}
+
+	else
+	{
+		return Description;
+	}
+}
+
 void UTowerAction_Sell::Execute(const FTowerActionContext& Context)
 {
 	Context.TowerBerth->RemoveTower();

@@ -13,6 +13,11 @@ FText UTowerAction::GetDisplayName() const
 	return Name;
 }
 
+FText UTowerAction::GetDescription() const
+{
+	return Description;
+}
+
 UTexture2D* UTowerAction::GetDisplayIcon() const
 {
 	return Icon;
