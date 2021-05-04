@@ -6,8 +6,10 @@
 #include "Engine/World.h"
 #include "TimerManager.h"
 #include "TsunamiBlueprintLibrary.h"
+#include "Blueprint/UserWidget.h"
 #include "Components/AudioComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "OutcomeWidget.h"
 
 ARushGameMode::ARushGameMode()
 	: Phase(EGamePhase::Setup)
@@ -127,10 +129,29 @@ void ARushGameMode::OnWaveAccelerated(int32 Wave, float TotalTime, float Elapsed
 
 void ARushGameMode::Win()
 {
+	if (Phase == EGamePhase::Complete)
+	{
+		return;
+	}
+	
 	Phase = EGamePhase::Complete;
+	
+	UOutcomeWidget* OutcomeWidget = CreateWidget<UOutcomeWidget>(GetWorld()->GetFirstPlayerController(), OutcomeWidgetClass);
+	OutcomeWidget->Init(true);
+	OutcomeWidget->AddToViewport();
 }
 
 void ARushGameMode::Lose()
 {
+	if (Phase == EGamePhase::Complete)
+	{
+		return;
+	}
+	
 	Phase = EGamePhase::Complete;
+	WaveEngine->Pause();
+
+	UOutcomeWidget* OutcomeWidget = CreateWidget<UOutcomeWidget>(GetWorld()->GetFirstPlayerController(), OutcomeWidgetClass);
+	OutcomeWidget->Init(false);
+	OutcomeWidget->AddToViewport();
 }

@@ -5,6 +5,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "RushGameMode.generated.h"
 
+class UOutcomeWidget;
 class UTsunamiEngine;
 
 /**
@@ -78,4 +79,8 @@ private:
 	/** Sound to play when a wave starts. */
 	UPROPERTY(Config)
 	FSoftObjectPath WaveStartSound;
+
+	/** Widget to show final outcome. */
+	UPROPERTY(Config)
+	TSubclassOf<UOutcomeWidget> OutcomeWidgetClass;
 };
