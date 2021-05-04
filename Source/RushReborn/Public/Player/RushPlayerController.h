@@ -129,6 +129,7 @@ private:
 	UPROPERTY()
 	FTowerActionContext TowerActionContext;
 
+	/** Widget to show when bad location selected. */
 	UPROPERTY(Config)
 	FSoftClassPath BadLocationWidgetClass;
 };
