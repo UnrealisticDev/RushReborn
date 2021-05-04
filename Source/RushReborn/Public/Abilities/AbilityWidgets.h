@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "AbilityWidget.generated.h"
+#include "AbilityWidgets.generated.h"
 
 class UAbility;
 
@@ -46,4 +46,17 @@ private:
 
 	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess="true"))
 	TWeakObjectPtr<const UAbility> TargetAbility;
+};
+
+/** Displays details of an ability. */
+UCLASS(Blueprintable)
+class UAbilityDetailsWidget : public UUserWidget
+{
+	GENERATED_BODY()
+
+public:
+
+	/** Get the currently selected ability, if any. */
+	UFUNCTION(BlueprintPure, Category = Ability)
+	UAbility* GetSelectedAbility() const;
 };

@@ -46,6 +46,9 @@ public:
 	/** Returns true if the ability matching the specified class is selected. */
 	bool IsAbilitySelected(TSubclassOf<UAbility> AbilityClass) const;
 
+	/** Get the currently selected ability, if any. */
+	const UAbility* GetSelectedAbility() const;
+
 	/** Select the first ability instance for the specified class, if it exists. */
 	void SelectAbility(TSubclassOf<UAbility> AbilityClass);
 

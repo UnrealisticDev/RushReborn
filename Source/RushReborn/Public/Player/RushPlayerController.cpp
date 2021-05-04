@@ -146,6 +146,15 @@ bool ARushPlayerController::IsAbilitySelected(TSubclassOf<UAbility> AbilityClass
 		|| AbilityClass == URainOfFireAbility::StaticClass() && SelectedAbility == EAbilitySelected::RainOfFire);
 }
 
+const UAbility* ARushPlayerController::GetSelectedAbility() const
+{
+	return InputState == EInputState::TargetingAbility
+		? (SelectedAbility == EAbilitySelected::Reinforcements
+		? Reinforcements
+		: RainOfFire)
+		: nullptr;
+}
+
 void ARushPlayerController::SelectAbility(TSubclassOf<UAbility> AbilityClass)
 {
 	HideTargetActor();

@@ -1,4 +1,4 @@
-#include "AbilityWidget.h"
+#include "AbilityWidgets.h"
 #include "Player/RushPlayerController.h"
 #include "Ability.h"
 
@@ -52,4 +52,9 @@ void UAbilityWidget::CacheTargetAbility()
 	check(RushPlayerController);
 
 	TargetAbility = RushPlayerController->GetAbility(TargetAbilityClass);
+}
+
+UAbility* UAbilityDetailsWidget::GetSelectedAbility() const
+{
+	return GetOwningPlayer()->IsA<ARushPlayerController>() ? const_cast<UAbility*>(Cast<ARushPlayerController>(GetOwningPlayer())->GetSelectedAbility()) : nullptr;
 }
