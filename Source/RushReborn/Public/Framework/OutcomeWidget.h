@@ -4,6 +4,7 @@
 #include "Blueprint/UserWidget.h"
 #include "OutcomeWidget.generated.h"
 
+/** A widget displaying the outcome of the game. */
 UCLASS(Blueprintable)
 class UOutcomeWidget : public UUserWidget
 {
