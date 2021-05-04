@@ -21,11 +21,14 @@ AMeteor::AMeteor()
 	SetRootComponent(Collision);
 
 	BodyParticle = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("BodyParticle"));
-	BodyParticle->SetTemplate(ConstructorHelpers::FObjectFinder<UParticleSystem>(TEXT("ParticleSystem'/Game/Developer/P_MeteorBody.P_MeteorBody'")).Object);
+	BodyParticle->SetTemplate(ConstructorHelpers::FObjectFinder<UParticleSystem>(TEXT("ParticleSystem'/Game/Marketplace/ParagonMinions/FX/Particles/PlayerBuffs/Proto_DroppedBuff_RedBuff.Proto_DroppedBuff_RedBuff'")).Object);
 	BodyParticle->SetupAttachment(Collision);
+	BodyParticle->SetRelativeScale3D(FVector(2.f));
+	BodyParticle->SetRelativeRotation(FRotator(-90, 0, 0));
 
 	Movement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Movement"));
-	Movement->ProjectileGravityScale = 2.f;
+	Movement->MaxSpeed = 0;
+	Movement->Velocity = FVector(0, 0, -2000.f);
 }
 
 void AMeteor::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveComponent* OtherComp, bool bSelfMoved,
@@ -45,7 +48,7 @@ void AMeteor::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveCo
 	for (const FHitResult& LocalHit : Hits)
 	{
 		AActor* HitActor = LocalHit.Actor.Get();
-		if (UTeamUtilities::AreEnemies(HitActor, GetInstigator()))
+		if (UTeamUtilities::AreEnemies(HitActor, GetInstigatorController()))
 		{
 			ApplyDamageToActor(HitActor);
 		}
@@ -53,7 +56,10 @@ void AMeteor::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveCo
 	
 	if (ImpactParticle.IsValid())
 	{
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Cast<UParticleSystem>(ImpactParticle.TryLoad()), GetActorTransform());
+		FTransform ImpactParticleTransform;
+		ImpactParticleTransform = GetActorTransform();
+		ImpactParticleTransform.SetScale3D(FVector(5.f));
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Cast<UParticleSystem>(ImpactParticle.TryLoad()), ImpactParticleTransform);
 	}
 
 	// A necessary hack to allow the body particle to gracefully complete

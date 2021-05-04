@@ -10,9 +10,9 @@
 
 URainOfFireAbility::URainOfFireAbility()
 	: ProjectileCount(3)
-	, ProjectileSpawnRadius(100.f)
-	, ProjectileSpawnHeight(1000.f)
-	, ProjectileSpawnInterval(.1f)
+	, ProjectileSpawnRadius(200.f)
+	, ProjectileSpawnHeight(2000.f)
+	, ProjectileSpawnInterval(0.5f)
 {
 	Title = NSLOCTEXT("RainOfFire", "RainOfFire Title", "Rain of Fire");
 	Description = NSLOCTEXT("RainOfFire", "RainOfFire Description", "Rains fire and brimstone from the sky.");
