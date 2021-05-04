@@ -5,8 +5,9 @@
 ARushSpectatorPawn::ARushSpectatorPawn()
 {
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
-	SpringArmComponent->TargetArmLength = 1500.f;
+	SpringArmComponent->TargetArmLength = 4700.f;
 	SpringArmComponent->SetWorldRotation(FRotator(-45, 0, 0));
+	SpringArmComponent->bDoCollisionTest = false;
 	SpringArmComponent->SetupAttachment(GetRootComponent());
 
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
