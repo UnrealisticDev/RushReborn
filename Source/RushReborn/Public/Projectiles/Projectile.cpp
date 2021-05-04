@@ -29,6 +29,7 @@ void AProjectile::Tick(float DeltaSeconds)
 	{
 		Impact();
 		SpawnImpactParticle();
+		PlayImpactSound();
 		Destroy();
 	}
 }
@@ -78,4 +79,9 @@ void AProjectile::Impact()
 void AProjectile::SpawnImpactParticle()
 {
 	UGameplayStatics::SpawnEmitterAtLocation(this, ImpactParticle, GetActorLocation(), FRotator::ZeroRotator, ImpactParticleScale);
+}
+
+void AProjectile::PlayImpactSound()
+{
+	UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation(), FRotator::ZeroRotator, 0.2f);
 }

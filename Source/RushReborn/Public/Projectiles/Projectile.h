@@ -5,6 +5,7 @@
 #include "Projectile.generated.h"
 
 class UProjectileMovementComponent;
+class USoundBase;
 
 /**
  * The base class for all projectiles.
@@ -56,6 +57,9 @@ protected:
 	/** Spawns impact particle, if specified. */
 	void SpawnImpactParticle();
 
+	/** Plays impact sound, if specified. */
+	void PlayImpactSound();
+
 	/** Cached location where this projectile spawned. */
 	UPROPERTY()
 	FVector StartLocation;
@@ -90,4 +94,8 @@ protected:
 	/** Scale to spawn impact particle at. */
 	UPROPERTY(EditAnywhere, Category = Impact)
 	FVector ImpactParticleScale;
+
+	/** Sound to play on impact. */
+	UPROPERTY(EditAnywhere, Category = Impact)
+	USoundBase* ImpactSound;
 };
