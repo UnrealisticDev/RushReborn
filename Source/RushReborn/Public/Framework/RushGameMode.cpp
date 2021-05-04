@@ -1,4 +1,7 @@
 #include "RushGameMode.h"
+#include "AIController.h"
+#include "BrainComponent.h"
+#include "EngineUtils.h"
 #include "TsunamiEngine.h"
 #include "TsunamiSequence.h"
 #include "Player/RushPlayerController.h"
@@ -135,6 +138,7 @@ void ARushGameMode::Win()
 	}
 	
 	Phase = EGamePhase::Complete;
+	StopAllAI();
 	
 	UOutcomeWidget* OutcomeWidget = CreateWidget<UOutcomeWidget>(GetWorld()->GetFirstPlayerController(), OutcomeWidgetClass);
 	OutcomeWidget->Init(true);
@@ -150,8 +154,17 @@ void ARushGameMode::Lose()
 	
 	Phase = EGamePhase::Complete;
 	WaveEngine->Pause();
+	StopAllAI();
 
 	UOutcomeWidget* OutcomeWidget = CreateWidget<UOutcomeWidget>(GetWorld()->GetFirstPlayerController(), OutcomeWidgetClass);
 	OutcomeWidget->Init(false);
 	OutcomeWidget->AddToViewport();
+}
+
+void ARushGameMode::StopAllAI()
+{
+	for(TActorIterator<AAIController> It(GetWorld()); It; ++It)
+	{
+		It->GetBrainComponent()->StopLogic("GameEnd");
+	}
 }

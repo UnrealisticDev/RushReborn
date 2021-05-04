@@ -53,6 +53,9 @@ public:
 	/** Called when the game is lost. */
 	UFUNCTION()
 	void Lose();
+
+	/** Stops all AI on game end. */
+	void StopAllAI();
 	
 private:
 
