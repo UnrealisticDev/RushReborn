@@ -6,6 +6,8 @@
 #include "Engine/World.h"
 #include "TimerManager.h"
 #include "TsunamiBlueprintLibrary.h"
+#include "Components/AudioComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 ARushGameMode::ARushGameMode()
 	: Phase(EGamePhase::Setup)
@@ -28,6 +30,7 @@ void ARushGameMode::BeginPlay()
 		check(LoadedSequence);
 		
 		WaveEngine->MountSequence(LoadedSequence);
+		WaveEngine->WaveStarted.AddDynamic(this, &ARushGameMode::OnWaveStarted);
 		WaveEngine->WaveAccelerated.AddDynamic(this, &ARushGameMode::OnWaveAccelerated);
 		WaveEngine->SequenceSpawnsDestroyed.AddDynamic(this, &ARushGameMode::Win);
 	}
@@ -110,6 +113,11 @@ void ARushGameMode::StartNextWave()
 	}
 	
 	WaveEngine->ManuallyStartQueuedWave();
+}
+
+void ARushGameMode::OnWaveStarted(int32 Wave)
+{
+	UGameplayStatics::SpawnSound2D(this, Cast<USoundBase>(WaveStartSound.TryLoad()))->StopDelayed(2.4f);
 }
 
 void ARushGameMode::OnWaveAccelerated(int32 Wave, float TotalTime, float ElapsedTime)

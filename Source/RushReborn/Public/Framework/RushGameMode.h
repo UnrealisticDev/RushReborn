@@ -40,6 +40,9 @@ public:
 	//~ End ITowerDefenseEssentialsInterface
 
 	UFUNCTION()
+	void OnWaveStarted(int32 Wave);
+	
+	UFUNCTION()
 	void OnWaveAccelerated(int32 Wave, float TotalTime, float ElapsedTime);
 
 	/** Called when the game is won. */
@@ -71,4 +74,8 @@ private:
 	/** Spawn sequence to play. */
 	UPROPERTY(Config)
 	FSoftObjectPath SpawnSequence;
+
+	/** Sound to play when a wave starts. */
+	UPROPERTY(Config)
+	FSoftObjectPath WaveStartSound;
 };
