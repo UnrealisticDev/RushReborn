@@ -20,6 +20,7 @@ public:
 
 private:
 
+	/** The sound to play on overlap. */
 	UPROPERTY(Config)
 	FSoftObjectPath OverlapCue;
 };
