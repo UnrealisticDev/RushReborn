@@ -58,4 +58,8 @@ private:
 	/** The particle to spawn on impact. */
 	UPROPERTY(Config)
 	FSoftObjectPath ImpactParticle;
+
+	/** The sound to play on impact. */
+	UPROPERTY(Config)
+	FSoftObjectPath ImpactSound;
 };

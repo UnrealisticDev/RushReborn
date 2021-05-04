@@ -62,6 +62,8 @@ void AMeteor::NotifyHit(UPrimitiveComponent* MyComp, AActor* Other, UPrimitiveCo
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Cast<UParticleSystem>(ImpactParticle.TryLoad()), ImpactParticleTransform);
 	}
 
+	UGameplayStatics::PlaySoundAtLocation(this, Cast<USoundBase>(ImpactSound.TryLoad()), GetActorLocation(), 0.5f);
+
 	// A necessary hack to allow the body particle to gracefully complete
 	// instead of just disappearing on impact
 	BodyParticle->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
