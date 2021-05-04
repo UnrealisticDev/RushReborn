@@ -1,5 +1,6 @@
 #include "SpawnGate.h"
 #include "SplineRepeater.h"
+#include "TsunamiEngine.h"
 #include "TsunamiSpawnComponents.h"
 #include "Components/SplineComponent.h"
 #include "Characters/SplineFollowInterface.h"
@@ -24,4 +25,6 @@ void ASpawnGate::Spawn(FTsunamiSpawnContext Context)
 	{
 		SpawnedSplineFollower->SetSplineToFollow(ChosenPath);
 	}
+
+	Context.Engine->PostSpawn(SpawnedActor, Context);
 }
