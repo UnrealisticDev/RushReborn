@@ -22,11 +22,15 @@ public:
 
 	ASplineRepeater();
 	void OnConstruction(const FTransform& Transform) override;
+	void BeginPlay() override;
 
 	/** Get a list of splines owned by this repeater. */
 	TArray<USplineComponent*> GetSplines() const;
 
 protected:
+
+	/** Repeat spline paths and create targeting collision. */
+	void RepeatPathsAndInitTargeting();
 
 	/** The root spline that others follow. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

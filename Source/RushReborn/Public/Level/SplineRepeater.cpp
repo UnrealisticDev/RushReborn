@@ -1,6 +1,6 @@
 #include "SplineRepeater.h"
+#include "Components/BoxComponent.h"
 #include "Components/SplineComponent.h"
-#include "Components/SplineMeshComponent.h"
 
 ASplineRepeater::ASplineRepeater()
 	: LateralOffset(50.f)
@@ -20,6 +20,25 @@ ASplineRepeater::ASplineRepeater()
 
 void ASplineRepeater::OnConstruction(const FTransform& Transform)
 {
+	RepeatPathsAndInitTargeting();
+
+	Super::OnConstruction(Transform);
+}
+
+void ASplineRepeater::BeginPlay()
+{
+	Super::BeginPlay();
+
+	RepeatPathsAndInitTargeting();
+}
+
+TArray<USplineComponent*> ASplineRepeater::GetSplines() const
+{
+	return { RootSpline, LeftSpline, RightSpline };
+}
+
+void ASplineRepeater::RepeatPathsAndInitTargeting()
+{
 	RightSpline->ClearSplinePoints();
 	LeftSpline->ClearSplinePoints();
 	
@@ -35,39 +54,23 @@ void ASplineRepeater::OnConstruction(const FTransform& Transform)
 		
 		LeftSpline->AddSplinePoint(RootLocation + (RootRightVector * LateralOffset * -1), CoordinateSpace);
 		LeftSpline->SetTangentAtSplinePoint(i, RootTangent, CoordinateSpace);
-
-		if (i < RootSpline->GetNumberOfSplinePoints() - 1)
-		{
-			USplineMeshComponent* Mesh = NewObject<USplineMeshComponent>(this);
-			Mesh->CreationMethod = EComponentCreationMethod::UserConstructionScript;
-			Mesh->SetupAttachment(GetRootComponent());
-			Mesh->RegisterComponent();
-			Mesh->SetStaticMesh(CollisionMesh);
-			Mesh->SetStartAndEnd
-			(
-				RootLocation,
-				RootTangent,
-				RootSpline->GetLocationAtSplinePoint(i + 1, CoordinateSpace),
-				RootSpline->GetTangentAtSplinePoint(i + 1, CoordinateSpace)
-			);
-			Mesh->SetStartScale(FVector2D((LateralOffset / 100.f) * 3.4f, 1.f));
-			Mesh->SetEndScale(FVector2D((LateralOffset / 100.f) * 3.4f, 1.f));
-			Mesh->SetForwardAxis(ESplineMeshAxis::Z);
-			Mesh->SetCollisionProfileName(TEXT("BlockAll"));
-			Mesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
-			Mesh->SetCollisionResponseToChannel(ECollisionChannel::ECC_GameTraceChannel1 /* Targeting */, ECollisionResponse::ECR_Block);
-			Mesh->bHiddenInGame = true;
-			Mesh->CastShadow = false;
-		}
 	}
 
 	RightSpline->UpdateSpline();
 	LeftSpline->UpdateSpline();
 
-	Super::OnConstruction(Transform);
-}
-
-TArray<USplineComponent*> ASplineRepeater::GetSplines() const
-{
-	return { RootSpline, LeftSpline, RightSpline };
+	float Distance = 0.f;
+	while (Distance < RootSpline->GetDistanceAlongSplineAtSplinePoint(RootSpline->GetNumberOfSplinePoints() - 1))
+	{
+		UBoxComponent* Box = NewObject<UBoxComponent>(this);
+		Box->CreationMethod = EComponentCreationMethod::UserConstructionScript;
+		Box->SetupAttachment(GetRootComponent());
+		Box->SetBoxExtent(FVector(20.f, LateralOffset * 1.7f, 30.f));
+		Box->SetRelativeLocation(RootSpline->GetLocationAtDistanceAlongSpline(Distance, CoordinateSpace));
+		Box->SetRelativeRotation(RootSpline->GetRotationAtDistanceAlongSpline(Distance, CoordinateSpace));
+		Box->SetCollisionResponseToChannel(ECC_GameTraceChannel1, ECR_Block);
+		Box->RegisterComponent();
+			
+		Distance += 20.f;
+	}
 }
