@@ -12,7 +12,7 @@ class UCameraComponent;
  * camera target for the player.
  */
 UCLASS()
-class ARushSpectatorPawn : public ADefaultPawn
+class ARushSpectatorPawn : public APawn
 {
 	GENERATED_BODY()
 
@@ -23,11 +23,19 @@ public:
 
 private:
 
+	/** Movement facilities. */
+	void MoveForward(float AxisValue);
+	void MoveRight(float AxisValue);
+	
 	/** Zoom facilities. */
 	void ZoomIn();
 	void ZoomOut();
 	void Zoom(float Delta);
 
+	/** Root scene component. */
+	UPROPERTY()
+	USceneComponent* Root;
+	
 	/** The spring arm that holds the camera. */
 	UPROPERTY()
 	USpringArmComponent* SpringArmComponent;
