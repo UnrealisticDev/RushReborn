@@ -33,5 +33,9 @@ Content/Marketplace/Medium_Monster_SFX_1/*
 Content/Marketplace/MagicSoundFX/*
 Content/Marketplace/Retro_8Bit_Sounds/*
 
+# Packaged and Build data
+Packaged/
+Build/
+
 # User settings
 *.user
