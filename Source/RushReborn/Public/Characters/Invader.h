@@ -61,6 +61,9 @@ public:
 
 protected:
 
+	/** Apply damage to the target. */
+	void ApplyDamageToTarget(AActor* Target);
+	
 	/** Healthbar widget. */
 	UPROPERTY(VisibleAnywhere)
 	UWidgetComponent* Healthbar;

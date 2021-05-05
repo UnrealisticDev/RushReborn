@@ -74,19 +74,8 @@ void ADefender::Attack(AActor* Target)
 	PlayAnimMontage(AttackMontages[FMath::RandRange(0, AttackMontages.Num() - 1)]);
 
 	FTimerHandle AttackTimer;
-	GetWorld()->GetTimerManager().SetTimer(AttackTimer, [this, Target]()
-	{
-		if (!this || !Target)
-		{
-			return;
-		}
-		
-		const float DamageAmount = FMath::RandRange(Stats->AttackDamage.GetLowerBoundValue(), Stats->AttackDamage.GetUpperBoundValue());
-		FDamageEvent DamageEvent;
-		DamageEvent.DamageTypeClass = UPhysicalDamage::StaticClass();
-		Target->TakeDamage(DamageAmount, DamageEvent, GetController(), this);
-	},
-		AttackDelay, false);
+	FTimerDelegate AttackDelegate = FTimerDelegate::CreateUObject(this, &ADefender::ApplyDamageToTarget, Target);
+	GetWorld()->GetTimerManager().SetTimer(AttackTimer, AttackDelegate, AttackDelay, false);
 }
 
 void ADefender::RegenHealth()
@@ -109,4 +98,18 @@ void ADefender::Destroyed()
 	Disengage(); // Don't hang on to any enemies that we might be engaged with
 	
 	Super::Destroyed();
+}
+
+void ADefender::ApplyDamageToTarget(AActor* Target)
+{
+	if (!Target)
+	{
+		return;
+	}
+
+	const float DamageAmount = FMath::RandRange(Stats->AttackDamage.GetLowerBoundValue(),
+	                                            Stats->AttackDamage.GetUpperBoundValue());
+	FDamageEvent DamageEvent;
+	DamageEvent.DamageTypeClass = UPhysicalDamage::StaticClass();
+	Target->TakeDamage(DamageAmount, DamageEvent, GetController(), this);
 }

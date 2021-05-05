@@ -113,19 +113,8 @@ void AInvader::Attack(AActor* Target)
 	PlayAnimMontage(AttackMontages[FMath::RandRange(0, AttackMontages.Num() - 1)]);
 
 	FTimerHandle AttackTimer;
-	GetWorld()->GetTimerManager().SetTimer(AttackTimer, [this, Target]()
-	{
-		if (!this || !Target)
-		{
-			return;
-		}
-		
-		const float DamageAmount = FMath::RandRange(Stats->AttackDamage.GetLowerBoundValue(), Stats->AttackDamage.GetUpperBoundValue());
-		FDamageEvent DamageEvent;
-		DamageEvent.DamageTypeClass = UPhysicalDamage::StaticClass();
-		Target->TakeDamage(DamageAmount, DamageEvent, GetController(), this);
-	},
-		AttackDelay, false);
+	FTimerDelegate AttackDelegate = FTimerDelegate::CreateUObject(this, &AInvader::ApplyDamageToTarget, Target);
+	GetWorld()->GetTimerManager().SetTimer(AttackTimer, AttackDelegate, AttackDelay, false);
 }
 
 void AInvader::OnHealthDepleted()
@@ -180,4 +169,18 @@ void AInvader::Die()
 void AInvader::Destroyed()
 {
 	Super::Destroyed();
+}
+
+void AInvader::ApplyDamageToTarget(AActor* Target)
+{
+	if (!Target)
+	{
+		return;
+	}
+
+	const float DamageAmount = FMath::RandRange(Stats->AttackDamage.GetLowerBoundValue(),
+	                                            Stats->AttackDamage.GetUpperBoundValue());
+	FDamageEvent DamageEvent;
+	DamageEvent.DamageTypeClass = UPhysicalDamage::StaticClass();
+	Target->TakeDamage(DamageAmount, DamageEvent, GetController(), this);
 }
