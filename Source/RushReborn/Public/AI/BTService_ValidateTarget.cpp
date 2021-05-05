@@ -10,7 +10,8 @@ void UBTService_ValidateTarget::TickNode(UBehaviorTreeComponent& OwnerComp, uint
 		OwnerComp.GetBlackboardComponent()->SetValueAsObject(Target.SelectedKeyName, nullptr);
 	}
 
-	if (TargetObject->Implements<UCombatantInterface>() && !Cast<ICombatantInterface>(TargetObject)->IsAlive())
+	ICombatantInterface* TargetCombatant = Cast<ICombatantInterface>(TargetObject);
+	if (!TargetCombatant || !TargetCombatant->IsAlive())
 	{
 		OwnerComp.GetBlackboardComponent()->SetValueAsObject(Target.SelectedKeyName, nullptr);
 	}
