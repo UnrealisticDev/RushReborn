@@ -1,6 +1,8 @@
-![Imgur](https://i.imgur.com/OX3n4nN.png)
+# RushReborn
 
 RushReborn is a tower defense demo based on the popular [Kingdom Rush](https://www.ironhidegames.com/Games) series. It is built with Unreal Engine 4.
+
+![Imgur](https://i.imgur.com/x5KxiId.png)
 
 ## Scope
 
